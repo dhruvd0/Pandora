@@ -1,26 +1,42 @@
 package com.example.pandora;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.util.Log;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 
 public class gameView extends SurfaceView implements SurfaceHolder.Callback {
-        //basic surface class where we would create canvas and draw
-        //
-        mainThread thread;//start a thread when the surface is created;
+    //basic surface class where we would create canvas and draw
+    public static Canvas canvas;
+    mainThread thread;//start a thread when the surface is created;
+    playerSprite PlayerSprite;
     public gameView(Context context) {
         super(context);
-        thread=new mainThread(getHolder(),this);
+        Log.i("print", "gameView()");
+        thread = new mainThread(getHolder(), this);
+        getHolder().addCallback(this);
+
         setFocusable(true);
+
     }
+
     public void update() {
 
     }
+
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-
+        Log.i("print", "surfaceCreated()");
         thread.setRunning(true);
+
         thread.start();//start the thread
+        PlayerSprite = new playerSprite(BitmapFactory.decodeResource(getResources(),R.drawable.space));
+
+
     }
 
     @Override
@@ -30,6 +46,26 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-            thread.setRunning(false);//stops the thread when the surface is destroyed
+        boolean retry = true;
+        while (retry) {
+            try {
+                thread.setRunning(false);//stops the thread when user quits
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            retry = false;
+        }
+    }
+
+    public void draw(Canvas canvas) {
+        super.draw(canvas);
+        /* graphics and drawing */
+
+        canvas.drawColor(Color.WHITE);
+        Paint paint=new Paint();
+
+        PlayerSprite.draw(canvas);
+
     }
 }
