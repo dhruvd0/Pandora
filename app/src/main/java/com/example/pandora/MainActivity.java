@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 
 public class MainActivity extends Activity {
 
@@ -16,12 +18,18 @@ public class MainActivity extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
     }
 
+    public void startGame(View view) {
+        setContentView(new gameView(this));//sets the content of the activity to game View which creates a surface
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setFullScreen();
-        setContentView(new gameView(this));//sets the content of the activity to game View which creates a surface
+        setContentView(R.layout.activity_main);
+        Button startButton = (Button) findViewById(R.id.startButton);
+        startButton.getBackground().setAlpha(0);
 
 
     }

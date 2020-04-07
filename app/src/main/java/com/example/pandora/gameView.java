@@ -13,7 +13,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     //basic surface class where we would create canvas and draw
     public static Canvas canvas;
     mainThread thread;//start a thread when the surface is created;
-    playerSprite PlayerSprite;
+    Sprite PlayerSprite;
     public gameView(Context context) {
         super(context);
         Log.i("print", "gameView()");
@@ -34,7 +34,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         thread.setRunning(true);
 
         thread.start();//start the thread
-        PlayerSprite = new playerSprite(BitmapFactory.decodeResource(getResources(),R.drawable.space));
+        PlayerSprite = new Sprite(BitmapFactory.decodeResource(getResources(),R.drawable.space));
 
 
     }

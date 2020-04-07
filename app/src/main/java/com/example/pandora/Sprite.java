@@ -4,15 +4,15 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.util.Log;
 
-public class playerSprite {
+public class Sprite {
     private Bitmap image;
 
-    public playerSprite(Bitmap bmp) {
+    public Sprite(Bitmap bmp) {
         image = bmp;
     }
 
     public void draw(Canvas canvas) {
-        Log.i("print","spaceship");
+        Log.i("print", "spaceship");
         canvas.drawBitmap(image, 100, 100, null);
     }
 }
