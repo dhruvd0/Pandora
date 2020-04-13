@@ -14,6 +14,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     public static Canvas canvas;
     mainThread thread;//start a thread when the surface is created;
     Sprite PlayerSprite;
+
     public gameView(Context context) {
         super(context);
         Log.i("print", "gameView()");
@@ -26,6 +27,11 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void update() {
 
+
+        PlayerSprite.move(0, -2);
+       // PlayerSprite.rotate(canvas,2);
+
+
     }
 
     @Override
@@ -34,7 +40,8 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         thread.setRunning(true);
 
         thread.start();//start the thread
-        PlayerSprite = new Sprite(BitmapFactory.decodeResource(getResources(),R.drawable.space));
+        PlayerSprite = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.space));
+        PlayerSprite.setPos(getWidth()/2,getHeight()/2);
 
 
     }
@@ -59,13 +66,14 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void draw(Canvas canvas) {
+
         super.draw(canvas);
         /* graphics and drawing */
 
         canvas.drawColor(Color.WHITE);
-        Paint paint=new Paint();
 
         PlayerSprite.draw(canvas);
+
 
     }
 }
