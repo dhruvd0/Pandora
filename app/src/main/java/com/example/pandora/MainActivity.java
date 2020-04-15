@@ -30,6 +30,8 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         Button startButton = (Button) findViewById(R.id.startButton);
         startButton.getBackground().setAlpha(0);
+
+        Log.i("print",Integer.toString(R.drawable.planet1));
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
