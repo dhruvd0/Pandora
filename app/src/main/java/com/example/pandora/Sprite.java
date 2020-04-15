@@ -39,12 +39,7 @@ public class Sprite {
 
     public void rotate(Canvas canvas, double deg) {
         this.rotation += deg;
-        Bitmap newImg;
-
-        matrix.setRotate(rotation,image.getWidth(),image.getHeight());
-        newImg = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
-        image=newImg;
-      //  this.draw(canvas);
+        
     }
 
     public void draw(Canvas canvas) {

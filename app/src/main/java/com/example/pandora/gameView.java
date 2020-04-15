@@ -14,7 +14,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     public static Canvas canvas;
     mainThread thread;//start a thread when the surface is created;
     Sprite PlayerSprite;
-    Planet[] planets=new Planet[5];
+    Planet[] planets = new Planet[5];
 
     public gameView(Context context) {
         super(context);
@@ -28,21 +28,21 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void loadSprites() {
         PlayerSprite = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.spaceship));
-        PlayerSprite.setPos(200,900);
+        PlayerSprite.setPos(200, 900);
 
         for (int i = 0; i < 5; i++) {
             planets[i] = new Planet(BitmapFactory.decodeResource(getResources(), R.drawable.planet1));
 
-            planets[i].setPos(0,i*100);
+            planets[i].setPos(0, i * 300);
         }
     }
 
     public void update() {
 
 
-        PlayerSprite.move(0,-5);
-        for(Planet p:planets){
-         //  p.rotate(canvas,2);
+        PlayerSprite.move(0, -5);
+        for (Planet p : planets) {
+            //  p.rotate(canvas,2);
         }
 
 
@@ -54,7 +54,6 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         thread.setRunning(true);
 
         thread.start();//start the thread
-
 
 
     }
@@ -86,7 +85,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         canvas.drawColor(Color.WHITE);
 
         PlayerSprite.draw(canvas);
-        for(Planet p:planets) {
+        for (Planet p : planets) {
             p.draw(canvas);
         }
 
