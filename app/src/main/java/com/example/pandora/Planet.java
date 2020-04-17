@@ -5,13 +5,13 @@ import android.graphics.Canvas;
 
 public class Planet extends Sprite {
     int id;
+    public static void drawPlanets(Planet[] planets,Canvas canvas){
+        for (Planet p : planets) {
+            p.draw(canvas);
+        }
+    }
     Planet(Bitmap bmp) {
         image = bmp;
     }
 
-    public void draw(Canvas canvas) {
-
-
-        canvas.drawBitmap(image, x, y, null);
-    }
 }

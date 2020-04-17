@@ -1,13 +1,16 @@
 package com.example.pandora;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
+import android.view.SurfaceControl;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
+import android.view.View;
 
 public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     //basic surface class where we would create canvas and draw
@@ -15,6 +18,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     mainThread thread;//start a thread when the surface is created;
     Sprite PlayerSprite;
     Planet[] planets = new Planet[5];
+    Bitmap space;
 
     public gameView(Context context) {
         super(context);
@@ -27,12 +31,13 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void loadSprites() {
+        space = BitmapFactory.decodeResource(getResources(), R.drawable.space);
         PlayerSprite = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.spaceship));
-        PlayerSprite.setPos(200, 900);
-
+        PlayerSprite.setPos(500, 900);
+        int id = R.drawable.planet1;
         for (int i = 0; i < 5; i++) {
-            planets[i] = new Planet(BitmapFactory.decodeResource(getResources(), R.drawable.planet1));
-
+            planets[i] = new Planet(BitmapFactory.decodeResource(getResources(), id));
+            id++;
             planets[i].setPos(0, i * 300);
         }
     }
@@ -41,10 +46,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
 
         PlayerSprite.move(0, -5);
-        for (Planet p : planets) {
-            //  p.rotate(canvas,2);
-        }
-
+        planets[0].rotate(canvas,2);
 
     }
 
@@ -55,12 +57,11 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
         thread.start();//start the thread
 
-
     }
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
+        Log.i("print", "changed");
     }
 
     @Override
@@ -82,12 +83,10 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         super.draw(canvas);
         /* graphics and drawing */
 
-        canvas.drawColor(Color.WHITE);
+        canvas.drawBitmap(space, 0, 0, null);
 
         PlayerSprite.draw(canvas);
-        for (Planet p : planets) {
-            p.draw(canvas);
-        }
+        Planet.drawPlanets(this.planets, canvas);
 
     }
 }

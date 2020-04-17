@@ -38,13 +38,10 @@ public class Sprite {
     }
 
     public void rotate(Canvas canvas, double deg) {
-        this.rotation += deg;
-        
+
     }
 
     public void draw(Canvas canvas) {
-
-
         canvas.drawBitmap(image, x, y, null);
     }
 }
