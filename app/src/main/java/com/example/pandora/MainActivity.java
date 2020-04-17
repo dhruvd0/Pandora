@@ -28,7 +28,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setFullScreen();
         setContentView(R.layout.activity_main);
-        Button startButton = (Button) findViewById(R.id.startButton);
+        Button startButton = (Button) findViewById(R.id.play);
         startButton.getBackground().setAlpha(0);
 
         Log.i("print",Integer.toString(R.drawable.planet1));
