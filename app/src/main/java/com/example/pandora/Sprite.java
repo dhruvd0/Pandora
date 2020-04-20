@@ -1,8 +1,10 @@
 package com.example.pandora;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.util.Log;
 
 public class Sprite {
@@ -41,7 +43,19 @@ public class Sprite {
 
     }
 
+    public void rotate(float angle) {
+
+        Bitmap rotateBitmap = Bitmap.createBitmap(image.getWidth(),
+                image.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(rotateBitmap);
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle, image.getWidth() / 2, image.getHeight() / 2);
+        canvas.drawBitmap(image, matrix, new Paint());
+        image = rotateBitmap;
+    }
+
     public void draw(Canvas canvas) {
         canvas.drawBitmap(image, x, y, null);
     }
+
 }

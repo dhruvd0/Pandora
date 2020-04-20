@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.SurfaceControl;
@@ -81,7 +82,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     public void draw(Canvas canvas) {
 
         super.draw(canvas);
-        /* graphics and drawing */
+        //graphics and drawing
 
         canvas.drawBitmap(space, 0, 0, null);
 
@@ -89,4 +90,6 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         Planet.drawPlanets(this.planets, canvas);
 
     }
+
+
 }
