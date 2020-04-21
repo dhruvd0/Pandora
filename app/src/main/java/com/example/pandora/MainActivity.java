@@ -31,13 +31,19 @@ public class MainActivity extends Activity {
         Button startButton = (Button) findViewById(R.id.play);
         startButton.getBackground().setAlpha(0);
 
+
         startGame();
-       /* startButton.setOnClickListener(new View.OnClickListener() {
+       startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startGame(v);
+                startGame();
             }
-        });*/
+        });
 
+    }
+
+    public void reposition()
+    {
+        
     }
 }
