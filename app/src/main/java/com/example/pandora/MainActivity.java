@@ -18,7 +18,7 @@ public class MainActivity extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
     }
 
-    public void startGame(View view) {
+    public void startGame() {
         setContentView(new gameView(this));//sets the content of the activity to game View which creates a surface
     }
 
@@ -31,13 +31,13 @@ public class MainActivity extends Activity {
         Button startButton = (Button) findViewById(R.id.play);
         startButton.getBackground().setAlpha(0);
 
-        Log.i("print",Integer.toString(R.drawable.planet1));
-        startButton.setOnClickListener(new View.OnClickListener() {
+        startGame();
+       /* startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startGame(v);
             }
-        });
+        });*/
 
     }
 }

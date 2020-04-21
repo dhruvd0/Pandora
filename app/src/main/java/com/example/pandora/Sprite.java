@@ -30,6 +30,9 @@ public class Sprite {
             this.x = newX;
             this.y = newY;
         }
+        if(this.y==1){
+            this.y=0;
+        }
 
 
     }

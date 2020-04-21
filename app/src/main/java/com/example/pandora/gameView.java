@@ -1,23 +1,18 @@
 package com.example.pandora;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.util.Log;
-import android.view.SurfaceControl;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
-import android.view.View;
+
 
 public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     //basic surface class where we would create canvas and draw
     public static Canvas canvas;
     mainThread thread;//start a thread when the surface is created;
-    Sprite PlayerSprite;
+    Sprite spaceship;
     Planet[] planets = new Planet[5];
     Bitmap space;
 
@@ -33,21 +28,27 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void loadSprites() {
         space = BitmapFactory.decodeResource(getResources(), R.drawable.space);
-        PlayerSprite = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.spaceship));
-        PlayerSprite.setPos(500, 900);
-        int id = R.drawable.planet1;
-        for (int i = 0; i < 5; i++) {
-            planets[i] = new Planet(BitmapFactory.decodeResource(getResources(), id));
-            id++;
-            planets[i].setPos(0, i * 300);
-        }
+
+        spaceship = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.spaceship));
+        spaceship.setPos(500 , 900);
+
+        Planet.loadPlanets(planets,getResources());
     }
 
     public void update() {
 
 
-        PlayerSprite.move(0, -5);
-        planets[0].rotate(canvas,2);
+        spaceship.move(0, -5);
+        Log.i("print",Integer.toString(spaceship.y));
+        if(spaceship.y==0){
+            Log.i("print","reached end");
+            spaceship.setPos(canvas.getWidth()/2,canvas.getHeight());
+
+           Planet.loadPlanets(planets,getResources());
+
+        }
+
+
 
     }
 
@@ -86,7 +87,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
         canvas.drawBitmap(space, 0, 0, null);
 
-        PlayerSprite.draw(canvas);
+        spaceship.draw(canvas);
         Planet.drawPlanets(this.planets, canvas);
 
     }
