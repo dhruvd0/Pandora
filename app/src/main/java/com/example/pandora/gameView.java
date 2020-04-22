@@ -1,9 +1,13 @@
 package com.example.pandora;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.util.Log;
+import android.view.Display;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 
@@ -15,6 +19,10 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     Sprite spaceship;
     Planet[] planets = new Planet[5];
     Bitmap space;
+    Display display;
+    Point point;
+    int scr_wid,scr_hei;
+    Rect rect;
 
     public gameView(Context context) {
         super(context);
@@ -24,6 +32,13 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
         setFocusable(true);
         loadSprites();
+
+        display = ((Activity)getContext()).getWindowManager().getDefaultDisplay();
+        point = new Point();
+        display.getSize(point);
+        scr_wid=point.x;
+        scr_hei = point.y;
+        rect = new Rect(0,0,scr_wid,scr_hei);
     }
 
     public void loadSprites() {
@@ -85,8 +100,8 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         super.draw(canvas);
         //graphics and drawing
 
-        canvas.drawBitmap(space, 0, 0, null);
-
+        //canvas.drawBitmap(space, 0, 0, null);
+        canvas.drawBitmap(space,null,rect,null);
         spaceship.draw(canvas);
         Planet.drawPlanets(this.planets, canvas);
 
