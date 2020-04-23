@@ -63,8 +63,6 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
         }
 
-
-
     }
 
     @Override

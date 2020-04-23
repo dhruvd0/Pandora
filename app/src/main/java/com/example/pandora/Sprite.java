@@ -1,11 +1,11 @@
 package com.example.pandora;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.util.Log;
+
 
 public class Sprite {
     public Bitmap image;
@@ -42,9 +42,7 @@ public class Sprite {
         this.y = y;
     }
 
-    public void rotate(Canvas canvas, double deg) {
 
-    }
 
     public void rotate(float angle) {
 
