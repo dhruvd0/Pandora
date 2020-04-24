@@ -24,17 +24,9 @@ public class Sprite {
     }
 
     public void move(int changeInX, int changeInY) {
-        int newX = this.x + changeInX;
-        int newY = this.y + changeInY;
-        if (newX >= 0 && newY >= 0) {
-            this.x = newX;
-            this.y = newY;
-        }
-        if(this.y==1){
-            this.y=0;
-        }
 
-
+        this.x+=changeInX;
+        this.y+=changeInY;
     }
 
     public void setPos(int x, int y) {
@@ -46,6 +38,7 @@ public class Sprite {
 
     public void rotate(float angle) {
         rotation+=angle;
+        this.matrix=new Matrix();
         this.matrix.reset();
         this.matrix.setTranslate(x,y);
         this.matrix.postRotate((float)rotation, x+(image.getWidth()/2),y+(image.getHeight()/2));
@@ -53,7 +46,12 @@ public class Sprite {
     }
 
     public void draw(Canvas canvas) {
+
+       // this.matrix.setTranslate(x,y);
         canvas.drawBitmap(image,matrix,null);
+    }
+    void draw(Canvas canvas,Boolean xy){
+        canvas.drawBitmap(image,x,y,null);
     }
 
 }
