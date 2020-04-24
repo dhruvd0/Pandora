@@ -1,7 +1,6 @@
 package com.example.pandora;
 
 
-
 import android.app.Activity;
 import android.os.Bundle;
 
@@ -9,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+
 
 public class MainActivity extends Activity {
 
@@ -22,11 +22,7 @@ public class MainActivity extends Activity {
         setContentView(new gameView(this));//sets the content of the activity to game View which creates a surface
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        setFullScreen();
+    void mainMenu() {
         setContentView(R.layout.activity_main);
         Button startButton = (Button) findViewById(R.id.play);
         startButton.getBackground().setAlpha(0);
@@ -37,6 +33,15 @@ public class MainActivity extends Activity {
                 startGame();
             }
         });
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        setFullScreen();
+        startGame();
+
 
     }
 }
