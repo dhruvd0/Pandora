@@ -15,7 +15,7 @@ public class Sprite {
     public Sprite() {
 
     }
-    static  Matrix matrix ;
+      Matrix matrix ;
     public Sprite(Bitmap bmp) {
         image = bmp;
         rotation = 0;
@@ -45,18 +45,15 @@ public class Sprite {
 
 
     public void rotate(float angle) {
+        rotation+=angle;
+        this.matrix.reset();
+        this.matrix.setTranslate(x,y);
+        this.matrix.postRotate((float)rotation, x+(image.getWidth()/2),y+(image.getHeight()/2));
 
-        Bitmap rotateBitmap = Bitmap.createBitmap(image.getWidth(),
-                image.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(rotateBitmap);
-        Matrix matrix = new Matrix();
-        matrix.postRotate(angle, image.getWidth() / 2, image.getHeight() / 2);
-        canvas.drawBitmap(image, matrix, new Paint());
-        image = rotateBitmap;
     }
 
     public void draw(Canvas canvas) {
-        canvas.drawBitmap(image, x, y, null);
+        canvas.drawBitmap(image,matrix,null);
     }
 
 }
