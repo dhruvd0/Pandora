@@ -27,9 +27,9 @@ public class Sprite {
 
     public void move(int changeInX, int changeInY) {
 
-        float newx=this.x+changeInX;
-        float newy=this.y+changeInY;
-        setPos(newx,newy);
+        this.x+=changeInX;
+        this.y+=changeInY;
+
     }
     void moveIncircle(float angle,float radius,float cx,float cy){
         this.angle+=angle;

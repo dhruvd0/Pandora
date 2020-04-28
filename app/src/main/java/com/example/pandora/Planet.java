@@ -29,7 +29,7 @@ public class Planet extends Sprite {
     public static void drawPlanets(Planet[] planets,Canvas canvas){
         for (Planet p : planets) {
           p.rotate(3);
-            p.draw(canvas);
+            p.draw(canvas,true);
         }
     }
     Planet(Bitmap bmp) {

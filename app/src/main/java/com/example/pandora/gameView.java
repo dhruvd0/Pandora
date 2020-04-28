@@ -54,14 +54,14 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
 
         Planet.loadPlanets(planets, getResources());
-        planets[0].setPos(500,500);
-        spaceship.setPos(500, 500);
+
+        spaceship.setPos(500, 900);
     }
 
     public void update(Canvas canvas) {
 
-        planets[0].rotate(2);
-       spaceship.moveIncircle(3, 150,500,500);
+        spaceship.move(0,-5);
+
     }
 
     @Override
@@ -69,7 +69,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         Log.i("print", "surfaceCreated()");
         thread.setRunning(true);
 
-       thread.start();//start the thread
+        thread.start();//start the thread
 
 
     }
@@ -96,9 +96,8 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     public void draw(Canvas canvas) {
 
         super.draw(canvas);
-        canvas.drawBitmap(space,null,rect,null);
-      //  Planet.drawPlanets(planets,canvas);
-        planets[0].draw(canvas,true);
+        canvas.drawBitmap(space, null, rect, null);
+        Planet.drawPlanets(planets,canvas);
         spaceship.draw(canvas);
 
 
