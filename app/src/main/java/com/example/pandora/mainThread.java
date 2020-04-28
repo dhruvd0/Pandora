@@ -1,5 +1,6 @@
 package com.example.pandora;
 
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -20,11 +21,15 @@ public class mainThread extends Thread {
     public void run() {
         Log.i("print", "run()");
         while (isRunning) {
+            long pTime= SystemClock.elapsedRealtime();
             game.canvas = null;
 
             try {
                 game.canvas = this.surfaceHolder.lockCanvas();
+                game.canvasHeight=game.canvas.getHeight();
+                game.canvasWidth=game.canvas.getWidth();
                 synchronized (surfaceHolder) {
+
                     this.game.update(game.canvas);
 
                    this.game.draw(game.canvas);
@@ -39,6 +44,12 @@ public class mainThread extends Thread {
                     }
                 }
             }
+            long cTime=SystemClock.elapsedRealtime();
+            long fps=1000/(cTime-pTime);
+            if(Math.abs(fps-game.fps)>=5){
+                game.fps=fps;
+            }
+
         }
     }
 

@@ -28,7 +28,8 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     int scr_wid, scr_hei;
     Rect rect;
     Paint paint;
-
+    long fps;
+    float canvasHeight,canvasWidth;
     public gameView(Context context) {
         super(context);
         Log.i("print", "gameView()");
@@ -38,7 +39,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         setFocusable(true);
         loadSprites();
         paint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
-        paint.setColor(Color.BLACK);
+        paint.setColor(Color.GREEN);
         display = ((Activity) getContext()).getWindowManager().getDefaultDisplay();
         point = new Point();
         display.getSize(point);
@@ -61,6 +62,9 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     public void update(Canvas canvas) {
 
         spaceship.move(0,-5);
+        if(spaceship.y<0){
+            spaceship.y=canvasHeight;
+        }
 
     }
 
@@ -92,11 +96,19 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
             retry = false;
         }
     }
+    void showFps(Canvas canvas){
+        Paint textPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
+        textPaint.setColor(Color.GREEN);
+        textPaint.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 20, getResources().getDisplayMetrics()));
 
+        canvas.drawText(Integer.toString((int) fps), 1000, 50, textPaint);
+    }
     public void draw(Canvas canvas) {
 
         super.draw(canvas);
-        canvas.drawBitmap(space, null, rect, null);
+        canvas.drawColor(Color.BLACK);
+        showFps(canvas);
+        //canvas.drawBitmap(space,null,rect,null);
         Planet.drawPlanets(planets,canvas);
         spaceship.draw(canvas);
 
