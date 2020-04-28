@@ -37,8 +37,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
         setFocusable(true);
         loadSprites();
-        paint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
-        paint.setColor(Color.BLACK);
+
         display = ((Activity) getContext()).getWindowManager().getDefaultDisplay();
         point = new Point();
         display.getSize(point);
@@ -52,7 +51,6 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
         spaceship = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.spaceship));
 
-
         Planet.loadPlanets(planets, getResources());
 
         spaceship.setPos(500, 900);
@@ -60,8 +58,10 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void update(Canvas canvas) {
 
-        spaceship.move(0,-5);
-
+        spaceship.move(0, -5);
+        if (spaceship.y < 0) {
+            spaceship.y = canvas.getHeight();
+        }
     }
 
     @Override
@@ -97,7 +97,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
         super.draw(canvas);
         canvas.drawBitmap(space, null, rect, null);
-        Planet.drawPlanets(planets,canvas);
+        Planet.drawPlanets(planets, canvas);
         spaceship.draw(canvas);
 
 
