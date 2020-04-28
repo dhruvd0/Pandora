@@ -15,8 +15,8 @@ public class Planet extends Sprite {
         for (int i = 0; i < 5; i++) {
             planets[i] = new Planet(BitmapFactory.decodeResource(r, id));
             id++;
-            int x=rand.nextInt(300);
-            int posY;
+            float x=rand.nextInt(300);
+            float posY;
             try {
                 posY = rand.nextInt(600) + planets[i - 1].y + 100;
             }

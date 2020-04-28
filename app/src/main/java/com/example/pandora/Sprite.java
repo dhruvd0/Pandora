@@ -10,6 +10,7 @@ import android.graphics.Paint;
 public class Sprite {
     public Bitmap image;
     float x, y;
+
     int rotation;
     float angle;
     public Sprite() {
@@ -26,20 +27,22 @@ public class Sprite {
 
     public void move(int changeInX, int changeInY) {
 
-        this.x+=changeInX;
-        this.y+=changeInY;
+        float newx=this.x+changeInX;
+        float newy=this.y+changeInY;
+        setPos(newx,newy);
     }
-    void moveIncircle(float angle,float radius){
+    void moveIncircle(float angle,float radius,float cx,float cy){
         this.angle+=angle;
         if(this.angle>=360){
             this.angle=0;
         }
-        this.x+=radius*Math.cos(this.angle/360);
-        this.y+=radius*Math.sin(this.angle/360);
+        float newX= (float) (cx-radius*Math.cos(this.angle*3.14/180));
+        float newY= (float) (cy-radius*Math.sin(this.angle*3.14/180));
+        setPos(newX,newY);
     }
-    public void setPos(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public void setPos(float x, float y) {
+        this.x = x-image.getWidth()/2;
+        this.y = y-image.getHeight()/2;
     }
 
 
@@ -53,13 +56,14 @@ public class Sprite {
 
     }
 
-    public void draw(Canvas canvas) {
+    public void draw(Canvas canvas,Boolean hasMatrix) {
 
        // this.matrix.setTranslate(x,y);
         canvas.drawBitmap(image,matrix,null);
     }
-    void draw(Canvas canvas,Boolean xy){
+    void draw(Canvas canvas){
         canvas.drawBitmap(image,x,y,null);
+
     }
 
 }

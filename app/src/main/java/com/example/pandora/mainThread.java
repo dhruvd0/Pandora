@@ -20,7 +20,7 @@ public class mainThread extends Thread {
     public void run() {
         Log.i("print", "run()");
         while (isRunning) {
-            //game.canvas = null;
+            game.canvas = null;
 
             try {
                 game.canvas = this.surfaceHolder.lockCanvas();
