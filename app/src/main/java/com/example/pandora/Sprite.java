@@ -9,9 +9,9 @@ import android.graphics.Paint;
 
 public class Sprite {
     public Bitmap image;
-    int x, y;
+    float x, y;
     int rotation;
-
+    float angle;
     public Sprite() {
 
     }
@@ -21,6 +21,7 @@ public class Sprite {
         rotation = 0;
         matrix=new Matrix();
 
+
     }
 
     public void move(int changeInX, int changeInY) {
@@ -28,7 +29,14 @@ public class Sprite {
         this.x+=changeInX;
         this.y+=changeInY;
     }
-
+    void moveIncircle(float angle,float radius){
+        this.angle+=angle;
+        if(this.angle>=360){
+            this.angle=0;
+        }
+        this.x+=radius*Math.cos(this.angle/360);
+        this.y+=radius*Math.sin(this.angle/360);
+    }
     public void setPos(int x, int y) {
         this.x = x;
         this.y = y;

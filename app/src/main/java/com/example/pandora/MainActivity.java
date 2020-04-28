@@ -25,7 +25,6 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         Button startButton = (Button) findViewById(R.id.play);
         startButton.getBackground().setAlpha(0);
-
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,7 +38,6 @@ public class MainActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         setFullScreen();
-
         startGame();
     }
 }

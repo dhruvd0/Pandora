@@ -54,10 +54,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
 
 
-       spaceship.move(0,-7);
-       if(spaceship.y<0){
-           spaceship.y=canvas.getHeight();
-       }
+      spaceship.moveIncircle(1,5);
 
     }
 
