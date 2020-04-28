@@ -29,13 +29,18 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     Rect rect;
     Paint paint;
     long fps;
-    float canvasHeight,canvasWidth;
+    float canvasHeight, canvasWidth;
+    Star stars[] = new Star[100];
+    Star testStar;
+
     public gameView(Context context) {
         super(context);
         Log.i("print", "gameView()");
         thread = new mainThread(getHolder(), this);
         getHolder().addCallback(this);
-
+        for (int i = 0; i < 100; i++) {
+            stars[i] = new Star();
+        }
         setFocusable(true);
         loadSprites();
         paint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
@@ -52,18 +57,20 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         space = BitmapFactory.decodeResource(getResources(), R.drawable.space);
 
         spaceship = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.spaceship));
-
-
         Planet.loadPlanets(planets, getResources());
 
         spaceship.setPos(500, 900);
+
     }
 
     public void update(Canvas canvas) {
 
-        spaceship.move(0,-5);
-        if(spaceship.y<0){
-            spaceship.y=canvasHeight;
+
+        spaceship.move(0, -5);
+        Star.setStars(stars,canvas);
+        if (spaceship.y < 0) {
+            spaceship.y = canvasHeight;
+
         }
 
     }
@@ -96,21 +103,30 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
             retry = false;
         }
     }
-    void showFps(Canvas canvas){
+
+    void showFps(Canvas canvas) {
         Paint textPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
         textPaint.setColor(Color.GREEN);
         textPaint.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 20, getResources().getDisplayMetrics()));
 
         canvas.drawText(Integer.toString((int) fps), 1000, 50, textPaint);
     }
+
+    void drawBackground(Canvas canvas) {
+        canvas.drawColor(Color.BLACK);
+
+    }
+
     public void draw(Canvas canvas) {
 
         super.draw(canvas);
-        canvas.drawColor(Color.BLACK);
-        showFps(canvas);
-        //canvas.drawBitmap(space,null,rect,null);
-        Planet.drawPlanets(planets,canvas);
+
+
+        drawBackground(canvas);
+
+        Star.drawStars(stars, canvas);
         spaceship.draw(canvas);
+        showFps(canvas);
 
 
     }
