@@ -16,18 +16,18 @@ public class Star {
     static void selectRandomStars() {
         movingStars = new int[10];
         for (int i = 0; i < movingStars.length; i++) {
-            movingStars[i] = rand.nextInt(300);
+            movingStars[i] = rand.nextInt(600);
         }
     }
 
-    Star() {
+    Star(int cW,int cH) {
 
 
         paint = new Paint();
         paint.setColor(Color.WHITE);
         rand = new Random();
-        x = rand.nextInt(500);
-        y = rand.nextInt(500);
+        x = rand.nextInt(cW);
+        y = rand.nextInt(cH);
     }
 
     static void moveRandomStars(Star stars[]) {

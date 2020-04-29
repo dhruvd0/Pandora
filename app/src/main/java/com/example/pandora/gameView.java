@@ -30,7 +30,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     Paint paint;
     long fps;
     float canvasHeight, canvasWidth;
-    Star stars[] = new Star[300];
+    Star stars[] = new Star[600];
     Star testStar;
 
     public gameView(Context context) {
@@ -59,7 +59,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
 
         for (int i = 0; i < stars.length; i++) {
-            stars[i] = new Star();
+            stars[i] = new Star(5000, 5000);
         }
         Star.selectRandomStars();
 
@@ -68,12 +68,13 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     public void update(Canvas canvas) {
 
 
-        spaceship.move(0, -10);
         Star.moveRandomStars(stars);
-        if (spaceship.y < 0) {
-            spaceship.y = canvasHeight;
-            Star.setStars(stars,canvas);
+        spaceship.move(0,-10);
+        if(spaceship.y<=0){
+            spaceship.setPos(canvasWidth/2,canvasHeight);
             Planet.loadPlanets(planets,getResources());
+            Star.selectRandomStars();
+            Star.setStars(stars,canvas);
         }
 
 
@@ -113,7 +114,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         textPaint.setColor(Color.GREEN);
         textPaint.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 20, getResources().getDisplayMetrics()));
 
-        canvas.drawText(Integer.toString((int) fps), canvasWidth/2, canvasHeight/2, textPaint);
+        canvas.drawText(Integer.toString((int) fps), canvasWidth - 100, 100, textPaint);
     }
 
     void drawBackground(Canvas canvas) {
@@ -129,15 +130,11 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         drawBackground(canvas);
 
         Star.drawStars(stars, canvas);
-        Planet.drawPlanets(planets,canvas);
-        if(spaceship.x==0 && spaceship.y==0){
-            spaceship.x=canvasWidth/2;
-            spaceship.y=canvasHeight/2;
-        }
+        Planet.drawPlanets(planets, canvas);
 
-        spaceship.draw(canvas);
+
         showFps(canvas);
-
+        spaceship.draw(canvas);
 
     }
 

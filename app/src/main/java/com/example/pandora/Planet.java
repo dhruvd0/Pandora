@@ -18,9 +18,9 @@ public class Planet extends Sprite {
             float x = rand.nextInt(400) + 100;
             float posY;
             try {
-                posY = rand.nextInt(400) + 2*planets[i - 1].y + 50;
+                posY = rand.nextInt(500) + 2*planets[i - 1].y + 300;
             } catch (ArrayIndexOutOfBoundsException e) {
-                posY = rand.nextInt(300);
+                posY = rand.nextInt(300)+100;
             }
             planets[i].setPos(x, posY);
         }
@@ -28,8 +28,8 @@ public class Planet extends Sprite {
 
     public static void drawPlanets(Planet[] planets, Canvas canvas) {
         for (Planet p : planets) {
-            p.rotate(0);
-            p.draw(canvas, true);
+            //p.rotate(5);
+            p.draw(canvas);
         }
     }
 

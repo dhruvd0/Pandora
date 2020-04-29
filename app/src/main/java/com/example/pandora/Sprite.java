@@ -10,11 +10,13 @@ import android.graphics.Paint;
 public class Sprite {
     public Bitmap image;
     float x, y;
-
+    boolean hasMatrix;
     int rotation;
     float angle;
     public Sprite() {
-
+        x=0;
+        y=0;
+        hasMatrix=false;
     }
       Matrix matrix ;
     public Sprite(Bitmap bmp) {
@@ -29,6 +31,7 @@ public class Sprite {
 
         this.x+=changeInX;
         this.y+=changeInY;
+        this.hasMatrix=false;
 
     }
     void moveIncircle(float angle,float radius,float cx,float cy){
@@ -44,6 +47,10 @@ public class Sprite {
         this.x = x-image.getWidth()/2;
         this.y = y-image.getHeight()/2;
     }
+    public void setPos(float x) {
+        this.x = x-image.getWidth()/2;
+
+    }
 
 
 
@@ -53,17 +60,18 @@ public class Sprite {
         this.matrix.reset();
         this.matrix.setTranslate(x,y);
         this.matrix.postRotate((float)rotation, x+(image.getWidth()/2),y+(image.getHeight()/2));
+        this.hasMatrix=true;
 
     }
+    public void draw(Canvas canvas) {
 
-    public void draw(Canvas canvas,Boolean hasMatrix) {
 
-       // this.matrix.setTranslate(x,y);
-        canvas.drawBitmap(image,matrix,null);
-    }
-    void draw(Canvas canvas){
-        canvas.drawBitmap(image,x,y,null);
-
+        if(this.hasMatrix){
+            canvas.drawBitmap(image,matrix,null);
+        }
+        else {
+            canvas.drawBitmap(image,this.x,this.y,null);
+        }
     }
 
 }

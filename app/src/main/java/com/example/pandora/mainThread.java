@@ -28,6 +28,9 @@ public class mainThread extends Thread {
                 game.canvas = this.surfaceHolder.lockCanvas();
                 game.canvasHeight=game.canvas.getHeight();
                 game.canvasWidth=game.canvas.getWidth();
+                if(game.spaceship.x<=0 && game.spaceship.y<=0){
+                    game.spaceship.setPos(game.canvasWidth/2,game.canvasHeight);
+                }
                 synchronized (surfaceHolder) {
 
                     this.game.update(game.canvas);
