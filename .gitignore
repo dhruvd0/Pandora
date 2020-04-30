@@ -13,3 +13,8 @@
 .cxx
 *.log
 .idea/misc.xml
+*.json
+*.jar
+*.dex
+*.properties
+*.gson
