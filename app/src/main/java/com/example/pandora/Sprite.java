@@ -72,8 +72,8 @@ public class Sprite {
         this.hasMatrix = true;
         float offsetX = image.getWidth() / 2;
         float offsetY = image.getHeight() / 2;
-        this.x += offsetX;
-        this.y += offsetY;
+     //   this.x += offsetX;
+       // this.y += offsetY;
 
 
     }

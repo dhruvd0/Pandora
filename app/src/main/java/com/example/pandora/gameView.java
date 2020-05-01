@@ -12,8 +12,10 @@ import android.graphics.Rect;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
+import android.view.View;
 
 
 public class gameView extends SurfaceView implements SurfaceHolder.Callback {
@@ -32,8 +34,10 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     float canvasHeight, canvasWidth;
     Star[] stars = new Star[300];
     Star testStar;
+    float touchX,touchY;
 
     public gameView(Context context) {
+
         super(context);
         Log.i("print", "gameView()");
         thread = new mainThread(getHolder(), this);
@@ -68,11 +72,13 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     public void update(Canvas canvas) {
 
 
-        planets[0].setPos(canvasWidth / 2, canvasHeight / 2);
-
-        planets[0].rotate(2);
-        spaceship.setRotation(0);
-        spaceship.moveIncircle(5, 200, planets[0].x, planets[0].y);
+        Star.moveRandomStars(stars);
+        spaceship.move(0,-7);
+        if(spaceship.y<0){
+            Planet.loadPlanets(planets,getResources());
+            spaceship.y=canvasHeight;
+            Star.setStars(stars,canvas);
+        }
 
 
     }
@@ -120,8 +126,8 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
     void drawSprites(Canvas canvas) {
         Star.drawStars(stars, canvas);
-        //Planet.drawPlanets(planets, canvas);
-        planets[0].draw(canvas);
+        Planet.drawPlanets(planets, canvas);
+
         spaceship.draw(canvas);
     }
 
@@ -130,10 +136,23 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         super.draw(canvas);
         drawBackground(canvas);
         drawSprites(canvas);
-        canvas.drawCircle(planets[0].x, planets[0].y, 5, paint);
+
         showFps(canvas);
 
     }
 
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            touchX = event.getX();
+            touchY = event.getY();
+            spaceship.setPos(touchX,touchY);
+        }
+        else if(event.getAction()==MotionEvent.ACTION_UP){
+            spaceship.moveIncircle(10,200,canvasWidth/2,canvasHeight/2);
+        }
+        Log.i("on press","TOUCH");
+        return true;
+    }
 }
