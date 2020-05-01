@@ -30,7 +30,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     Paint paint;
     long fps;
     float canvasHeight, canvasWidth;
-    Star stars[] = new Star[600];
+    Star[] stars = new Star[300];
     Star testStar;
 
     public gameView(Context context) {
@@ -68,14 +68,11 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     public void update(Canvas canvas) {
 
 
-        Star.moveRandomStars(stars);
-        spaceship.move(0,-10);
-        if(spaceship.y<=0){
-            spaceship.setPos(canvasWidth/2,canvasHeight);
-            Planet.loadPlanets(planets,getResources());
-            Star.selectRandomStars();
-            Star.setStars(stars,canvas);
-        }
+        planets[0].setPos(canvasWidth / 2, canvasHeight / 2);
+
+        planets[0].rotate(2);
+        spaceship.setRotation(0);
+        spaceship.moveIncircle(5, 200, planets[0].x, planets[0].y);
 
 
     }
@@ -119,22 +116,22 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
     void drawBackground(Canvas canvas) {
         canvas.drawColor(Color.BLACK);
+    }
 
+    void drawSprites(Canvas canvas) {
+        Star.drawStars(stars, canvas);
+        //Planet.drawPlanets(planets, canvas);
+        planets[0].draw(canvas);
+        spaceship.draw(canvas);
     }
 
     public void draw(Canvas canvas) {
 
         super.draw(canvas);
-
-
         drawBackground(canvas);
-
-        Star.drawStars(stars, canvas);
-        Planet.drawPlanets(planets, canvas);
-
-
+        drawSprites(canvas);
+        canvas.drawCircle(planets[0].x, planets[0].y, 5, paint);
         showFps(canvas);
-        spaceship.draw(canvas);
 
     }
 

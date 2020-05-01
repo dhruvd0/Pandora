@@ -12,11 +12,11 @@ public class Star {
     static Random rand;
     static int movingStars[];
     static int randomIndex;
-
+    float radius;
     static void selectRandomStars() {
         movingStars = new int[10];
         for (int i = 0; i < movingStars.length; i++) {
-            movingStars[i] = rand.nextInt(600);
+            movingStars[i] = rand.nextInt(300);
         }
     }
 
@@ -28,16 +28,18 @@ public class Star {
         rand = new Random();
         x = rand.nextInt(cW);
         y = rand.nextInt(cH);
+        radius=1+rand.nextInt(5);
     }
 
     static void moveRandomStars(Star stars[]) {
         for (int i = 0; i < movingStars.length; i++) {
             randomIndex = movingStars[i];
             float dy = 20 + rand.nextInt(10);
-            float dx = 1 + rand.nextInt(5);
+            double b=Math.pow(-1,rand.nextInt(1));
+            float dx = (float) (b*rand.nextInt(5));
             if (randomIndex < stars.length) {
                 stars[randomIndex].y += dy;
-                //stars[randomIndex].x += dx;
+                stars[randomIndex].x += dx;
             }
         }
     }
@@ -61,6 +63,6 @@ public class Star {
     }
 
     void draw(Canvas canvas) {
-        canvas.drawCircle(x, y, 5, paint);
+        canvas.drawCircle(x, y, radius, paint);
     }
 }
