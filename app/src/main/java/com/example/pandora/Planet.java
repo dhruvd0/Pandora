@@ -28,7 +28,7 @@ public class Planet extends Sprite {
 
     public static void drawPlanets(Planet[] planets, Canvas canvas) {
         for (Planet p : planets) {
-            p.rotate(1);
+        //    p.rotate(1);
             p.draw(canvas);
         }
     }

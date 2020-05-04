@@ -149,9 +149,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
             touchY = event.getY();
             spaceship.setPos(touchX,touchY);
         }
-        else if(event.getAction()==MotionEvent.ACTION_UP){
-            spaceship.moveIncircle(10,200,canvasWidth/2,canvasHeight/2);
-        }
+
         Log.i("on press","TOUCH");
         return true;
     }
