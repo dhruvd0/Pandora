@@ -14,10 +14,10 @@ public class Star {
     static int movingStars[];
     static int randomIndex;
     float radius;
-    static void selectRandomStars() {
-        movingStars = new int[10];
+    static void selectRandomStars(Star s[]) {
+        movingStars = new int[50];
         for (int i = 0; i < movingStars.length; i++) {
-            movingStars[i] = rand.nextInt(300);
+            movingStars[i] = rand.nextInt(s.length);
         }
     }
 
@@ -33,6 +33,7 @@ public class Star {
     }
 
     static void moveRandomStars(Star stars[]) {
+
         for (int i = 0; i < movingStars.length; i++) {
             randomIndex = movingStars[i];
             float dy = 20 + rand.nextInt(10);
@@ -51,7 +52,7 @@ public class Star {
             y = 10 + rand.nextInt(5000);
         }
         catch (Exception e){
-            Log.i("canvas width",Integer.toString(canvas.getWidth()));
+
         }
     }
 

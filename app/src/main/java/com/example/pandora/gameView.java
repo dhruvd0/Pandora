@@ -31,8 +31,9 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     Rect rect;
     Paint paint;
     long fps;
+    int starCount;
     float canvasHeight, canvasWidth;
-    Star[] stars = new Star[200];
+    Star[] stars = new Star[starCount];
     Star testStar;
     float touchX, touchY;
     static boolean isDecreasing;
@@ -40,12 +41,14 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     public gameView(Context context) {
 
         super(context);
+
+
         Log.i("print", "gameView()");
         thread = new mainThread(getHolder(), this);
         getHolder().addCallback(this);
 
         setFocusable(true);
-        loadSprites();
+
         paint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
         paint.setColor(Color.GREEN);
         display = ((Activity) getContext()).getWindowManager().getDefaultDisplay();
@@ -54,6 +57,9 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         scr_wid = point.x;
         scr_hei = point.y;
         rect = new Rect(0, 0, scr_wid, scr_hei);
+        starCount= 300;
+        stars=new Star[starCount];
+        loadSprites();
     }
 
     public void loadSprites() {
@@ -66,7 +72,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         for (int i = 0; i < stars.length; i++) {
             stars[i] = new Star(5000, 5000);
         }
-        Star.selectRandomStars();
+        Star.selectRandomStars(stars);
 
     }
 
@@ -74,18 +80,14 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
         if (isDecreasing) {
             spaceship.ySpeed += 0.1;
-
-
-                Star.setStars(stars, canvas);
-
-
+           Star.moveRandomStars(stars);
         }
         Star.moveRandomStars(stars);
         spaceship.move();
         if (spaceship.y < 0) {
             Planet.loadPlanets(planets, getResources());
             spaceship.y = canvasHeight;
-
+            Star.setStars(stars,canvas);
         }
 
 
@@ -129,7 +131,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     void showFps(Canvas canvas) {
-
+        displayText(canvas,Integer.toString((int) fps),canvasWidth-100,canvasHeight+100);
     }
 
     void drawBackground(Canvas canvas) {
