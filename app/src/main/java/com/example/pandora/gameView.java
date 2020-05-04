@@ -61,7 +61,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
         spaceship = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.spaceship));
         Planet.loadPlanets(planets, getResources());
-        spaceship.ySpeed=-5;
+        spaceship.ySpeed = -5;
 
         for (int i = 0; i < stars.length; i++) {
             stars[i] = new Star(5000, 5000);
@@ -76,7 +76,9 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
             spaceship.ySpeed += 0.1;
 
 
-            Star.setStars(stars,canvas);
+                Star.setStars(stars, canvas);
+
+
         }
         Star.moveRandomStars(stars);
         spaceship.move();
@@ -121,7 +123,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     void displayText(Canvas canvas, String text, float x, float y) {
         Paint textPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
         textPaint.setColor(Color.GREEN);
-        textPaint.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 20, getResources().getDisplayMetrics()));
+        textPaint.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10, getResources().getDisplayMetrics()));
 
         canvas.drawText(text, x, y, textPaint);
     }
@@ -133,12 +135,14 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     void drawBackground(Canvas canvas) {
         canvas.drawColor(Color.BLACK);
     }
-    void showSpaceShipStats(Canvas canvas){
-        displayText(canvas, "Speed:"+Float.toString(spaceship.ySpeed), spaceship.x+200, spaceship.y + 100);
-        displayText(canvas, "Angle:"+Float.toString(spaceship.angle), spaceship.x+200, spaceship.y+200);
-        displayText(canvas, "X:"+Float.toString(spaceship.x), spaceship.x+200, spaceship.y+300);
-        displayText(canvas, "Y:"+Float.toString(spaceship.y), spaceship.x+200, spaceship.y+400 );
+
+    void showSpaceShipStats(Canvas canvas) {
+        displayText(canvas, "Speed:" + Float.toString(spaceship.ySpeed), spaceship.x + 200, spaceship.y);
+        displayText(canvas, "Angle:" + Float.toString(spaceship.angle), spaceship.x + 200, spaceship.y + 50);
+        displayText(canvas, "X:" + Float.toString(spaceship.x), spaceship.x + 200, spaceship.y + 100);
+        displayText(canvas, "Y:" + Float.toString(spaceship.y), spaceship.x + 200, spaceship.y + 150);
     }
+
     void drawSprites(Canvas canvas) {
         Star.drawStars(stars, canvas);
         Planet.drawPlanets(planets, canvas);
