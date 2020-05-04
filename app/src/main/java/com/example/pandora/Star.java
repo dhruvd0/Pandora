@@ -3,6 +3,7 @@ package com.example.pandora;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
 import java.util.Random;
 
@@ -45,8 +46,13 @@ public class Star {
     }
 
     void setRandomPos(Canvas canvas) {
-        x = 10 + rand.nextInt(canvas.getWidth());
-        y = 10 + rand.nextInt(5000);
+        try {
+            x = 10 + rand.nextInt(canvas.getWidth());
+            y = 10 + rand.nextInt(5000);
+        }
+        catch (Exception e){
+            Log.i("canvas width",Integer.toString(canvas.getWidth()));
+        }
     }
 
     static void drawStars(Star s[], Canvas canvas) {

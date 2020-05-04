@@ -32,9 +32,10 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     Paint paint;
     long fps;
     float canvasHeight, canvasWidth;
-    Star[] stars = new Star[300];
+    Star[] stars = new Star[200];
     Star testStar;
-    float touchX,touchY;
+    float touchX, touchY;
+    static boolean isDecreasing;
 
     public gameView(Context context) {
 
@@ -60,7 +61,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
         spaceship = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.spaceship));
         Planet.loadPlanets(planets, getResources());
-
+        spaceship.ySpeed=-5;
 
         for (int i = 0; i < stars.length; i++) {
             stars[i] = new Star(5000, 5000);
@@ -71,13 +72,18 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void update(Canvas canvas) {
 
+        if (isDecreasing) {
+            spaceship.ySpeed += 0.1;
 
-        Star.moveRandomStars(stars);
-        spaceship.move(0,-7);
-        if(spaceship.y<0){
-            Planet.loadPlanets(planets,getResources());
-            spaceship.y=canvasHeight;
+
             Star.setStars(stars,canvas);
+        }
+        Star.moveRandomStars(stars);
+        spaceship.move();
+        if (spaceship.y < 0) {
+            Planet.loadPlanets(planets, getResources());
+            spaceship.y = canvasHeight;
+
         }
 
 
@@ -112,23 +118,34 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
-    void showFps(Canvas canvas) {
+    void displayText(Canvas canvas, String text, float x, float y) {
         Paint textPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
         textPaint.setColor(Color.GREEN);
         textPaint.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 20, getResources().getDisplayMetrics()));
 
-        canvas.drawText(Integer.toString((int) fps), canvasWidth - 100, 100, textPaint);
+        canvas.drawText(text, x, y, textPaint);
+    }
+
+    void showFps(Canvas canvas) {
+
     }
 
     void drawBackground(Canvas canvas) {
         canvas.drawColor(Color.BLACK);
     }
-
+    void showSpaceShipStats(Canvas canvas){
+        displayText(canvas, "Speed:"+Float.toString(spaceship.ySpeed), spaceship.x+200, spaceship.y + 100);
+        displayText(canvas, "Angle:"+Float.toString(spaceship.angle), spaceship.x+200, spaceship.y+200);
+        displayText(canvas, "X:"+Float.toString(spaceship.x), spaceship.x+200, spaceship.y+300);
+        displayText(canvas, "Y:"+Float.toString(spaceship.y), spaceship.x+200, spaceship.y+400 );
+    }
     void drawSprites(Canvas canvas) {
         Star.drawStars(stars, canvas);
         Planet.drawPlanets(planets, canvas);
 
         spaceship.draw(canvas);
+        showSpaceShipStats(canvas);
+
     }
 
     public void draw(Canvas canvas) {
@@ -144,13 +161,18 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            touchX = event.getX();
-            touchY = event.getY();
-            spaceship.setPos(touchX,touchY);
+        int e = event.getAction();
+        if (e == MotionEvent.ACTION_DOWN) {
+            isDecreasing = true;
+
+            update(canvas);
+        } else if (e == MotionEvent.ACTION_UP) {
+            spaceship.ySpeed = -5;
+            isDecreasing = false;
+            update((canvas));
         }
 
-        Log.i("on press","TOUCH");
+        Log.i("on press", "TOUCH");
         return true;
     }
 }
