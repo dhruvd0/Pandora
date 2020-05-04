@@ -21,13 +21,17 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     public static Canvas canvas;
     mainThread thread;//start a thread when the surface is created;
     Sprite spaceship;
-    Planet[] planets = new Planet[5];
+    Planet[] planets = new Planet[3];
     Bitmap space;
     Display display;
     Point point;
     int scr_wid, scr_hei;
     Rect rect;
     Paint paint;
+    long fps;
+    float canvasHeight, canvasWidth;
+    Star[] stars = new Star[300];
+    Star testStar;
 
     public gameView(Context context) {
         super(context);
@@ -37,7 +41,8 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
         setFocusable(true);
         loadSprites();
-
+        paint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
+        paint.setColor(Color.GREEN);
         display = ((Activity) getContext()).getWindowManager().getDefaultDisplay();
         point = new Point();
         display.getSize(point);
@@ -50,10 +55,14 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         space = BitmapFactory.decodeResource(getResources(), R.drawable.space);
 
         spaceship = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.spaceship));
-
         Planet.loadPlanets(planets, getResources());
 
-        spaceship.setPos(500, 900);
+
+        for (int i = 0; i < stars.length; i++) {
+            stars[i] = new Star(5000, 5000);
+        }
+        Star.selectRandomStars();
+
     }
 
     public void update(Canvas canvas) {
@@ -93,13 +102,32 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
+    void showFps(Canvas canvas) {
+        Paint textPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
+        textPaint.setColor(Color.GREEN);
+        textPaint.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 20, getResources().getDisplayMetrics()));
+
+        canvas.drawText(Integer.toString((int) fps), canvasWidth - 100, 100, textPaint);
+    }
+
+    void drawBackground(Canvas canvas) {
+        canvas.drawColor(Color.BLACK);
+    }
+
+    void drawSprites(Canvas canvas) {
+        Star.drawStars(stars, canvas);
+        //Planet.drawPlanets(planets, canvas);
+        planets[0].draw(canvas);
+        spaceship.draw(canvas);
+    }
+
     public void draw(Canvas canvas) {
 
         super.draw(canvas);
-        canvas.drawBitmap(space, null, rect, null);
-        Planet.drawPlanets(planets, canvas);
-        spaceship.draw(canvas);
-
+        drawBackground(canvas);
+        drawSprites(canvas);
+        canvas.drawCircle(planets[0].x, planets[0].y, 5, paint);
+        showFps(canvas);
 
     }
 
