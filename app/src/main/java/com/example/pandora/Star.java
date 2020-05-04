@@ -25,6 +25,7 @@ public class Star {
 
         paint = new Paint();
         paint.setColor(Color.WHITE);
+
         rand = new Random();
         x = rand.nextInt(cW);
         y = rand.nextInt(cH);
@@ -50,6 +51,7 @@ public class Star {
     }
 
     static void drawStars(Star s[], Canvas canvas) {
+        Star.moveRandomStars(s);
         for (int i = 0; i < s.length; i++) {
 
             s[i].draw(canvas);

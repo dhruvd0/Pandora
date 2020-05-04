@@ -70,10 +70,6 @@ public class Sprite {
         this.matrix.setTranslate(x, y);
         this.matrix.postRotate((float) rotation, x + (image.getWidth() / 2), y + (image.getHeight() / 2));
         this.hasMatrix = true;
-        float offsetX = image.getWidth() / 2;
-        float offsetY = image.getHeight() / 2;
-        this.x += offsetX;
-        this.y += offsetY;
 
 
     }
