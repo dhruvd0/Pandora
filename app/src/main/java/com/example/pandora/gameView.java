@@ -57,15 +57,15 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         scr_wid = point.x;
         scr_hei = point.y;
         rect = new Rect(0, 0, scr_wid, scr_hei);
-        starCount= 300;
-        stars=new Star[starCount];
+        starCount = 300;
+        stars = new Star[starCount];
         loadSprites();
     }
 
     public void loadSprites() {
         space = BitmapFactory.decodeResource(getResources(), R.drawable.space);
 
-        spaceship = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.spaceship));
+        spaceship = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.spaceship2));
         Planet.loadPlanets(planets, getResources());
         spaceship.ySpeed = -5;
 
@@ -79,12 +79,11 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     public void update(Canvas canvas) {
 
         if (isDecreasing) {
-            if(spaceship.ySpeed<0){
+            if (spaceship.ySpeed < 0) {
                 spaceship.ySpeed += 0.1;
                 Star.moveRandomStars(stars);
-            }
-            else{
-                spaceship.ySpeed=0;
+            } else {
+                spaceship.ySpeed = 0;
             }
 
         }
@@ -93,7 +92,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         if (spaceship.y < 0) {
             Planet.loadPlanets(planets, getResources());
             spaceship.y = canvasHeight;
-            Star.setStars(stars,canvas);
+            Star.setStars(stars, canvas);
         }
 
 
@@ -137,7 +136,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     void showFps(Canvas canvas) {
-        displayText(canvas,Integer.toString((int) fps),canvasWidth-100,canvasHeight+100);
+        displayText(canvas, Integer.toString((int) fps), canvasWidth - 100, canvasHeight + 100);
     }
 
     void drawBackground(Canvas canvas) {
@@ -156,7 +155,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         Planet.drawPlanets(planets, canvas);
 
         spaceship.draw(canvas);
-        showSpaceShipStats(canvas);
+
 
     }
 
