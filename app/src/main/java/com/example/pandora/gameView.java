@@ -78,7 +78,22 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     public void update(Canvas canvas) {
 
 
+        if (isDecreasing) {
+            if (spaceship.ySpeed < 0) {
+                spaceship.ySpeed += 0.1;
+                Star.moveRandomStars(stars);
+            } else {
+                spaceship.ySpeed = 0;
+            }
 
+        }
+        Star.moveRandomStars(stars);
+        spaceship.move();
+        if (spaceship.y < 0) {
+            Planet.loadPlanets(planets, getResources());
+            spaceship.y = canvasHeight;
+            Star.setStars(stars, canvas);
+        }
 
 
     }
@@ -130,10 +145,11 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     void showSpaceShipStats(Canvas canvas) {
-        displayText(canvas, "Speed:" + Float.toString(spaceship.ySpeed), spaceship.x + 200, spaceship.y);
-        displayText(canvas, "Angle:" + Float.toString(spaceship.circleAngle), spaceship.x + 200, spaceship.y + 50);
-        displayText(canvas, "X:" + Float.toString(spaceship.x), spaceship.x + 200, spaceship.y + 100);
-        displayText(canvas, "Y:" + Float.toString(spaceship.y), spaceship.x + 200, spaceship.y + 150);
+        displayText(canvas, "Speed:" + spaceship.ySpeed, spaceship.x + 200, spaceship.y);
+        displayText(canvas, "Angle:" + spaceship.circleAngle, spaceship.x + 200, spaceship.y + 50);
+        displayText(canvas, "X:" + spaceship.x, spaceship.x + 200, spaceship.y + 100);
+        displayText(canvas, "Y:" + spaceship.y, spaceship.x + 200, spaceship.y + 150);
+        displayText(canvas, "FPS:" + Float.toString(fps), spaceship.x + 200, spaceship.y + 200);
     }
 
     void drawSprites(Canvas canvas) {
@@ -141,7 +157,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         Planet.drawPlanets(planets, canvas);
 
         spaceship.draw(canvas);
-
+        showSpaceShipStats(canvas);
 
     }
 

@@ -25,3 +25,4 @@ app/build/generated/source/buildConfig/debug/com/example/pandora/BuildConfig.jav
 .idea/misc.xml
 .vscode/launch.json
 *.apk
+*.apk
