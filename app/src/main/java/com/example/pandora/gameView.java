@@ -15,7 +15,6 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
-import android.view.View;
 
 
 public class gameView extends SurfaceView implements SurfaceHolder.Callback {
@@ -78,22 +77,8 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void update(Canvas canvas) {
 
-        if (isDecreasing) {
-            if (spaceship.ySpeed < 0) {
-                spaceship.ySpeed += 0.1;
-                Star.moveRandomStars(stars);
-            } else {
-                spaceship.ySpeed = 0;
-            }
 
-        }
-        Star.moveRandomStars(stars);
-        spaceship.move();
-        if (spaceship.y < 0) {
-            Planet.loadPlanets(planets, getResources());
-            spaceship.y = canvasHeight;
-            Star.setStars(stars, canvas);
-        }
+
 
 
     }
@@ -146,7 +131,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
     void showSpaceShipStats(Canvas canvas) {
         displayText(canvas, "Speed:" + Float.toString(spaceship.ySpeed), spaceship.x + 200, spaceship.y);
-        displayText(canvas, "Angle:" + Float.toString(spaceship.angle), spaceship.x + 200, spaceship.y + 50);
+        displayText(canvas, "Angle:" + Float.toString(spaceship.circleAngle), spaceship.x + 200, spaceship.y + 50);
         displayText(canvas, "X:" + Float.toString(spaceship.x), spaceship.x + 200, spaceship.y + 100);
         displayText(canvas, "Y:" + Float.toString(spaceship.y), spaceship.x + 200, spaceship.y + 150);
     }
@@ -163,8 +148,11 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     public void draw(Canvas canvas) {
 
         super.draw(canvas);
+
         drawBackground(canvas);
         drawSprites(canvas);
+
+
     }
 
 
