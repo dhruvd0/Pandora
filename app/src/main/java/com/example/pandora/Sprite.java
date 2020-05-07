@@ -11,8 +11,8 @@ public class Sprite {
     Bitmap image;
     float x, y;
     boolean hasMatrix;
-    int rotation;
-    float angle;
+    float rotateAngle;
+    float circleAngle;
     float ySpeed;
      float xSpeed;
 
@@ -27,7 +27,7 @@ public class Sprite {
 
     public Sprite(Bitmap bmp) {
         image = bmp;
-        rotation = 0;
+        rotateAngle = 0;
         matrix = new Matrix();
         ySpeed=-5;
 
@@ -40,13 +40,16 @@ public class Sprite {
         this.hasMatrix = false;
 
     }
-
+    void revolve(Sprite planet){
+        moveIncircle(1,planet.image.getWidth()/2-50,planet.x+planet.image.getWidth()/2,planet.y+planet.image.getHeight()/2);
+    }
     void moveIncircle(float angle, float radius, float cx, float cy) {
-        this.angle += angle;
-        if (this.angle >= 360) {
-            this.angle = 0;
+        this.circleAngle += angle;
+
+        if (this.circleAngle >= 360) {
+            this.circleAngle = 0;
         }
-        float angleOffSet= (float) (this.angle * 3.14 / 180);
+        float angleOffSet= (float) (this.circleAngle * 3.14 / 180);
         float newX = (float) (cx + radius * Math.cos(angleOffSet));
         float newY = (float) (cy + radius * Math.sin(angleOffSet));
 
@@ -54,8 +57,8 @@ public class Sprite {
     }
 
     public void setPos(float x, float y) {
-        this.x = x - image.getWidth() / 2;
-        this.y = y - image.getHeight() / 2;
+        this.x = x - image.getWidth()/2;
+        this.y = y - image.getHeight()/2;
         //  Log.i("Planet y",Integer.toString((int) y));
 
     }
@@ -67,11 +70,14 @@ public class Sprite {
 
 
     public void rotate(float angle) {
-        rotation += angle;
+        rotateAngle += angle;
+        if (this.rotateAngle >= 360) {
+            this.rotateAngle = 0;
+        }
         this.matrix = new Matrix();
         this.matrix.reset();
         this.matrix.setTranslate(x, y);
-        this.matrix.postRotate((float) rotation, x + (image.getWidth() / 2), y + (image.getHeight() / 2));
+        this.matrix.postRotate((float) rotateAngle, x + (image.getWidth() / 2), y + (image.getHeight() / 2));
         this.hasMatrix = true;
         float offsetX = image.getWidth() / 2;
         float offsetY = image.getHeight() / 2;
@@ -81,12 +87,12 @@ public class Sprite {
 
     }
 
-    void setRotation(float angle) {
-        rotation = (int) angle;
+    void setRotateAngle(float angle) {
+        rotateAngle = (int) angle;
         this.matrix = new Matrix();
         this.matrix.reset();
         this.matrix.setTranslate(x, y);
-        this.matrix.postRotate((float) rotation, x + (image.getWidth() / 2), y + (image.getHeight() / 2));
+        this.matrix.postRotate((float) rotateAngle, x + (image.getWidth() / 2), y + (image.getHeight() / 2));
         this.hasMatrix = true;
         float offsetX = image.getWidth() / 2;
         float offsetY = image.getHeight() / 2;
