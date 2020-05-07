@@ -79,8 +79,14 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     public void update(Canvas canvas) {
 
         if (isDecreasing) {
-            spaceship.ySpeed += 0.1;
-           Star.moveRandomStars(stars);
+            if(spaceship.ySpeed<0){
+                spaceship.ySpeed += 0.1;
+                Star.moveRandomStars(stars);
+            }
+            else{
+                spaceship.ySpeed=0;
+            }
+
         }
         Star.moveRandomStars(stars);
         spaceship.move();

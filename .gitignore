@@ -14,3 +14,5 @@
 .cxx
 *.log
 .idea/misc.xml
+.idea/misc.xml
+.vscode/launch.json
