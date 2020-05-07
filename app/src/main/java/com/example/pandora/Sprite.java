@@ -4,17 +4,16 @@ import android.graphics.Bitmap;
 
 import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.util.Log;
 
 
 public class Sprite {
     Bitmap image;
     float x, y;
-    boolean hasMatrix;
-    float rotateAngle;
+    private boolean hasMatrix;
+    private float rotateAngle;
     float circleAngle;
     float ySpeed;
-     float xSpeed;
+    private float xSpeed;
 
     public Sprite() {
         x = 0;
@@ -23,42 +22,44 @@ public class Sprite {
 
     }
 
-    Matrix matrix;
+    private Matrix matrix;
 
     public Sprite(Bitmap bmp) {
         image = bmp;
         rotateAngle = 0;
         matrix = new Matrix();
-        ySpeed=-5;
+        ySpeed = -5;
 
     }
 
-    public void move() {
+    void move() {
 
         this.x += this.xSpeed;
         this.y += this.ySpeed;
         this.hasMatrix = false;
 
     }
-    void revolve(Sprite planet){
-        moveIncircle(1,planet.image.getWidth()/2-50,planet.x+planet.image.getWidth()/2,planet.y+planet.image.getHeight()/2);
+
+    void revolve(Sprite planet) {
+        moveIncircle(1, planet.image.getWidth() / 2 - 50, planet.x + planet.image.getWidth() / 2, planet.y + planet.image.getHeight() / 2);
     }
-    void moveIncircle(float angle, float radius, float cx, float cy) {
+
+    private void moveIncircle(float angle, float radius, float cx, float cy) {
         this.circleAngle += angle;
 
         if (this.circleAngle >= 360) {
             this.circleAngle = 0;
         }
-        float angleOffSet= (float) (this.circleAngle * 3.14 / 180);
+        float angleOffSet = (float) (this.circleAngle * 3.14 / 180);
         float newX = (float) (cx + radius * Math.cos(angleOffSet));
         float newY = (float) (cy + radius * Math.sin(angleOffSet));
 
         setPos(newX, newY);
     }
 
-    public void setPos(float x, float y) {
-        this.x = x - image.getWidth()/2;
-        this.y = y - image.getHeight()/2;
+    void setPos(float x, float y) {
+        this.x = x - image.getWidth() / 2;
+        this.y = y - image.getHeight() / 2;
         //  Log.i("Planet y",Integer.toString((int) y));
 
     }
@@ -69,7 +70,7 @@ public class Sprite {
     }
 
 
-    public void rotate(float angle) {
+    void rotate(float angle) {
         rotateAngle += angle;
         if (this.rotateAngle >= 360) {
             this.rotateAngle = 0;
@@ -77,12 +78,12 @@ public class Sprite {
         this.matrix = new Matrix();
         this.matrix.reset();
         this.matrix.setTranslate(x, y);
-        this.matrix.postRotate((float) rotateAngle, x + (image.getWidth() / 2), y + (image.getHeight() / 2));
+        this.matrix.postRotate(rotateAngle, x + (image.getWidth() / 2), y + (image.getHeight() / 2));
         this.hasMatrix = true;
-        float offsetX = image.getWidth() / 2;
+   /*     float offsetX = image.getWidth() / 2;
         float offsetY = image.getHeight() / 2;
      //   this.x += offsetX;
-       // this.y += offsetY;
+       // this.y += offsetY;*/
 
 
     }
@@ -92,7 +93,7 @@ public class Sprite {
         this.matrix = new Matrix();
         this.matrix.reset();
         this.matrix.setTranslate(x, y);
-        this.matrix.postRotate((float) rotateAngle, x + (image.getWidth() / 2), y + (image.getHeight() / 2));
+        this.matrix.postRotate(rotateAngle, x + (image.getWidth() / 2), y + (image.getHeight() / 2));
         this.hasMatrix = true;
         float offsetX = image.getWidth() / 2;
         float offsetY = image.getHeight() / 2;

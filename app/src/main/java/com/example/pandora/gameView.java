@@ -1,5 +1,6 @@
 package com.example.pandora;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -32,9 +33,9 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     long fps;
     int starCount;
     float canvasHeight, canvasWidth;
-    Star[] stars = new Star[starCount];
-    Star testStar;
-    float touchX, touchY;
+    Star[] stars;
+
+
     static boolean isDecreasing;
 
     public gameView(Context context) {
@@ -135,9 +136,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         canvas.drawText(text, x, y, textPaint);
     }
 
-    void showFps(Canvas canvas) {
-        displayText(canvas, Integer.toString((int) fps), canvasWidth - 100, canvasHeight + 100);
-    }
+
 
     void drawBackground(Canvas canvas) {
         canvas.drawColor(Color.BLACK);
@@ -172,6 +171,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int e = event.getAction();

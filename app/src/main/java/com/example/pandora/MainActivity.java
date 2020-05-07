@@ -23,7 +23,7 @@ public class MainActivity extends Activity {
 
     void mainMenu() {
         setContentView(R.layout.activity_main);
-        Button startButton = (Button) findViewById(R.id.play);
+        Button startButton = findViewById(R.id.play);
         startButton.getBackground().setAlpha(0);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -2,13 +2,13 @@ package com.example.pandora;
 
 import android.os.SystemClock;
 import android.util.Log;
-import android.view.Surface;
+
 import android.view.SurfaceHolder;
 
 public class mainThread extends Thread {
-    SurfaceHolder surfaceHolder;//class that handles the surface functions
+    final SurfaceHolder surfaceHolder;//class that handles the surface functions
     gameView game;
-    boolean isRunning;//current state of the thread
+    private boolean isRunning;//current state of the thread
 
     mainThread(SurfaceHolder surfaceHolder, gameView game) {
         super();
@@ -22,26 +22,26 @@ public class mainThread extends Thread {
         Log.i("print", "run()");
         while (isRunning) {
             long pTime= SystemClock.elapsedRealtime();
-            game.canvas = null;
+            gameView.canvas = null;
 
             try {
-                game.canvas = this.surfaceHolder.lockCanvas();
-                game.canvasHeight=game.canvas.getHeight();
-                game.canvasWidth=game.canvas.getWidth();
+                gameView.canvas = this.surfaceHolder.lockCanvas();
+                game.canvasHeight= gameView.canvas.getHeight();
+                game.canvasWidth= gameView.canvas.getWidth();
                 if(game.spaceship.x<=0 && game.spaceship.y<=0){
                     game.spaceship.setPos(game.canvasWidth/2,game.canvasHeight);
                 }
                 synchronized (surfaceHolder) {
 
-                    this.game.update(game.canvas);
+                    this.game.update(gameView.canvas);
 
-                   this.game.draw(game.canvas);
+                   this.game.draw(gameView.canvas);
                 }
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             } finally {
-                if (game.canvas != null) {
+                if (gameView.canvas != null) {
                     try {
-                        surfaceHolder.unlockCanvasAndPost(game.canvas);
+                        surfaceHolder.unlockCanvasAndPost(gameView.canvas);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -56,7 +56,7 @@ public class mainThread extends Thread {
         }
     }
 
-    public void setRunning(boolean isRunning) {
+    void setRunning(boolean isRunning) {
         Log.i("print", "setRunning()");
         this.isRunning = isRunning;
     }
