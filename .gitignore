@@ -22,3 +22,5 @@
 /build/intermediate/*
 app/build/generated/source/buildConfig/debug/com/example/pandora/BuildConfig.java
 app/build/generated/source/buildConfig/debug/com/example/pandora/BuildConfig.java
+.idea/misc.xml
+.vscode/launch.json

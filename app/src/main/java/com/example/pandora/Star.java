@@ -3,6 +3,7 @@ package com.example.pandora;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
 import java.util.Random;
 
@@ -13,10 +14,10 @@ public class Star {
     static int movingStars[];
     static int randomIndex;
     float radius;
-    static void selectRandomStars() {
-        movingStars = new int[10];
+    static void selectRandomStars(Star s[]) {
+        movingStars = new int[50];
         for (int i = 0; i < movingStars.length; i++) {
-            movingStars[i] = rand.nextInt(300);
+            movingStars[i] = rand.nextInt(s.length);
         }
     }
 
@@ -33,6 +34,7 @@ public class Star {
     }
 
     static void moveRandomStars(Star stars[]) {
+
         for (int i = 0; i < movingStars.length; i++) {
             randomIndex = movingStars[i];
             float dy = 20 + rand.nextInt(10);
@@ -46,8 +48,13 @@ public class Star {
     }
 
     void setRandomPos(Canvas canvas) {
-        x = 10 + rand.nextInt(canvas.getWidth());
-        y = 10 + rand.nextInt(5000);
+        try {
+            x = 10 + rand.nextInt(canvas.getWidth());
+            y = 10 + rand.nextInt(5000);
+        }
+        catch (Exception e){
+
+        }
     }
 
     static void drawStars(Star s[], Canvas canvas) {

@@ -13,11 +13,14 @@ public class Sprite {
     boolean hasMatrix;
     int rotation;
     float angle;
+    float ySpeed;
+     float xSpeed;
 
     public Sprite() {
         x = 0;
         y = 0;
         hasMatrix = false;
+
     }
 
     Matrix matrix;
@@ -26,14 +29,14 @@ public class Sprite {
         image = bmp;
         rotation = 0;
         matrix = new Matrix();
-
+        ySpeed=-5;
 
     }
 
-    public void move(int changeInX, int changeInY) {
+    public void move() {
 
-        this.x += changeInX;
-        this.y += changeInY;
+        this.x += this.xSpeed;
+        this.y += this.ySpeed;
         this.hasMatrix = false;
 
     }
@@ -70,6 +73,10 @@ public class Sprite {
         this.matrix.setTranslate(x, y);
         this.matrix.postRotate((float) rotation, x + (image.getWidth() / 2), y + (image.getHeight() / 2));
         this.hasMatrix = true;
+        float offsetX = image.getWidth() / 2;
+        float offsetY = image.getHeight() / 2;
+     //   this.x += offsetX;
+       // this.y += offsetY;
 
 
     }
