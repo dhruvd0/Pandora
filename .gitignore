@@ -20,9 +20,12 @@
 *.properties
 *.gson
 /build/intermediate/*
-app/build/generated/source/buildConfig/debug/com/example/pandora/BuildConfig.java
-app/build/generated/source/buildConfig/debug/com/example/pandora/BuildConfig.java
+app/build/*
+
 .idea/misc.xml
 .vscode/launch.json
 *.apk
 *.apk
+app/build/generated/source/buildConfig/debug/com/example/pandora/BuildConfig.java
+app/build/outputs/apk/debug/tets.txt
+app/build/outputs/logs/manifest-merger-debug-report.txt
