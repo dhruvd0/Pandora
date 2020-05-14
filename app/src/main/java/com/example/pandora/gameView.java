@@ -34,7 +34,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     int starCount;
     float canvasHeight, canvasWidth;
     Star[] stars;
-
+    collisionThread spaceshipCollision;
 
     static boolean isDecreasing;
 
@@ -60,6 +60,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         starCount = 300;
         stars = new Star[starCount];
         loadSprites();
+
     }
 
     public void loadSprites() {
@@ -73,30 +74,12 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
             stars[i] = new Star(5000, 5000);
         }
         Star.selectRandomStars(stars);
-
+        spaceshipCollision=new collisionThread(this);
     }
 
     public void update(Canvas canvas) {
 
-
-        if (isDecreasing) {
-            if (spaceship.ySpeed < 0) {
-                spaceship.ySpeed += 0.1;
-                Star.moveRandomStars(stars);
-            } else {
-                spaceship.ySpeed = 0;
-            }
-
-        }
-        Star.moveRandomStars(stars);
-        spaceship.move();
-        if (spaceship.y < 0) {
-            Planet.loadPlanets(planets, getResources());
-            spaceship.y = canvasHeight;
-            Star.setStars(stars, canvas);
-        }
-
-
+        spaceshipCollision.start();
     }
 
     @Override
@@ -137,7 +120,6 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
 
-
     void drawBackground(Canvas canvas) {
         canvas.drawColor(Color.BLACK);
         Star.drawStars(stars, canvas);
@@ -156,16 +138,20 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         Planet.drawPlanets(planets, canvas);
 
         spaceship.draw(canvas);
-        showSpaceShipStats(canvas);
 
+
+    }
+
+    void showCenter(Sprite sprite) {
+        canvas.drawCircle(sprite.cx, sprite.cy, 10, paint);
     }
 
     public void draw(Canvas canvas) {
 
         super.draw(canvas);
 
-        drawBackground(canvas);
-        drawSprites(canvas);
+        spaceship.draw(canvas);
+        planets[0].draw(canvas);
 
 
     }
@@ -185,7 +171,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
             update((canvas));
         }
 
-        Log.i("on press", "TOUCH");
+
         return true;
     }
 }
