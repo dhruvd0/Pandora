@@ -74,12 +74,24 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
             stars[i] = new Star(5000, 5000);
         }
         Star.selectRandomStars(stars);
-        spaceshipCollision=new collisionThread(this);
+        spaceshipCollision = new collisionThread(this);
     }
 
     public void update(Canvas canvas) {
 
-        spaceshipCollision.start();
+        spaceshipCollision.start();//thread checks spaceship's collision distance and stops the spaceship
+        if (isDecreasing) {//decrease speed on touch
+            spaceship.ySpeed += 0.1;
+        }
+        if (spaceship.y < 0) {//spaceship reaches end of canvas
+            Star.setStars(stars, canvas);
+            Planet.loadPlanets(planets, getResources());
+            spaceship.y = canvasHeight;
+        } else {
+            spaceship.move();
+        }
+
+
     }
 
     @Override
@@ -149,10 +161,8 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     public void draw(Canvas canvas) {
 
         super.draw(canvas);
-
-        spaceship.draw(canvas);
-        planets[0].draw(canvas);
-
+        drawBackground(canvas);
+        drawSprites(canvas);
 
     }
 

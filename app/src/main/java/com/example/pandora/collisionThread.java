@@ -21,8 +21,8 @@ public class collisionThread extends Thread {
 
     @Override
     public void run() {
-        if(isCollidingWithPlanets()){
-            game.spaceship.ySpeed=0;
+        if (isCollidingWithPlanets()) {
+            game.spaceship.ySpeed = 0;
         }
     }
 }

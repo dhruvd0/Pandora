@@ -21,21 +21,21 @@ public class mainThread extends Thread {
     public void run() {
         Log.i("print", "run()");
         while (isRunning) {
-            long pTime= SystemClock.elapsedRealtime();
+            long pTime = SystemClock.elapsedRealtime();
             gameView.canvas = null;
 
             try {
                 gameView.canvas = this.surfaceHolder.lockCanvas();
-                game.canvasHeight= gameView.canvas.getHeight();
-                game.canvasWidth= gameView.canvas.getWidth();
-                if(game.spaceship.x<=0 && game.spaceship.y<=0){
-                    game.spaceship.setPos(game.canvasWidth/2,game.canvasHeight);
+                game.canvasHeight = gameView.canvas.getHeight();
+                game.canvasWidth = gameView.canvas.getWidth();
+                if (game.spaceship.x <= 0 && game.spaceship.y <= 0) {
+                    game.spaceship.setPos(game.canvasWidth / 2, game.canvasHeight);
                 }
                 synchronized (surfaceHolder) {
 
                     this.game.update(gameView.canvas);
 
-                   this.game.draw(gameView.canvas);
+                    this.game.draw(gameView.canvas);
                 }
             } catch (Exception ignored) {
             } finally {
@@ -47,10 +47,10 @@ public class mainThread extends Thread {
                     }
                 }
             }
-            long cTime=SystemClock.elapsedRealtime();
-            long fps=1000/(cTime-pTime);
-            if(Math.abs(fps-game.fps)>=5){
-                game.fps=fps;
+            long cTime = SystemClock.elapsedRealtime();
+            long fps = 1000 / (cTime - pTime);
+            if (Math.abs(fps - game.fps) >= 5) {
+                game.fps = fps;
             }
 
         }

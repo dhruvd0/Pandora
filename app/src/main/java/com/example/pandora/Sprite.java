@@ -17,16 +17,17 @@ public class Sprite {
     float ySpeed;
     private float xSpeed;
     Paint paint;
-    float cx,cy;//center of sprite
+    float cx, cy;//center of sprite
     double collisionDistance;
     boolean active;//true if sprite is drawn on canvas
+
     public Sprite() {
         x = 0;
         y = 0;
         hasMatrix = false;
         paint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
         paint.setColor(Color.GREEN);
-        active=false;
+        active = false;
     }
 
     private Matrix matrix;
@@ -43,16 +44,17 @@ public class Sprite {
 
         this.x += this.xSpeed;
         this.y += this.ySpeed;
-        cx=x+image.getWidth()/2;
+        cx = x + image.getWidth() / 2;
 
-        cy=y+image.getHeight()/2;
+        cy = y + image.getHeight() / 2;
         this.hasMatrix = false;
 
     }
-    double collisionDist(Sprite s2){
-        double x=Math.pow(cx-s2.cx,2);
-        double y=Math.pow(cy-s2.cy,2);
-        double distance=Math.sqrt(x+y);
+
+    double collisionDist(Sprite s2) {
+        double x = Math.pow(cx - s2.cx, 2);
+        double y = Math.pow(cy - s2.cy, 2);
+        double distance = Math.sqrt(x + y);
         return distance;
 
     }
@@ -75,8 +77,8 @@ public class Sprite {
     }
 
     void setPos(float x, float y) {
-        cx=x;
-        cy=y;
+        cx = x;
+        cy = y;
         this.x = x - image.getWidth() / 2;
         this.y = y - image.getHeight() / 2;
 
@@ -116,7 +118,7 @@ public class Sprite {
 
     public void draw(Canvas canvas) {
 
-        active=true;
+        active = true;
         if (this.hasMatrix) {
 
 
