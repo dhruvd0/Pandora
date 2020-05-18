@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -34,7 +33,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     int starCount;
     float canvasHeight, canvasWidth;
     Star[] stars;
-    collisionThread spaceshipCollision;
+
 
     static boolean isDecreasing;
 
@@ -43,7 +42,6 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         super(context);
 
 
-        Log.i("print", "gameView()");
         thread = new mainThread(getHolder(), this);
         getHolder().addCallback(this);
 
@@ -63,50 +61,20 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
     }
 
-    public void loadSprites() {
-        space = BitmapFactory.decodeResource(getResources(), R.drawable.space);
-
-        spaceship = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.spaceship2));
-        Planet.loadPlanets(planets, getResources());
-        spaceship.ySpeed = -5;
-
-        for (int i = 0; i < stars.length; i++) {
-            stars[i] = new Star(5000, 5000);
-        }
-        Star.selectRandomStars(stars);
-        spaceshipCollision = new collisionThread(this);
-    }
-
-    public void update(Canvas canvas) {
-
-        spaceshipCollision.start();//thread checks spaceship's collision distance and stops the spaceship
-        if (isDecreasing) {//decrease speed on touch
-            spaceship.ySpeed += 0.1;
-        }
-        if (spaceship.y < 0) {//spaceship reaches end of canvas
-            Star.setStars(stars, canvas);
-            Planet.loadPlanets(planets, getResources());
-            spaceship.y = canvasHeight;
-        } else {
-            spaceship.move();
-        }
-
-
-    }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        Log.i("print", "surfaceCreated()");
-        thread.setRunning(true);
 
-        thread.start();//start the thread
+        thread.setRunning(true);
+        // spaceshipCollisionThread.start();//thread checks spaceship's collision distance and displays message
+        thread.start();//start the main game loop
 
 
     }
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        Log.i("print", "changed");
+
     }
 
     @Override
@@ -116,6 +84,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
             try {
                 thread.setRunning(false);//stops the thread when user quits
                 thread.join();
+
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -123,52 +92,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
-    void displayText(Canvas canvas, String text, float x, float y) {
-        Paint textPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
-        textPaint.setColor(Color.GREEN);
-        textPaint.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10, getResources().getDisplayMetrics()));
-
-        canvas.drawText(text, x, y, textPaint);
-    }
-
-
-    void drawBackground(Canvas canvas) {
-        canvas.drawColor(Color.BLACK);
-        Star.drawStars(stars, canvas);
-    }
-
-    void showSpaceShipStats(Canvas canvas) {
-        displayText(canvas, "Speed:" + spaceship.ySpeed, spaceship.x + 200, spaceship.y);
-        displayText(canvas, "Angle:" + spaceship.circleAngle, spaceship.x + 200, spaceship.y + 50);
-        displayText(canvas, "X:" + spaceship.x, spaceship.x + 200, spaceship.y + 100);
-        displayText(canvas, "Y:" + spaceship.y, spaceship.x + 200, spaceship.y + 150);
-        displayText(canvas, "FPS:" + Float.toString(fps), spaceship.x + 200, spaceship.y + 200);
-    }
-
-    void drawSprites(Canvas canvas) {
-        Star.drawStars(stars, canvas);
-        Planet.drawPlanets(planets, canvas);
-
-        spaceship.draw(canvas);
-
-
-    }
-
-    void showCenter(Sprite sprite) {
-        canvas.drawCircle(sprite.cx, sprite.cy, 10, paint);
-    }
-
-    public void draw(Canvas canvas) {
-
-        super.draw(canvas);
-        drawBackground(canvas);
-        drawSprites(canvas);
-
-    }
-
-
     @SuppressLint("ClickableViewAccessibility")
-    @Override
     public boolean onTouchEvent(MotionEvent event) {
         int e = event.getAction();
         if (e == MotionEvent.ACTION_DOWN) {
@@ -184,4 +108,97 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
         return true;
     }
+
+    public void loadSprites() {
+        space = BitmapFactory.decodeResource(getResources(), R.drawable.space);
+
+        spaceship = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.spaceship2));
+        Planet.loadPlanets(planets, getResources());
+        spaceship.ySpeed = -5;
+
+        for (int i = 0; i < stars.length; i++) {
+            stars[i] = new Star(5000, 5000);
+        }
+        Star.selectRandomStars(stars);
+
+    }
+
+    boolean isCollidingWithPlanets() {
+        for (Planet p : planets) {
+
+            if (p.active) {
+                if (spaceship.collisionDist(p) < 150) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void collisionHandler() {
+        if (isCollidingWithPlanets()) {
+          spaceship.ySpeed=0;
+
+        }
+    }
+
+    void showSpaceShipStats(Canvas canvas) {
+        displayText(canvas, "Speed:" + spaceship.ySpeed, spaceship.x + 200, spaceship.y);
+        displayText(canvas, "Angle:" + spaceship.circleAngle, spaceship.x + 200, spaceship.y + 50);
+        displayText(canvas, "X:" + spaceship.x, spaceship.x + 200, spaceship.y + 100);
+        displayText(canvas, "Y:" + spaceship.y, spaceship.x + 200, spaceship.y + 150);
+        displayText(canvas, "FPS:" + Float.toString(fps), spaceship.x + 200, spaceship.y + 200);
+    }
+
+    void drawSprites(Canvas canvas) {
+        //Star.drawStars(stars, canvas);
+        //Planet.drawPlanets(planets, canvas);
+        planets[0].draw(canvas);
+        spaceship.draw(canvas);
+    }
+
+    void showCenter(Sprite sprite) {
+        canvas.drawCircle(sprite.cx, sprite.cy, 10, paint);
+    }
+
+    void displayText(Canvas canvas, String text, float x, float y) {
+        Paint textPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
+        textPaint.setColor(Color.GREEN);
+        textPaint.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10, getResources().getDisplayMetrics()));
+
+        canvas.drawText(text, x, y, textPaint);
+    }
+
+
+
+    void drawBackground(Canvas canvas) {
+        canvas.drawColor(Color.BLACK);
+        Star.drawStars(stars, canvas);
+    }
+    public void draw(Canvas canvas) {
+
+        super.draw(canvas);
+        drawSprites(canvas);
+        showSpaceShipStats(canvas);
+    }
+    public void update(Canvas canvas) {
+
+
+        planets[0].setPos(canvasWidth / 2, canvasHeight / 2);
+        if (isDecreasing) {//decrease speed on touch
+            spaceship.ySpeed += 0.1;
+        }
+        if (spaceship.y < 0) {//spaceship reaches end of canvas
+           /* Star.setStars(stars, canvas);
+            Planet.loadPlanets(planets, getResources());*/
+            spaceship.y = canvasHeight;
+        } else {
+            spaceship.move();
+        }
+        collisionHandler();
+
+
+    }
+
+
 }
