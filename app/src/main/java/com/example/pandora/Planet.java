@@ -9,7 +9,7 @@ import java.util.Random;
 
 
 public class Planet extends Sprite {
-    private Sprite skyhook;
+    Sprite skyhook;
 
     Planet(Bitmap bmp) {
         image = bmp;
@@ -47,15 +47,16 @@ public class Planet extends Sprite {
 
     public void draw(Canvas canvas) {
         super.draw(canvas);
+        rotate((float) 0.5);
         drawSkyHook(canvas);
     }
 
     static void drawPlanets(Planet[] planets, Canvas canvas) {
         for (Planet p : planets) {
 
-            p.rotate(1);
+
             p.draw(canvas);
-            p.drawSkyHook(canvas);
+
         }
     }
 

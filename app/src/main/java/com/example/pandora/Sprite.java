@@ -12,7 +12,7 @@ public class Sprite {
     Bitmap image;
     float x, y;
     private boolean hasMatrix;
-    private float rotateAngle;
+    float rotateAngle;
     float circleAngle;
     float ySpeed;
     private float xSpeed;
@@ -45,19 +45,12 @@ public class Sprite {
         this.x += this.xSpeed;
         this.y += this.ySpeed;
         cx = x + image.getWidth() / 2;
-
         cy = y + image.getHeight() / 2;
         this.hasMatrix = false;
 
     }
 
-    double collisionDist(Sprite s2) {
-        double x = Math.pow(cx - s2.cx, 2);
-        double y = Math.pow(cy - s2.cy, 2);
-        double distance = Math.sqrt(x + y);
-        return distance;
 
-    }
 
     void revolve(Sprite planet) {
         moveIncircle(1, planet.image.getWidth() / 2 - 50, planet.x + planet.image.getWidth() / 2, planet.y + planet.image.getHeight() / 2);
@@ -87,7 +80,7 @@ public class Sprite {
 
     void rotate(float angle) {
         rotateAngle += angle;
-        if (this.rotateAngle >= 360) {
+        if (this.rotateAngle >= 360 ) {
             this.rotateAngle = 0;
         }
         this.matrix = new Matrix();
