@@ -100,7 +100,11 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
             update(canvas);
         } else if (e == MotionEvent.ACTION_UP) {
-            spaceship.unhook();
+
+            if (spaceship.isHooked) {
+                spaceship.unhook();
+            }
+
 
             spaceship.ySpeed = -5;
             isDecreasing = false;
@@ -129,13 +133,13 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public boolean collisionHandler() {//handles spaceship collision and resets the position
 
-        int minCollideDistance = 300;
 
         for (Planet p : planets) {
 
             if (p.active) {
-                if (spaceship.collisionDist(p) < minCollideDistance) {
+                if (spaceship.collisionDist(p) < spaceship.minCollideDistance) {
                     if (!spaceship.isHooked) {
+                        spaceship.hookedPLanet = p;
                         return true;
                     }
                 }
@@ -153,8 +157,8 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     void drawSprites(Canvas canvas) {
-        //Star.drawStars(stars, canvas);
-        //Planet.drawPlanets(planets, canvas);
+        Star.drawStars(stars, canvas);
+        Planet.drawPlanets(planets, canvas);
         planets[0].draw(canvas);
         spaceship.draw(canvas);
     }
@@ -188,7 +192,6 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     public void update(Canvas canvas) {
 
 
-        planets[0].setPos(canvasWidth / 2, canvasHeight / 2);
         if (isDecreasing) {//decrease speed on touch
             if (spaceship.ySpeed >= 0) {
                 spaceship.ySpeed = 0;
@@ -196,13 +199,13 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
                 spaceship.ySpeed += 0.1;
             }
         }
-        if (spaceship.y < 0) {//spaceship reaches end of canvas
-           /* Star.setStars(stars, canvas);
-            Planet.loadPlanets(planets, getResources());*/
+        if (spaceship.y < 0 && !spaceship.isHooked) {//spaceship reaches end of canvas
+            Star.setStars(stars, canvas);
+            Planet.loadPlanets(planets, getResources());
             spaceship.y = canvasHeight;
         } else if (collisionHandler() || spaceship.isHooked) {
 
-            spaceship.revolve(planets[0]);
+            spaceship.revolve();
         } else {
             spaceship.move();
         }

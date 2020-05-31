@@ -10,8 +10,9 @@ public class Spaceship extends Sprite {
     Spaceship(Bitmap bmp) {
         super(bmp);
         isHooked = false;
+        minCollideDistance=300;
     }
-
+    int minCollideDistance;
     Planet hookedPLanet;
     boolean isHooked;
 
@@ -24,17 +25,17 @@ public class Spaceship extends Sprite {
 
     void unhook() {
         isHooked = false;
-        setPos(hookedPLanet.cx, hookedPLanet.cy - 300);
+        setPos(hookedPLanet.cx, hookedPLanet.cy - minCollideDistance-100);
     }
 
-    void revolve(Planet planet) {
-        hookedPLanet = planet;
+    void revolve() {
+
         if (!isHooked) {
-            rotateAngle = planet.skyhook.rotateAngle + 180;
+
             isHooked = true;
         }
-        setPos(planet.skyhook.cx, planet.skyhook.cy);
-        rotate(1);
+        setPos(hookedPLanet.skyhook.cx, hookedPLanet.skyhook.cy);
+        setRotateAngle(hookedPLanet.skyhook.rotateAngle+180);
 
     }
 
