@@ -10,7 +10,7 @@ public class Spaceship extends Sprite {
     Spaceship(Bitmap bmp) {
         super(bmp);
         isHooked = false;
-        minCollideDistance=300;
+        minCollideDistance=100;
     }
     int minCollideDistance;
     Planet hookedPLanet;

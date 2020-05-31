@@ -175,24 +175,18 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         canvas.drawText(text, x, y, textPaint);
     }
 
-
-    void drawBackground(Canvas canvas) {
-        canvas.drawColor(Color.BLACK);
-        Star.drawStars(stars, canvas);
-    }
-
     public void draw(Canvas canvas) {
 
         super.draw(canvas);
+
         drawSprites(canvas);
-        showSpaceShipStats(canvas);
         displayText(canvas, Float.toString(fps), canvasWidth - 150, 50);
     }
 
     public void update(Canvas canvas) {
 
 
-        if (isDecreasing) {//decrease speed on touch
+        if (isDecreasing) {//decrease speed on touch down
             if (spaceship.ySpeed >= 0) {
                 spaceship.ySpeed = 0;
             } else {
@@ -203,13 +197,12 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
             Star.setStars(stars, canvas);
             Planet.loadPlanets(planets, getResources());
             spaceship.y = canvasHeight;
-        } else if (collisionHandler() || spaceship.isHooked) {
+        } else if (collisionHandler() || spaceship.isHooked) {//handles collision with a planet
 
-            spaceship.revolve();
-        } else {
+            spaceship.revolve();//hooks spaceship to the skyhook
+        } else {//move straight up with ySpeed
             spaceship.move();
         }
-        //collisionHandler();
 
 
     }
