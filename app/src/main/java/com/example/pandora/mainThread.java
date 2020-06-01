@@ -33,9 +33,10 @@ public class mainThread extends Thread {
                 }
                 synchronized (surfaceHolder) {
 
-                    this.game.update(gameView.canvas);
+                    game.draw(gameView.canvas);
+                    game.update(gameView.canvas);
 
-                    this.game.draw(gameView.canvas);
+
                 }
             } catch (Exception ignored) {
             } finally {

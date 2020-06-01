@@ -37,10 +37,8 @@ public class Planet extends Sprite {
     }
 
     private void drawSkyHook(Canvas canvas) {
-
-
         skyhook.draw(canvas);
-        skyhook.setRotateAngle(skyhook.circleAngle);
+        skyhook.rotate(skyhook.circleAngle-skyhook.rotateAngle);
         skyhook.revolve(this);
 
     }
