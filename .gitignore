@@ -1,0 +1,5 @@
+.idea/
+.gradle/
+*.bin
+*.bin
+.gradle/5.6.4/executionHistory/executionHistory.lock

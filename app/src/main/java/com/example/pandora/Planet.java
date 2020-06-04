@@ -10,41 +10,50 @@ import java.util.Random;
 
 public class Planet extends Sprite {
     Sprite skyhook;
+    static Random rand;
 
     Planet(Bitmap bmp) {
-        image = bmp;
+        super(bmp);
+        rand = new Random();
     }
 
-    static void loadPlanets(Planet[] planets, Resources r) {
+
+    static void loadPlanets(Planet[] planets, Resources r,int maxWidth,int maxHeight) {
 
         int id = R.drawable.planet1;
-        Random rand = new Random();
+
         for (int i = 0; i < planets.length; i++) {
             planets[i] = new Planet(BitmapFactory.decodeResource(r, id));
             planets[i].skyhook = new Sprite(BitmapFactory.decodeResource(r, R.drawable.skyhook));
             id++;
-            float x = rand.nextInt(400) + 100;
-            float posY;
-            try {
-                posY = rand.nextInt(500) + 2 * planets[i - 1].y + 300;
-            } catch (ArrayIndexOutOfBoundsException e) {
-                posY = rand.nextInt(300) + 100;
+            float x, y;
+            x = 100 + rand.nextInt(maxWidth-200);
+
+            if (i == 0) {
+
+                y = 100 + rand.nextInt(300);
+            } else {
+
+                y = planets[i - 1].cy + 600;
             }
 
-            planets[i].setPos(x, posY);
-
+            if(y>maxHeight-200){
+                y=maxHeight-200-rand.nextInt(300);
+            }
+            planets[i].setPos(x,y);
         }
     }
 
     private void drawSkyHook(Canvas canvas) {
         skyhook.draw(canvas);
-        skyhook.rotate(skyhook.circleAngle-skyhook.rotateAngle);
+        skyhook.rotate(skyhook.circleAngle - skyhook.rotateAngle);
         skyhook.revolve(this);
 
     }
 
     public void draw(Canvas canvas) {
         super.draw(canvas);
+        
         rotate((float) 0.5);
         drawSkyHook(canvas);
     }

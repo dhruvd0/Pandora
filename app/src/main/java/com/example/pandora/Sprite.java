@@ -20,8 +20,10 @@ public class Sprite {
     float cx, cy;//center of sprite
     double collisionDistance;
     boolean active;//true if sprite is drawn on canvas
+    int imgWidth,imgHeight;
+    Matrix matrix;
 
-    public Sprite() {
+    public Sprite(Bitmap bmp) {
         x = 0;
         y = 0;
         hasMatrix = false;
@@ -29,14 +31,11 @@ public class Sprite {
         paint.setColor(Color.GREEN);
         active = false;
         rotateAngle = 0;
+        paint.setStyle(Paint.Style.STROKE);
         matrix = new Matrix();
-    }
-
-    Matrix matrix;
-
-    public Sprite(Bitmap bmp) {
         image = bmp;
-
+        imgWidth=image.getWidth();
+        imgHeight=image.getHeight();
 
     }
 

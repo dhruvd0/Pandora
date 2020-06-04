@@ -34,14 +34,15 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     float canvasHeight, canvasWidth;
     Star[] stars;
     boolean spaceshipNearPlanet;
-
-    static boolean isDecreasing;
+    Bitmap spaceshipImg, SpaceshipImgGreen;
+    static boolean touchDown;
 
     public gameView(Context context) {
 
         super(context);
         spaceshipNearPlanet = false;
-
+        spaceshipImg = BitmapFactory.decodeResource(getResources(), R.drawable.spaceship);
+        SpaceshipImgGreen = BitmapFactory.decodeResource(getResources(), R.drawable.green);
         thread = new mainThread(getHolder(), this);
         getHolder().addCallback(this);
 
@@ -96,24 +97,25 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     public boolean onTouchEvent(MotionEvent event) {
         int e = event.getAction();
         if (e == MotionEvent.ACTION_DOWN) {
-            isDecreasing = true;
+            touchDown = true;
 
-            update(canvas);
         } else if (e == MotionEvent.ACTION_UP) {
+            touchDown = false;
+            if (spaceshipNearPlanet) {
 
-            if (spaceshipNearPlanet && !spaceship.isHooked) {
                 spaceship.isHooked = true;
+                spaceship.image = spaceshipImg;
+                spaceshipNearPlanet = false;
+
 
             } else if (spaceship.isHooked) {
-                
+
+                spaceship.hookedPLanet = null;
                 spaceship.unhook();
                 spaceshipNearPlanet = false;
             }
-
-
-            spaceship.move();
-            isDecreasing = false;
-            update((canvas));
+            spaceship.xSpeed=5;
+            spaceship.ySpeed=-5;
         }
 
 
@@ -124,8 +126,8 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     public void loadSprites() {
         space = BitmapFactory.decodeResource(getResources(), R.drawable.space);
 
-        spaceship = new Spaceship(BitmapFactory.decodeResource(getResources(), R.drawable.spaceship2));
-        Planet.loadPlanets(planets, getResources());
+        spaceship = new Spaceship(spaceshipImg);
+        Planet.loadPlanets(planets, getResources(), scr_wid, scr_hei);
         spaceship.ySpeed = -5;
 
         for (int i = 0; i < stars.length; i++) {
@@ -136,26 +138,24 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
 
-    public void collisionHandler() {//handles spaceship collision and resets the position
+     boolean collisionHandler() {//handles spaceship collision and resets the position
 
 
         for (Planet p : planets) {
 
             if (p.active) {
-                if (spaceship.collisionDist(p) < spaceship.minCollideDistance) {
+                if (spaceship.collisionDist(p) <= spaceship.minCollideDistance) {
                     if (!spaceship.isHooked) {
-                        spaceship.image=BitmapFactory.decodeResource(getResources(), R.drawable.green);
-                        spaceshipNearPlanet = true;
+
+                        spaceship.image = SpaceshipImgGreen;
                         spaceship.hookedPLanet = p;
-                        return;
+                        return true;
                     }
-                    else{
-                        spaceship.image=BitmapFactory.decodeResource(getResources(), R.drawable.spaceship2);
-                    }
+
                 }
             }
         }
-
+        return false;
     }
 
     void showSpaceShipStats(Canvas canvas) {
@@ -196,32 +196,40 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void update(Canvas canvas) {
 
-        planets[0].setPos(canvasWidth / 2, canvasHeight / 2);
-        if (isDecreasing) {//decrease speed on touch down
 
-           //touch down to decrease
+        if (touchDown) {//decrease speed on touch down
+
+            spaceship.ySpeed += 0.1;
+            spaceship.xSpeed -= 0.1;
+            if(spaceship.ySpeed>=0 || spaceship.xSpeed<=0){
+                spaceship.ySpeed=0;
+                spaceship.xSpeed=0;
+            }
         }
-        if (spaceship.y < 0 && !spaceship.isHooked) {//spaceship reaches end of canvas
+        if (spaceship.reachedYBound(canvas)) {//spaceship reaches end of canvas
             Star.setStars(stars, canvas);
-            Planet.loadPlanets(planets, getResources());
-            spaceship.y = canvasHeight;
+            Planet.loadPlanets(planets, getResources(), scr_wid, scr_hei);
+
         } else if (spaceship.isHooked) {//handles collision with a planet
-
-
             spaceship.revolve();
 
+        } else {//move with ySpeed,xSpeed and rotateAngle
 
-        } else {//move straight up with ySpeed
 
-            collisionHandler();
-
+            if(collisionHandler()){
+                spaceshipNearPlanet=true;
+            }
+            else {
+                spaceshipNearPlanet=false;
+            }
             spaceship.move();
             if (spaceship.afterUnhookAngle != -1) {
                 spaceship.rotate(spaceship.rotateAngle - spaceship.afterUnhookAngle);
             }
-            if(spaceship.collisionDist(spaceship.hookedPLanet)>spaceship.minCollideDistance){
-                spaceship.image=BitmapFactory.decodeResource(getResources(), R.drawable.spaceship2);
+            if (spaceship.collisionDist(spaceship.hookedPLanet) > spaceship.minCollideDistance) {
+                spaceship.image = spaceshipImg;
             }
+
 
         }
 

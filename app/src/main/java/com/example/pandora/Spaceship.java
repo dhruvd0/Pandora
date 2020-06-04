@@ -1,21 +1,22 @@
 package com.example.pandora;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.util.TypedValue;
 
-public class Spaceship extends Sprite {
+
+class Spaceship extends Sprite {
     Spaceship(Bitmap bmp) {
         super(bmp);
         isHooked = false;
         minCollideDistance = 200;
-        xSpeed=5;
-        ySpeed=-5;
-        afterUnhookAngle=-1;
+        xSpeed = 5;
+        ySpeed = -5;
+        afterUnhookAngle = -1;
+        hookedPLanet = null;
+        health=100;
     }
-
+    int health;
     int minCollideDistance;
     Planet hookedPLanet;
     boolean isHooked;
@@ -28,6 +29,32 @@ public class Spaceship extends Sprite {
 
     }
 
+    boolean reachedXBound(Canvas canvas) {
+        if (!isHooked) {
+            if (x < 0 || x > canvas.getWidth()) {
+                health=0;
+                return true;
+
+            }
+
+        }
+        return false;
+    }
+    boolean reachedYBound(Canvas canvas){
+        if (!isHooked) {
+            if (y<0) {
+
+                return true;
+
+            }
+            else if(y>canvas.getHeight()){
+                health=0;
+            }
+
+        }
+        return false;
+    }
+
     @Override
     void move() {
 
@@ -36,28 +63,22 @@ public class Spaceship extends Sprite {
 
         this.x += this.xSpeed * Math.sin(angle);
         this.y += this.ySpeed * Math.cos(angle);
-        cx = x + image.getWidth() / 2;
-        cy = y + image.getHeight() / 2;
+        cx = x + (imgWidth / 2);
+        cy = y + (imgHeight / 2);
         hasMatrix = false;
 
     }
-    void showHeading(Canvas canvas,Paint paint){
 
-        double angle=Math.toRadians(180-rotateAngle);
-        float endx= (float) (cx+300*Math.sin(angle));
-        float endy= (float) (cy+300*Math.cos(angle));
-        canvas.drawLine(cx,cy,endx,endy,paint);
-        canvas.drawCircle(endx,endy,10,paint);
-    }
     void unhook() {
 
-        isHooked=false;
-        double angle=Math.toRadians(180-rotateAngle);
-        float endx= (float) (cx+50*Math.sin(angle));
-        float endy= (float) (cy+50*Math.cos(angle));
         isHooked = false;
-        afterUnhookAngle=rotateAngle;
-        setPos(endx,endy);
+        double angle = Math.toRadians(180 - rotateAngle);
+        float endx = (float) (cx + 50 * Math.sin(angle));
+        float endy = (float) (cy + 50 * Math.cos(angle));
+        isHooked = false;
+        afterUnhookAngle = rotateAngle;
+        setPos(endx, endy);
+        hookedPLanet = null;
 
     }
 
@@ -68,8 +89,8 @@ public class Spaceship extends Sprite {
             isHooked = true;
         }
         setPos(hookedPLanet.skyhook.cx, hookedPLanet.skyhook.cy);
-        float angleOffset=hookedPLanet.skyhook.rotateAngle-rotateAngle+180;
-        rotate((float) angleOffset);
+        float angleOffset = hookedPLanet.skyhook.rotateAngle - rotateAngle + 180;
+        rotate(angleOffset);
 
     }
 
