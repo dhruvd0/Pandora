@@ -43,7 +43,7 @@ class Spaceship extends Sprite {
     boolean reachedYBound(Canvas canvas){
         if (!isHooked) {
             if (y<0) {
-
+                y=canvas.getHeight();
                 return true;
 
             }
