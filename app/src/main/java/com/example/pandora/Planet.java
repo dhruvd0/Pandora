@@ -27,7 +27,7 @@ public class Planet extends Sprite {
             planets[i].skyhook = new Sprite(BitmapFactory.decodeResource(r, R.drawable.skyhook));
             id++;
             float x, y;
-            x = 100 + rand.nextInt(maxWidth-200);
+            x = 300 + rand.nextInt(maxWidth-400);
 
             if (i == 0) {
 

@@ -19,7 +19,7 @@ public class mainThread extends Thread {
 
     @Override
     public void run() {
-        Log.i("print", "run()");
+
         while (isRunning) {
             long pTime = SystemClock.elapsedRealtime();
             gameView.canvas = null;
@@ -33,8 +33,10 @@ public class mainThread extends Thread {
                 }
                 synchronized (surfaceHolder) {
 
+
                     game.draw(gameView.canvas);
                     game.update(gameView.canvas);
+
 
 
                 }
