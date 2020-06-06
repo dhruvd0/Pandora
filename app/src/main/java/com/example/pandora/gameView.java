@@ -114,7 +114,11 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         }
         return false;
     }
-
+    void restart(){
+        pause();
+        loadSprites();
+        resume();
+    }
     void pause(){
        isPlaying=false;
        thread.setRunning(false);
@@ -179,14 +183,11 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
 
         }
-        if(spaceship.health<=0){
 
-            pause();
-        }
 
     }
 
-    @SuppressLint("ClickableViewAccessibility")
+
     void drawSprites(Canvas canvas) {
         Star.drawStars(stars, canvas);
         Planet.drawPlanets(planets, canvas);
@@ -210,15 +211,11 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
      public boolean onTouchEvent(MotionEvent event) {
         int e = event.getAction();
         if (e == MotionEvent.ACTION_DOWN) {
-            touchDown = true;
+            touchDown = false;
 
         } else if (e == MotionEvent.ACTION_UP) {
-            if(isPlaying){
-                pause();
-            }
-            else{
-                resume();
-            }
+
+
             touchDown = false;
             if (spaceshipNearPlanet) {
 
@@ -232,6 +229,9 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
                 spaceship.hookedPLanet = null;
                 spaceship.unhook();
                 spaceshipNearPlanet = false;
+            }
+            else {
+                restart();
             }
             spaceship.xSpeed = 5;
             spaceship.ySpeed = -5;
