@@ -84,7 +84,7 @@ class Spaceship extends Sprite {
 
     void revolve() {
 
-        energy+=0.1;
+        energy+=1;
         if(energy>100){
             energy=100;
         }
