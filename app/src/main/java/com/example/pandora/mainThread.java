@@ -9,17 +9,21 @@ public class mainThread extends Thread {
     final SurfaceHolder surfaceHolder;//class that handles the surface functions
     gameView game;
     private boolean isRunning;//current state of the thread
-
+    static int threadCount=0;
     mainThread(SurfaceHolder surfaceHolder, gameView game) {
+
         super();
+        threadCount++;
+        setName("GameThread:"+threadCount);
         Log.i("print", "mainThread()");
         this.surfaceHolder = surfaceHolder;
         this.game = game;
+        setPriority(10);
     }
 
     @Override
     public void run() {
-        Log.i("print", "run()");
+
         while (isRunning) {
             long pTime = SystemClock.elapsedRealtime();
             gameView.canvas = null;
@@ -33,9 +37,9 @@ public class mainThread extends Thread {
                 }
                 synchronized (surfaceHolder) {
 
+
                     game.draw(gameView.canvas);
                     game.update(gameView.canvas);
-
 
                 }
             } catch (Exception ignored) {
@@ -55,10 +59,13 @@ public class mainThread extends Thread {
             }
 
         }
+        if(!isRunning){
+           isRunning=true;
+        }
     }
 
     void setRunning(boolean isRunning) {
-        Log.i("print", "setRunning()");
+
         this.isRunning = isRunning;
     }
 }
