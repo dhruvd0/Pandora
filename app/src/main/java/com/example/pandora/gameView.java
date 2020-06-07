@@ -189,6 +189,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
     void displayText(Canvas canvas, String text, float x, float y) {
         Paint textPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
+        textPaint.setTextAlign(Paint.Align.CENTER);
         textPaint.setColor(Color.GREEN);
         textPaint.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10, getResources().getDisplayMetrics()));
 
@@ -202,6 +203,9 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
         spaceship.draw(canvas);
         Obstacles.drawObstacles(meteors, canvas);
+
+    }
+    void pause(){
 
     }
 
@@ -232,7 +236,10 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
             }
             spaceship.energy -= 0.1;
         }
-
+        if(spaceship.health<=0){
+            displayText(canvas,"Game Over Your Health is 0",canvasWidth/2,canvasHeight/2);
+            pause();
+        }
         if (spaceship.reachedBounds(canvas)) {//spaceship reaches end of canvas
             Star.setStars(stars, canvas);
             Planet.loadPlanets(planets, getResources(), scr_wid, scr_hei);
