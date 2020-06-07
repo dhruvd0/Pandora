@@ -40,7 +40,8 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     Obstacles[] meteors = new Obstacles[3];
     boolean isPlaying;
     Button pauseButton;
-    Wormwhole wormwhole_in,wormhole_out;
+    Wormwhole wormwhole_in, wormhole_out;
+
     public gameView(Context context) {
 
         super(context);
@@ -48,9 +49,9 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         spaceshipImg = BitmapFactory.decodeResource(getResources(), R.drawable.spaceship);
         SpaceshipImgGreen = BitmapFactory.decodeResource(getResources(), R.drawable.green);
         getHolder().addCallback(this);
-        isPlaying=true;
-        wormwhole_in=new Wormwhole(BitmapFactory.decodeResource(getResources(), R.drawable.wormhole_in));
-        wormhole_out=new Wormwhole(BitmapFactory.decodeResource(getResources(), R.drawable.wormhole_out));
+        isPlaying = true;
+        wormwhole_in = new Wormwhole(BitmapFactory.decodeResource(getResources(), R.drawable.wormhole_in));
+        wormhole_out = new Wormwhole(BitmapFactory.decodeResource(getResources(), R.drawable.wormhole_out));
 
         setFocusable(true);
 
@@ -68,7 +69,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
     }
 
-     void loadSprites() {
+    void loadSprites() {
         space = BitmapFactory.decodeResource(getResources(), R.drawable.space);
 
         for (int i = 0; i < meteors.length; i++) {
@@ -76,7 +77,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         }
         spaceship = new Spaceship(spaceshipImg);
         Planet.loadPlanets(planets, getResources(), scr_wid, scr_hei);
-        spaceship.ySpeed = -5;
+
 
         for (int i = 0; i < stars.length; i++) {
             stars[i] = new Star(5000, 5000);
@@ -92,7 +93,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
             if (m.active) {
                 if (spaceship.collisionDist(m) <= 100) {
 
-                  return true;
+                    return true;
                 }
             }
         }
@@ -118,23 +119,27 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         }
         return false;
     }
-    void restart(){
+
+    void restart() {
         pause();
         loadSprites();
         resume();
     }
-    void pause(){
-       isPlaying=false;
-       thread.setRunning(false);
+
+    void pause() {
+        isPlaying = false;
+        thread.setRunning(false);
 
     }
-    void resume(){
-        isPlaying=true;
-        thread=new mainThread(getHolder(),this);
+
+    void resume() {
+        isPlaying = true;
+        thread = new mainThread(getHolder(), this);
         thread.setRunning(true);
         thread.start();
 
     }
+
     public void update(Canvas canvas) {
 
         Obstacles.update(meteors);
@@ -149,14 +154,14 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
                 spaceship.ySpeed = 0;
                 spaceship.xSpeed = 0;
             }
-            if(!spaceship.isHooked){
+            if (!spaceship.isHooked) {
                 spaceship.energy -= 0.1;
             }
 
-            
+
         }
-        if(spaceship.health<=0){
-            displayText(canvas,"Game Over Your Health is 0",canvasWidth/2,canvasHeight/2);
+        if (spaceship.health <= 0) {
+            displayText(canvas, "Game Over Your Health is 0", canvasWidth / 2, canvasHeight / 2);
             pause();
         }
         if (spaceship.reachedBounds(canvas)) {//spaceship reaches end of canvas
@@ -168,17 +173,13 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
         } else {//move with ySpeed,xSpeed and rotateAngle
 
-            if (obstacleCollision()){
-                spaceship.health-=2;
-                if(spaceship.health<0){
-                    spaceship.health=0;
+            if (obstacleCollision()) {
+                spaceship.health -= 2;
+                if (spaceship.health < 0) {
+                    spaceship.health = 0;
                 }
             }
-                if (collisionHandler()) {
-                    spaceshipNearPlanet = true;
-                } else {
-                    spaceshipNearPlanet = false;
-                }
+            spaceshipNearPlanet = planetCollision();
             spaceship.move();
 
             if (spaceship.afterUnhookAngle != -1) {
@@ -208,17 +209,17 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         super.draw(canvas);
 
         drawSprites(canvas);
-        displayText(canvas, Float.toString(fps), canvasWidth - 150, 50);
-        displayText(canvas, "Energy:" + spaceship.energy, 100, 100);
-        displayText(canvas, "Health:" + spaceship.health, 300, 100);
+
+        displayText(canvas, "Energy:" + spaceship.energy, canvasWidth - 150, 100);
+        displayText(canvas, "Health:" + spaceship.health, canvasWidth - 150, 200);
 
     }
 
     @SuppressLint("ClickableViewAccessibility")
-     public boolean onTouchEvent(MotionEvent event) {
+    public boolean onTouchEvent(MotionEvent event) {
         int e = event.getAction();
         if (e == MotionEvent.ACTION_DOWN) {
-            touchDown = false;
+            touchDown = true;
 
         } else if (e == MotionEvent.ACTION_UP) {
 
@@ -233,15 +234,12 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
             } else if (spaceship.isHooked) {
 
-                spaceship.hookedPLanet = null;
+                spaceship.hookedPlanet = null;
                 spaceship.unhook();
                 spaceshipNearPlanet = false;
             }
-            else {
-                restart();
-            }
-            spaceship.xSpeed = 5;
-            spaceship.ySpeed = -5;
+            spaceship.xSpeed = 10;
+            spaceship.ySpeed = -10;
         }
 
 
@@ -288,6 +286,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
     void displayText(Canvas canvas, String text, float x, float y) {
         Paint textPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
+        textPaint.setTextAlign(Paint.Align.CENTER);
         textPaint.setColor(Color.GREEN);
         textPaint.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10, getResources().getDisplayMetrics()));
 
