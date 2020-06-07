@@ -40,6 +40,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     Obstacles[] meteors = new Obstacles[3];
     boolean isPlaying;
     Button pauseButton;
+    Wormwhole wormwhole_in,wormhole_out;
     public gameView(Context context) {
 
         super(context);
@@ -48,6 +49,9 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         SpaceshipImgGreen = BitmapFactory.decodeResource(getResources(), R.drawable.green);
         getHolder().addCallback(this);
         isPlaying=true;
+        wormwhole_in=new Wormwhole(BitmapFactory.decodeResource(getResources(), R.drawable.wormhole_in));
+        wormhole_out=new Wormwhole(BitmapFactory.decodeResource(getResources(), R.drawable.wormhole_out));
+
         setFocusable(true);
 
         paint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
@@ -105,7 +109,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
                     if (!spaceship.isHooked) {
 
                         spaceship.image = SpaceshipImgGreen;
-                        spaceship.hookedPLanet = p;
+                        spaceship.hookedPlanet = p;
                         return true;
                     }
 
@@ -133,7 +137,6 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     }
     public void update(Canvas canvas) {
 
-
         Obstacles.update(meteors);
 
         if (touchDown) {//decrease speed on touch down
@@ -150,8 +153,12 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
                 spaceship.energy -= 0.1;
             }
 
+            
         }
-
+        if(spaceship.health<=0){
+            displayText(canvas,"Game Over Your Health is 0",canvasWidth/2,canvasHeight/2);
+            pause();
+        }
         if (spaceship.reachedBounds(canvas)) {//spaceship reaches end of canvas
             Star.setStars(stars, canvas);
             Planet.loadPlanets(planets, getResources(), scr_wid, scr_hei);
@@ -161,23 +168,23 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
         } else {//move with ySpeed,xSpeed and rotateAngle
 
-            if(obstacleCollision()){
-                spaceship.health-=10;
+            if (obstacleCollision()){
+                spaceship.health-=2;
                 if(spaceship.health<0){
                     spaceship.health=0;
                 }
             }
-            if (planetCollision()) {
-                spaceshipNearPlanet = true;
-            } else {
-                spaceshipNearPlanet = false;
-            }
+                if (collisionHandler()) {
+                    spaceshipNearPlanet = true;
+                } else {
+                    spaceshipNearPlanet = false;
+                }
             spaceship.move();
 
             if (spaceship.afterUnhookAngle != -1) {
                 spaceship.rotate(spaceship.rotateAngle - spaceship.afterUnhookAngle);
             }
-            if (spaceship.collisionDist(spaceship.hookedPLanet) > spaceship.minCollideDistance) {
+            if (spaceship.collisionDist(spaceship.hookedPlanet) > spaceship.minCollideDistance) {
                 spaceship.image = spaceshipImg;
             }
 

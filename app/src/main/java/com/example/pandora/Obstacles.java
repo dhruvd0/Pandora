@@ -5,11 +5,11 @@ import android.graphics.Canvas;
 
 import java.util.Random;
 
-public class Obstacles extends Sprite {
+ class Obstacles extends Sprite {
 
-    Random rand;
+    private Random rand;
     boolean rot;
-    public  Obstacles(Bitmap img){
+      Obstacles(Bitmap img){
         super(img);
         rand=new Random();
         xSpeed=10;
@@ -18,27 +18,27 @@ public class Obstacles extends Sprite {
        setRandomPos();
 
     }
-    void setRandomPos(){
+    private void setRandomPos(){
         if(rand.nextBoolean()){
             x=0;
-            rotateAngle=1+rand.nextInt(179);
+            rotateAngle=40+rand.nextInt(70);
         }
         else {
             x=1024;
-            rotateAngle=180+rand.nextInt(179);
+            rotateAngle=250+rand.nextInt(100);
 
         }
 
 
 
-        y=100+rand.nextInt(700);
+        y=300+rand.nextInt(900);
     }
-    static void update(Obstacles obstacles[]){
+    static void update(Obstacles[] obstacles){
         for(Obstacles obstacle:obstacles){
             obstacle.move();
         }
     }
-    static void drawObstacles(Obstacles obstacles[],Canvas canvas){
+    static void drawObstacles(Obstacles[] obstacles, Canvas canvas){
         for(Obstacles obstacle:obstacles){
             obstacle.draw(canvas);
         }
@@ -59,8 +59,6 @@ public class Obstacles extends Sprite {
         rotateAngle=0;
         rotate(temp);
         rotateAngle=temp;
-
-
 
 
     }
