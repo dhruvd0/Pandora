@@ -31,7 +31,7 @@ public class Planet extends Sprite {
 
             if (i == 0) {
 
-                y = 100 + rand.nextInt(300);
+                y = 300 + rand.nextInt(400);
             } else {
 
                 y = planets[i - 1].cy + 600;

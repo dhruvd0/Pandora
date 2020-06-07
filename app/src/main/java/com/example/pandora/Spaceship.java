@@ -1,7 +1,6 @@
 package com.example.pandora;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
 
@@ -10,17 +9,17 @@ class Spaceship extends Sprite {
         super(bmp);
         isHooked = false;
         minCollideDistance = 200;
-        xSpeed = 5;
-        ySpeed = -5;
+        xSpeed = 10;
+        ySpeed = -10;
         afterUnhookAngle = -1;
-        hookedPLanet = null;
+        hookedPlanet = null;
         health=100;
         energy=100;
         rotateAngle=0;
     }
-    int health,energy;
+    float health,energy;
     int minCollideDistance;
-    Planet hookedPLanet;
+    Planet hookedPlanet;
     boolean isHooked;
     float afterUnhookAngle;
 
@@ -78,7 +77,7 @@ class Spaceship extends Sprite {
         isHooked = false;
         afterUnhookAngle = rotateAngle;
         setPos(endx, endy);
-        hookedPLanet = null;
+        hookedPlanet = null;
 
     }
 
@@ -92,8 +91,8 @@ class Spaceship extends Sprite {
 
             isHooked = true;
         }
-        setPos(hookedPLanet.skyhook.cx, hookedPLanet.skyhook.cy);
-        float angleOffset = hookedPLanet.skyhook.rotateAngle - rotateAngle + 180;
+        setPos(hookedPlanet.skyhook.cx, hookedPlanet.skyhook.cy);
+        float angleOffset = hookedPlanet.skyhook.rotateAngle - rotateAngle + 180;
         rotate(angleOffset);
 
     }
