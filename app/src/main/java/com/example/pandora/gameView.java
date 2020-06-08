@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -21,7 +22,7 @@ import android.widget.Button;
 public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     //basic surface class where we would create canvas and draw
     public static Canvas canvas;
-    mainThread thread = new mainThread(getHolder(), this);//start a thread when the surface is created;
+
     Spaceship spaceship;
     Planet[] planets = new Planet[3];
     Bitmap space;
@@ -41,8 +42,10 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     boolean isPlaying;
     Button pauseButton;
     Wormwhole wormwhole_in, wormhole_out;
-
-    public gameView(Context context) {
+    Thread gameThread;
+    Runnable gameActivity;
+    boolean tap;
+    public gameView(Context context,GameActivity gameActivity) {
 
         super(context);
         spaceshipNearPlanet = false;
@@ -66,7 +69,8 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         starCount = 300;
         stars = new Star[starCount];
         loadSprites();
-
+    //   this.gameActivity=gameActivity;
+       gameThread=new Thread(gameActivity);
     }
 
     void loadSprites() {
@@ -120,25 +124,6 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         return false;
     }
 
-    void restart() {
-        pause();
-        loadSprites();
-        resume();
-    }
-
-    void pause() {
-        isPlaying = false;
-        thread.setRunning(false);
-
-    }
-
-    void resume() {
-        isPlaying = true;
-        thread = new mainThread(getHolder(), this);
-        thread.setRunning(true);
-        thread.start();
-
-    }
 
     public void update(Canvas canvas) {
 
@@ -162,7 +147,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         }
         if (spaceship.health <= 0) {
             displayText(canvas, "Game Over Your Health is 0", canvasWidth / 2, canvasHeight / 2);
-            pause();
+            isPlaying=false;
         }
         if (spaceship.reachedBounds(canvas)) {//spaceship reaches end of canvas
             Star.setStars(stars, canvas);
@@ -220,10 +205,11 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         int e = event.getAction();
         if (e == MotionEvent.ACTION_DOWN) {
             touchDown = true;
+            tap=false;
 
         } else if (e == MotionEvent.ACTION_UP) {
 
-
+            tap=true;
             touchDown = false;
             if (spaceshipNearPlanet) {
 
@@ -238,6 +224,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
                 spaceship.unhook();
                 spaceshipNearPlanet = false;
             }
+
             spaceship.xSpeed = 10;
             spaceship.ySpeed = -10;
         }
@@ -249,10 +236,8 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
 
-        thread.setRunning(true);
-        // spaceshipCollisionThread.start();//thread checks spaceship's collision distance and displays message
-        thread.start();//start the main game loop
 
+        gameThread.start();
 
     }
 
@@ -263,17 +248,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        boolean retry = true;
-        while (retry) {
-            try {
-                thread.setRunning(false);//stops the thread when user quits
-                thread.join();
 
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            retry = false;
-        }
     }
 
     void showSpaceShipStats(Canvas canvas) {
