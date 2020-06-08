@@ -13,18 +13,16 @@ import android.view.WindowManager;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class GameActivity extends Activity implements Runnable {
-    gameView game;
+    Tutorial game;
     SurfaceHolder surfaceHolder;
     boolean isRunning;
-    GameActivity(){
-        super();
-    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         isRunning = true;
-        game = new gameView(this, this);
+        game = new Tutorial(this, this);
         surfaceHolder = game.getHolder();
         startGame(game);
     }

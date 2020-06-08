@@ -54,7 +54,7 @@ public class Sprite {
         moveIncircle(1, planet.image.getWidth() / 2 - 50, planet.x + planet.image.getWidth() / 2, planet.y + planet.image.getHeight() / 2);
     }
 
-    private void moveIncircle(float angle, float radius, float cx, float cy) {
+     void moveIncircle(float angle, float radius, float cx, float cy) {
 
 
         this.circleAngle += angle;

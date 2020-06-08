@@ -17,9 +17,9 @@ public class MainActivity extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
     }
 
-    void mainMenu() {
+/*    void mainMenu() {
         setContentView(R.layout.activity_main);
-        Button startButton = findViewById(R.id.tutorialButton);
+        Button startButton = findViewById(R.id.playButton);
         startButton.getBackground().setAlpha(0);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -27,13 +27,12 @@ public class MainActivity extends Activity {
                 startActivity(new Intent(MainActivity.this, GameActivity.class));
             }
         });
-    }
+    }*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setFullScreen();
-        mainMenu();
 
+        startActivity(new Intent(MainActivity.this, GameActivity.class));
     }
 }
