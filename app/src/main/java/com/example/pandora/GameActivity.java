@@ -1,25 +1,46 @@
 package com.example.pandora;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
-
 import android.view.SurfaceHolder;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
-public class mainThread extends Thread {
-     final SurfaceHolder surfaceHolder;//class that handles the surface functions
+import androidx.appcompat.app.AppCompatActivity;
+
+public class GameActivity extends Activity implements Runnable {
     gameView game;
-    private boolean isRunning;//current state of the thread
-    static int threadCount=0;
-    mainThread(SurfaceHolder surfaceHolder, gameView game) {
-
+    SurfaceHolder surfaceHolder;
+    boolean isRunning;
+    GameActivity(){
         super();
-        threadCount++;
-        setName("GameThread:"+threadCount);
-        Log.i("print", "mainThread()");
-        this.surfaceHolder = surfaceHolder;
-        this.game = game;
-        setPriority(10);
     }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        isRunning = true;
+        game = new gameView(this, this);
+        surfaceHolder = game.getHolder();
+        startGame(game);
+    }
+
+    public void setFullScreen() {//sets the view to full screen
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+    }
+
+    void startGame(gameView game) {
+        setFullScreen();
+        setContentView(game);
+    }
+
+
 
     @Override
     public void run() {
@@ -35,11 +56,14 @@ public class mainThread extends Thread {
                 if (game.spaceship.x <= 0 && game.spaceship.y <= 0) {
                     game.spaceship.setPos(game.canvasWidth / 2, game.canvasHeight);
                 }
+
                 synchronized (surfaceHolder) {
 
 
                     game.draw(gameView.canvas);
                     game.update(gameView.canvas);
+                    isRunning=game.isPlaying;
+
 
                 }
             } catch (Exception ignored) {
@@ -59,9 +83,10 @@ public class mainThread extends Thread {
             }
 
         }
-        if(!isRunning){
-           isRunning=true;
+        if(!game.isPlaying){
+            startActivity(new Intent(GameActivity.this,MainActivity.class));
         }
+
     }
 
     void setRunning(boolean isRunning) {
