@@ -4,25 +4,24 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.util.Log;
+
 import android.view.SurfaceHolder;
-import android.view.View;
+
 import android.view.Window;
 import android.view.WindowManager;
 
-import androidx.appcompat.app.AppCompatActivity;
 
 public class GameActivity extends Activity implements Runnable {
-    Tutorial game;
+    gameView game;
+    Tutorial tutorial;
     SurfaceHolder surfaceHolder;
     boolean isRunning;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         isRunning = true;
-        game = new Tutorial(this, this);
+        game = new gameView(this, this);
         surfaceHolder = game.getHolder();
         startGame(game);
     }
@@ -37,8 +36,6 @@ public class GameActivity extends Activity implements Runnable {
         setFullScreen();
         setContentView(game);
     }
-
-
 
     @Override
     public void run() {
@@ -60,7 +57,7 @@ public class GameActivity extends Activity implements Runnable {
 
                     game.draw(gameView.canvas);
                     game.update(gameView.canvas);
-                    isRunning=game.isPlaying;
+                    isRunning = game.isPlaying;
 
 
                 }
@@ -81,14 +78,10 @@ public class GameActivity extends Activity implements Runnable {
             }
 
         }
-        if(!game.isPlaying){
-            startActivity(new Intent(GameActivity.this,MainActivity.class));
+        if (!game.isPlaying) {
+            startActivity(new Intent(GameActivity.this, MainActivity.class));
         }
 
     }
 
-    void setRunning(boolean isRunning) {
-
-        this.isRunning = isRunning;
-    }
 }

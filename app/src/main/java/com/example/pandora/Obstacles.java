@@ -8,7 +8,7 @@ import java.util.Random;
  class Obstacles extends Sprite {
 
     private Random rand;
-    boolean rot;
+
       Obstacles(Bitmap img){
         super(img);
         rand=new Random();

@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class Planet extends Sprite {
     Sprite skyhook;
-    static Random rand;
+    private static Random rand;
 
     Planet(Bitmap bmp) {
         super(bmp);
@@ -18,7 +18,7 @@ public class Planet extends Sprite {
     }
 
 
-    static void loadPlanets(Planet[] planets, Resources r,int maxWidth,int maxHeight) {
+    static void loadPlanets(Planet[] planets, Resources r, int maxWidth, int maxHeight) {
 
         int id = R.drawable.planet1;
 
@@ -27,7 +27,7 @@ public class Planet extends Sprite {
             planets[i].skyhook = new Sprite(BitmapFactory.decodeResource(r, R.drawable.skyhook));
             id++;
             float x, y;
-            x = 300 + rand.nextInt(maxWidth-400);
+            x = 300 + rand.nextInt(maxWidth - 400);
 
             if (i == 0) {
 
@@ -37,10 +37,10 @@ public class Planet extends Sprite {
                 y = planets[i - 1].cy + 600;
             }
 
-            if(y>maxHeight-200){
-                y=maxHeight-200-rand.nextInt(300);
+            if (y > maxHeight - 200) {
+                y = maxHeight - 200 - rand.nextInt(300);
             }
-            planets[i].setPos(x,y);
+            planets[i].setPos(x, y);
         }
     }
 
@@ -53,14 +53,13 @@ public class Planet extends Sprite {
 
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        
+
         rotate((float) 0.5);
         drawSkyHook(canvas);
     }
 
     static void drawPlanets(Planet[] planets, Canvas canvas) {
         for (Planet p : planets) {
-
 
             p.draw(canvas);
 

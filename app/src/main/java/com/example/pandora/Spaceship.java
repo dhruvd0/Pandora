@@ -13,11 +13,12 @@ class Spaceship extends Sprite {
         ySpeed = -10;
         afterUnhookAngle = -1;
         hookedPlanet = null;
-        health=100;
-        energy=100;
-        rotateAngle=0;
+        health = 100;
+        energy = 100;
+        rotateAngle = 0;
     }
-    float health,energy;
+
+    float health, energy;
     int minCollideDistance;
     Planet hookedPlanet;
     boolean isHooked;
@@ -29,20 +30,20 @@ class Spaceship extends Sprite {
         return Math.sqrt(x + y);
 
     }
-    boolean reachedBounds(Canvas canvas){
+
+    boolean reachedBounds(Canvas canvas) {
         if (!isHooked) {
-            if (y<0) {
-                y=canvas.getHeight();
+            if (y < 0) {
+                y = canvas.getHeight();
                 return true;
 
             }
             if (x < 0) {
-                x=canvas.getWidth();
+                x = canvas.getWidth();
 
 
-            }
-            else if(x>canvas.getWidth()){
-                x=0;
+            } else if (x > canvas.getWidth()) {
+                x = 0;
             }
 
         }
@@ -60,8 +61,8 @@ class Spaceship extends Sprite {
         cx = x + (imgWidth / 2);
         cy = y + (imgHeight / 2);
 
-        if(energy<0){
-            energy=0;
+        if (energy < 0) {
+            energy = 0;
 
         }
         hasMatrix = false;
@@ -83,9 +84,9 @@ class Spaceship extends Sprite {
 
     void revolve() {
 
-        energy+=1;
-        if(energy>100){
-            energy=100;
+        energy += 1;
+        if (energy > 100) {
+            energy = 100;
         }
         if (!isHooked) {
 
