@@ -20,8 +20,9 @@ public class MainActivity extends Activity {
    void mainMenu() {
         setFullScreen();
         setContentView(R.layout.activity_main);
-        Button startButton = findViewById(R.id.playButton);
-        Button tutorialButton= findViewById(R.id.tButton);
+        Button startButton =(Button) findViewById(R.id.play);
+       Button startTutorial =(Button) findViewById(R.id.tutorial);
+       startTutorial.getBackground().setAlpha(0);
         startButton.getBackground().setAlpha(0);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -29,12 +30,13 @@ public class MainActivity extends Activity {
                 startActivity(new Intent(MainActivity.this, GameActivity.class));
             }
         });
-       tutorialButton.setOnClickListener(new View.OnClickListener() {
+       startTutorial.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
                startActivity(new Intent(MainActivity.this, TutorialActivity.class));
            }
        });
+
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {

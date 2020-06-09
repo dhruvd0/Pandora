@@ -77,7 +77,17 @@ public class GameActivity extends Activity implements Runnable {
 
         }
         if (!game.isPlaying) {
+            while (true) {
 
+                try {
+                    game.gameThread.join();
+                    break;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
             startActivity(new Intent(GameActivity.this, MainActivity.class));
 
 

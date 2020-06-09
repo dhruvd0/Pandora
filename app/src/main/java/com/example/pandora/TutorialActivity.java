@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.Window;
 import android.view.WindowManager;
@@ -40,7 +41,14 @@ public class TutorialActivity extends Activity implements Runnable {
             gameView.canvas = null;
 
             try {
-                gameView.canvas = this.surfaceHolder.lockCanvas();
+               try{
+                   gameView.canvas = this.surfaceHolder.lockCanvas();
+               }
+               catch (IllegalArgumentException e){
+                   surfaceHolder=game.getHolder();
+                   gameView.canvas = this.surfaceHolder.lockCanvas();
+               }
+
                 game.canvasHeight = gameView.canvas.getHeight();
                 game.canvasWidth = gameView.canvas.getWidth();
                 if (game.spaceship.x <= 0 && game.spaceship.y <= 0) {
@@ -75,11 +83,25 @@ public class TutorialActivity extends Activity implements Runnable {
         }
         if (!game.isPlaying) {
 
-            startActivity(new Intent(TutorialActivity.this, MainActivity.class));
-
+            quit();
 
         }
 
     }
 
+    void quit() {
+
+
+           game.gameThread.interrupt();
+
+            game.gameThread=new Thread(this);
+        startActivity(new Intent(TutorialActivity.this, MainActivity.class));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i("tut", "destroy");
+        quit();
+    }
 }
