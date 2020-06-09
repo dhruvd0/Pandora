@@ -1,31 +1,13 @@
 {
     "configurations": [
-        {
-            "type": "android",
-            "request": "launch",
-            "name": "Android Launch",
-            "preLaunchTask": "run gradle",
-            "appSrcRoot": "${workspaceRoot}/app/src/main",
-            "apkFile": "${workspaceRoot}/app/build/outputs/apk/debug/app-debug.apk",
-            // Fully qualified path to the AndroidManifest.xml file compiled into the APK.
-            // Default: "${appSrcRoot}/AndroidManifest.xml"
-            "manifestFile": "${workspaceRoot}/app/src/main/AndroidManifest.xml",
-            // Custom arguments passed to the Android package manager to install the app.
-            // Run 'adb shell pm' to show valid arguments. Default: ["-r"]
-            "pmInstallArgs": [
-                "-r"
-            ],
-            // Custom arguments passed to the Android application manager to start the app.
-            // Run `adb shell am` to show valid arguments.
-            // Note that `-D` is required to enable debugging.
-            "amStartArgs": [
-                "-D",
-                "--activity-brought-to-front",
-                "-a android.intent.action.MAIN",
-                "-c android.intent.category.LAUNCHER",
-                "-n package.name/launch.activity"
-            ],
-            "adbPort": 5037
-        }
+    {
+        "type": "android",
+        "request": "launch",
+        "name": "Android Launch",
+        "appSrcRoot": "${workspaceRoot}/app/src/main",
+        "apkFile": "${workspaceRoot}/app/build/outputs/apk/debug/app-debug.apk",
+        "adbPort": 5037,
+        "preLaunchTask": "run gradle"
+    }
     ]
 }

@@ -16,7 +16,7 @@ public class MainActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
     }
-
+/*
    void mainMenu() {
         setContentView(R.layout.activity_main);
         Button startButton = findViewById(R.id.playButton);
@@ -27,7 +27,7 @@ public class MainActivity extends Activity {
                 startActivity(new Intent(MainActivity.this, GameActivity.class));
             }
         });
-    }
+    }*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 

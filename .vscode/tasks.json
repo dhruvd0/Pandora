@@ -4,7 +4,10 @@
         {
             "label": "run gradle",
             "type": "shell",
-            "command": "${workspaceFolder}/gradlew assembleDebug",
+            "command": "${workspaceFolder}/gradlew",
+            "args": [
+                "assembleDebug"
+            ],
             "presentation": {
                 "echo": true,
                 "reveal": "always",

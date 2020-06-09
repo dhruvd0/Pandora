@@ -17,7 +17,6 @@ public class Planet extends Sprite {
         rand = new Random();
     }
 
-
     static void loadPlanets(Planet[] planets, Resources r, int maxWidth, int maxHeight) {
 
         int id = R.drawable.planet1;
