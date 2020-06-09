@@ -22,7 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     //basic surface class where we would create canvas and draw
-    public static Canvas canvas;
+    public  Canvas canvas;
     Spaceship spaceship;
     Planet[] planets = new Planet[3];
     Bitmap space;

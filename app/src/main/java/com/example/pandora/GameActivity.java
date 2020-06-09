@@ -40,12 +40,12 @@ public class GameActivity extends Activity implements Runnable {
 
         while (isRunning) {
             long pTime = SystemClock.elapsedRealtime();
-            gameView.canvas = null;
+            game.canvas = null;
 
             try {
-                gameView.canvas = this.surfaceHolder.lockCanvas();
-                game.canvasHeight = gameView.canvas.getHeight();
-                game.canvasWidth = gameView.canvas.getWidth();
+                game.canvas = this.surfaceHolder.lockCanvas();
+                game.canvasHeight = game.canvas.getHeight();
+                game.canvasWidth = game.canvas.getWidth();
                 if (game.spaceship.x <= 0 && game.spaceship.y <= 0) {
                     game.spaceship.setPos(game.canvasWidth / 2, game.canvasHeight);
                 }
@@ -53,27 +53,32 @@ public class GameActivity extends Activity implements Runnable {
                 synchronized (surfaceHolder) {
 
 
-                    game.draw(gameView.canvas);
-                    game.update(gameView.canvas);
+                    game.draw(game.canvas);
+                    game.update(game.canvas);
                     isRunning = game.isPlaying;
 
 
                 }
             } catch (Exception ignored) {
             } finally {
-                if (gameView.canvas != null) {
+                if (game.canvas != null) {
                     try {
-                        surfaceHolder.unlockCanvasAndPost(gameView.canvas);
+                        surfaceHolder.unlockCanvasAndPost(game.canvas);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
             }
             long cTime = SystemClock.elapsedRealtime();
-            long fps = 1000 / (cTime - pTime);
-            if (Math.abs(fps - game.fps) >= 5) {
-                game.fps = fps;
+            if(cTime-pTime!=0) {
+
+
+                long fps = 1000 / (cTime - pTime);
+                if (Math.abs(fps - game.fps) >= 5) {
+                    game.fps = fps;
+                }
             }
+
 
         }
         if (!game.isPlaying) {
