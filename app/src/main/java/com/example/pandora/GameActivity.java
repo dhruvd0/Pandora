@@ -13,7 +13,7 @@ import android.view.WindowManager;
 
 public class GameActivity extends Activity implements Runnable {
     gameView game;
-
+    Tutorial tutorial;
     SurfaceHolder surfaceHolder;
     boolean isRunning;
 
@@ -22,10 +22,8 @@ public class GameActivity extends Activity implements Runnable {
         super.onCreate(savedInstanceState);
         isRunning = true;
         game = new gameView(this, this);
-
         surfaceHolder = game.getHolder();
-        setFullScreen();
-        setContentView(game);
+        startGame(game);
     }
 
     public void setFullScreen() {//sets the view to full screen
@@ -34,18 +32,22 @@ public class GameActivity extends Activity implements Runnable {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
     }
 
+    void startGame(gameView game) {
+        setFullScreen();
+        setContentView(game);
+    }
 
     @Override
     public void run() {
 
         while (isRunning) {
             long pTime = SystemClock.elapsedRealtime();
-            game.canvas = null;
+            gameView.canvas = null;
 
             try {
-                game.canvas = this.surfaceHolder.lockCanvas();
-                game.canvasHeight = game.canvas.getHeight();
-                game.canvasWidth = game.canvas.getWidth();
+                gameView.canvas = this.surfaceHolder.lockCanvas();
+                game.canvasHeight = gameView.canvas.getHeight();
+                game.canvasWidth = gameView.canvas.getWidth();
                 if (game.spaceship.x <= 0 && game.spaceship.y <= 0) {
                     game.spaceship.setPos(game.canvasWidth / 2, game.canvasHeight);
                 }
@@ -53,49 +55,31 @@ public class GameActivity extends Activity implements Runnable {
                 synchronized (surfaceHolder) {
 
 
-                    game.draw(game.canvas);
-                    game.update(game.canvas);
+                    game.draw(gameView.canvas);
+                    game.update(gameView.canvas);
                     isRunning = game.isPlaying;
 
 
                 }
             } catch (Exception ignored) {
             } finally {
-                if (game.canvas != null) {
+                if (gameView.canvas != null) {
                     try {
-                        surfaceHolder.unlockCanvasAndPost(game.canvas);
+                        surfaceHolder.unlockCanvasAndPost(gameView.canvas);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
             }
             long cTime = SystemClock.elapsedRealtime();
-            if(cTime-pTime!=0) {
-
-
-                long fps = 1000 / (cTime - pTime);
-                if (Math.abs(fps - game.fps) >= 5) {
-                    game.fps = fps;
-                }
+            long fps = 1000 / (cTime - pTime);
+            if (Math.abs(fps - game.fps) >= 5) {
+                game.fps = fps;
             }
-
 
         }
         if (!game.isPlaying) {
-            while (true) {
-
-                try {
-                    game.gameThread.join();
-                    break;
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-
-            }
             startActivity(new Intent(GameActivity.this, MainActivity.class));
-
-
         }
 
     }

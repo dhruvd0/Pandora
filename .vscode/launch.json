@@ -1,14 +1,13 @@
 {
     "configurations": [
-        {
-            "type": "android",
-            "request": "launch",
-            "name": "Android Launch",
-            "appSrcRoot": "${workspaceRoot}/app/src/main",
-            "apkFile": "${workspaceRoot}/app/build/outputs/apk/debug/app-debug.apk",
-            "adbPort": 5037,
-            "preLaunchTask": "run gradle",
-        }
-
+    {
+        "type": "android",
+        "request": "launch",
+        "name": "Android Launch",
+        "appSrcRoot": "${workspaceRoot}/app/src/main",
+        "apkFile": "${workspaceRoot}/app/build/outputs/apk/debug/app-debug.apk",
+        "adbPort": 5037,
+        "preLaunchTask": "run gradle"
+    }
     ]
 }
