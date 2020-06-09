@@ -4,15 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
-
+import android.util.Log;
 import android.view.SurfaceHolder;
-
 import android.view.Window;
 import android.view.WindowManager;
 
-
-public class GameActivity extends Activity implements Runnable {
-    gameView game;
+public class TutorialActivity extends Activity implements Runnable {
+    Tutorial game;
 
     SurfaceHolder surfaceHolder;
     boolean isRunning;
@@ -21,7 +19,7 @@ public class GameActivity extends Activity implements Runnable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         isRunning = true;
-        game = new gameView(this, this);
+        game = new Tutorial(this, this);
 
         surfaceHolder = game.getHolder();
         setFullScreen();
@@ -43,7 +41,9 @@ public class GameActivity extends Activity implements Runnable {
             game.canvas = null;
 
             try {
-                game.canvas = this.surfaceHolder.lockCanvas();
+
+                   game.canvas = this.surfaceHolder.lockCanvas();
+
                 game.canvasHeight = game.canvas.getHeight();
                 game.canvasWidth = game.canvas.getWidth();
                 if (game.spaceship.x <= 0 && game.spaceship.y <= 0) {
@@ -70,34 +70,33 @@ public class GameActivity extends Activity implements Runnable {
                 }
             }
             long cTime = SystemClock.elapsedRealtime();
-            if(cTime-pTime!=0) {
-
-
-                long fps = 1000 / (cTime - pTime);
-                if (Math.abs(fps - game.fps) >= 5) {
-                    game.fps = fps;
-                }
+            long fps = 1000 / (cTime - pTime);
+            if (Math.abs(fps - game.fps) >= 5) {
+                game.fps = fps;
             }
-
 
         }
         if (!game.isPlaying) {
-            while (true) {
 
-                try {
-                    game.gameThread.join();
-                    break;
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-            startActivity(new Intent(GameActivity.this, MainActivity.class));
-
+            quit();
 
         }
 
     }
 
+    void quit() {
+
+
+           game.gameThread.interrupt();
+
+            game.gameThread=new Thread(this);
+        startActivity(new Intent(TutorialActivity.this, MainActivity.class));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i("tut", "destroy");
+        quit();
+    }
 }

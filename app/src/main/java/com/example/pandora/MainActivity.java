@@ -16,10 +16,13 @@ public class MainActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
     }
-/*
+
    void mainMenu() {
+        setFullScreen();
         setContentView(R.layout.activity_main);
-        Button startButton = findViewById(R.id.playButton);
+        Button startButton =(Button) findViewById(R.id.play);
+       Button startTutorial =(Button) findViewById(R.id.tutorial);
+       startTutorial.getBackground().setAlpha(0);
         startButton.getBackground().setAlpha(0);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -27,12 +30,19 @@ public class MainActivity extends Activity {
                 startActivity(new Intent(MainActivity.this, GameActivity.class));
             }
         });
-    }*/
+       startTutorial.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               startActivity(new Intent(MainActivity.this, TutorialActivity.class));
+           }
+       });
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
-        startActivity(new Intent(MainActivity.this, GameActivity.class));
+        mainMenu();
     }
 }
