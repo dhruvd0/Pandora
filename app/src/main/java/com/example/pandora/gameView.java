@@ -1,6 +1,5 @@
 package com.example.pandora;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -15,9 +14,6 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
-import android.widget.Button;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 
 public class gameView extends SurfaceView implements SurfaceHolder.Callback {
@@ -40,10 +36,11 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     static boolean touchDown;
     Obstacles[] meteors = new Obstacles[3];
     boolean isPlaying;
-
+    Context context;
     Wormwhole wormwhole_in, wormhole_out;
     Thread gameThread;
     boolean tap;
+    soundThread backgroundTrack;
     void initView(){
         spaceshipNearPlanet = false;
         spaceshipImg = BitmapFactory.decodeResource(getResources(), R.drawable.spaceship);
@@ -71,6 +68,9 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     public gameView(Context context,GameActivity gameActivity) {
 
         super(context);
+        this.context=context;
+        backgroundTrack =new soundThread(context,R.raw.escape);
+        backgroundTrack.starPlaying();
         initView();
         gameThread = new Thread(gameActivity);
     }
@@ -243,6 +243,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
 
+
         gameThread.start();
 
     }
@@ -255,6 +256,8 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
 
+            backgroundTrack.stopPlaying();
+            backgroundTrack.interrupt();
     }
 
     void displayText(Canvas canvas, String text, float x, float y) {
