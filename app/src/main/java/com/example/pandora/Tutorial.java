@@ -8,11 +8,6 @@ public class Tutorial extends gameView {
     int cycle = 0;
     boolean hookCheck;
     boolean endTutorial;
-
-    Tutorial(Context context, GameActivity gameActivity) {
-        super(context, gameActivity);
-        hookCheck = false;
-    }
     Tutorial(Context context, TutorialActivity gameActivity) {
         super(context, gameActivity);
         hookCheck = false;

@@ -44,72 +44,41 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     Wormwhole wormwhole_in, wormhole_out;
     Thread gameThread;
     boolean tap;
+    void initView(){
+        spaceshipNearPlanet = false;
+        spaceshipImg = BitmapFactory.decodeResource(getResources(), R.drawable.spaceship);
+        SpaceshipImgGreen = BitmapFactory.decodeResource(getResources(), R.drawable.green);
+        getHolder().addCallback(this);
+        isPlaying = true;
+        wormwhole_in = new Wormwhole(BitmapFactory.decodeResource(getResources(), R.drawable.wormhole_in));
+        wormhole_out = new Wormwhole(BitmapFactory.decodeResource(getResources(), R.drawable.wormhole_out));
 
+        setFocusable(true);
+
+        paint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
+        paint.setColor(Color.GREEN);
+        display = ((Activity) getContext()).getWindowManager().getDefaultDisplay();
+        point = new Point();
+        display.getSize(point);
+        scr_wid = point.x;
+        scr_hei = point.y;
+        rect = new Rect(0, 0, scr_wid, scr_hei);
+        starCount = 300;
+        stars = new Star[starCount];
+        loadSprites();
+
+    }
     public gameView(Context context,GameActivity gameActivity) {
 
         super(context);
-        spaceshipNearPlanet = false;
-        spaceshipImg = BitmapFactory.decodeResource(getResources(), R.drawable.spaceship);
-        SpaceshipImgGreen = BitmapFactory.decodeResource(getResources(), R.drawable.green);
-        getHolder().addCallback(this);
-        isPlaying = true;
-        wormwhole_in = new Wormwhole(BitmapFactory.decodeResource(getResources(), R.drawable.wormhole_in));
-        wormhole_out = new Wormwhole(BitmapFactory.decodeResource(getResources(), R.drawable.wormhole_out));
-
-        setFocusable(true);
-
-        paint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
-        paint.setColor(Color.GREEN);
-        display = ((Activity) getContext()).getWindowManager().getDefaultDisplay();
-        point = new Point();
-        display.getSize(point);
-        scr_wid = point.x;
-        scr_hei = point.y;
-        rect = new Rect(0, 0, scr_wid, scr_hei);
-        starCount = 300;
-        stars = new Star[starCount];
-        loadSprites();
-
-
-
-
-
-
-
+        initView();
         gameThread = new Thread(gameActivity);
     }
-    public gameView(Context context,TutorialActivity gameActivity) {
+    public gameView(Context context,TutorialActivity tutorialActivity) {
 
         super(context);
-        spaceshipNearPlanet = false;
-        spaceshipImg = BitmapFactory.decodeResource(getResources(), R.drawable.spaceship);
-        SpaceshipImgGreen = BitmapFactory.decodeResource(getResources(), R.drawable.green);
-        getHolder().addCallback(this);
-        isPlaying = true;
-        wormwhole_in = new Wormwhole(BitmapFactory.decodeResource(getResources(), R.drawable.wormhole_in));
-        wormhole_out = new Wormwhole(BitmapFactory.decodeResource(getResources(), R.drawable.wormhole_out));
-
-        setFocusable(true);
-
-        paint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
-        paint.setColor(Color.GREEN);
-        display = ((Activity) getContext()).getWindowManager().getDefaultDisplay();
-        point = new Point();
-        display.getSize(point);
-        scr_wid = point.x;
-        scr_hei = point.y;
-        rect = new Rect(0, 0, scr_wid, scr_hei);
-        starCount = 300;
-        stars = new Star[starCount];
-        loadSprites();
-
-
-
-
-
-
-
-        gameThread = new Thread(gameActivity);
+        initView();
+        gameThread = new Thread(tutorialActivity);
     }
 
 
