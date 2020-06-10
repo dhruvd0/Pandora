@@ -70,7 +70,7 @@ public class GameActivity extends Activity implements Runnable {
                 }
             }
             long cTime = SystemClock.elapsedRealtime();
-            if(cTime-pTime!=0) {
+            if (cTime - pTime != 0) {
 
 
                 long fps = 1000 / (cTime - pTime);
@@ -82,22 +82,17 @@ public class GameActivity extends Activity implements Runnable {
 
         }
         if (!game.isPlaying) {
-            while (true) {
+            game.gameThread.interrupt();
 
-                try {
-                    game.gameThread.join();
-                    break;
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            game.gameThread = new Thread(this);
 
 
-            }
             startActivity(new Intent(GameActivity.this, MainActivity.class));
 
 
         }
 
     }
+
 
 }

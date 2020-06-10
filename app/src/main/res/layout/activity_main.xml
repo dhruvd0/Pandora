@@ -9,29 +9,12 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#009688"
+        android:backgroundTint="#2196F3"
+        android:backgroundTintMode="add"
         android:outlineProvider="paddedBounds"
         android:scaleType="centerCrop"
         android:src="@drawable/background" />
-
-    <Button
-        android:id="@+id/tutorial"
-        android:layout_width="wrap_content"
-        android:layout_height="61dp"
-        android:layout_below="@+id/play"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="135dp"
-        android:layout_marginTop="23dp"
-        android:layout_marginEnd="113dp"
-        android:layout_marginBottom="257dp"
-        android:background="#FFFFFF"
-        android:backgroundTint="#F44336"
-        android:text="Tutorial"
-        android:textColor="#FFFFFF"
-        android:textSize="32sp"
-        android:visibility="visible"
-        tools:visibility="visible" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -46,20 +29,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:background="#FFFFFF"
-        android:backgroundTint="#F44336"
+        android:background="#0097A7"
         android:text="Play"
         android:textColor="#FFFFFF"
         android:textSize="32sp"
         android:visibility="visible"
         tools:visibility="visible" />
 
-    <ImageView
-        android:id="@+id/volumeControl"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_volume_up_black_24dp" />
+    <Button
+        android:id="@+id/tutorial"
+        android:layout_width="165dp"
+        android:layout_height="43dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="118dp"
+        android:layout_marginEnd="128dp"
+        android:layout_marginBottom="193dp"
+        android:background="#FBC02D"
+        android:backgroundTint="#FFA000"
+        android:text="Tutorial"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:visibility="visible"
+        tools:visibility="visible" />
 
 </RelativeLayout>

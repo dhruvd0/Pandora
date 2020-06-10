@@ -22,8 +22,9 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         Button startButton =(Button) findViewById(R.id.play);
        Button startTutorial =(Button) findViewById(R.id.tutorial);
-       startTutorial.getBackground().setAlpha(0);
+
         startButton.getBackground().setAlpha(0);
+        startTutorial.getBackground().setAlpha(0);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,7 +43,6 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
         mainMenu();
     }
 }

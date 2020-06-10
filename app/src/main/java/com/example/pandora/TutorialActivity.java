@@ -42,7 +42,7 @@ public class TutorialActivity extends Activity implements Runnable {
 
             try {
 
-                   game.canvas = this.surfaceHolder.lockCanvas();
+                game.canvas = this.surfaceHolder.lockCanvas();
 
                 game.canvasHeight = game.canvas.getHeight();
                 game.canvasWidth = game.canvas.getWidth();
@@ -87,9 +87,9 @@ public class TutorialActivity extends Activity implements Runnable {
     void quit() {
 
 
-           game.gameThread.interrupt();
+        game.gameThread.interrupt();
 
-            game.gameThread=new Thread(this);
+        game.gameThread = new Thread(this);
         startActivity(new Intent(TutorialActivity.this, MainActivity.class));
     }
 
