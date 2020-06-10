@@ -16,10 +16,12 @@ public class GameActivity extends Activity implements Runnable {
 
     SurfaceHolder surfaceHolder;
     boolean isRunning;
+    Scores scores;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        scores = new Scores();
         isRunning = true;
         game = new gameView(this, this);
 
@@ -82,6 +84,8 @@ public class GameActivity extends Activity implements Runnable {
 
         }
         if (!game.isPlaying) {
+
+            scores.pushScore("testUser", game.score);
             game.gameThread.interrupt();
 
             game.gameThread = new Thread(this);
@@ -94,5 +98,12 @@ public class GameActivity extends Activity implements Runnable {
 
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        scores.pushScore("testUser", game.score);
+        game.gameThread.interrupt();
+        game.gameThread = new Thread(this);
+        startActivity(new Intent(GameActivity.this, MainActivity.class));
+    }
 }
