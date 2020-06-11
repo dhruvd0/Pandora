@@ -1,12 +1,19 @@
 package com.example.pandora;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
 
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -17,6 +24,8 @@ public class GameActivity extends Activity implements Runnable {
     SurfaceHolder surfaceHolder;
     boolean isRunning;
     Scores scores;
+    SharedPreferences sharedPref;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,10 +33,16 @@ public class GameActivity extends Activity implements Runnable {
         scores = new Scores();
         isRunning = true;
         game = new gameView(this, this);
-
+        sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         surfaceHolder = game.getHolder();
         setFullScreen();
-        setContentView(game);
+        if(readScoreFromFile()==-1){
+            openDialog();
+        }
+        else {
+            setContentView(game);
+        }
+
     }
 
     public void setFullScreen() {//sets the view to full screen
@@ -36,6 +51,19 @@ public class GameActivity extends Activity implements Runnable {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
     }
 
+    int readScoreFromFile() {
+        int highScore = sharedPref.getInt("score", -1);
+        String name = sharedPref.getString("name", "null");
+        Log.i("log", "file:" + name);
+        return highScore;
+    }
+
+    void saveScoreToFile(String userName, int userMaxScore) {
+        editor = sharedPref.edit();
+        editor.putInt("score", userMaxScore);
+        editor.putString("name", userName);
+        editor.apply();
+    }
 
     @Override
     public void run() {
@@ -85,12 +113,9 @@ public class GameActivity extends Activity implements Runnable {
         }
         if (!game.isPlaying) {
 
-            scores.pushScore("testUser", game.score);
+            scores.pushScoreToFireStore("testUser", game.score);
             game.gameThread.interrupt();
-
             game.gameThread = new Thread(this);
-
-
             startActivity(new Intent(GameActivity.this, MainActivity.class));
 
 
@@ -98,10 +123,35 @@ public class GameActivity extends Activity implements Runnable {
 
     }
 
+    public void openDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        LayoutInflater inflater = this.getLayoutInflater();
+        View view = inflater.inflate(R.layout.activity_username, null);
+
+        builder.setView(view)
+                .setTitle("Enter Name")
+                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+
+                    }
+                });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        scores.pushScore("testUser", game.score);
+
         game.gameThread.interrupt();
         game.gameThread = new Thread(this);
         startActivity(new Intent(GameActivity.this, MainActivity.class));

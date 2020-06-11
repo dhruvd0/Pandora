@@ -2,15 +2,20 @@ package com.example.pandora;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+
+import java.util.Map;
 
 public class MainActivity extends Activity {
 
@@ -42,17 +47,17 @@ public class MainActivity extends Activity {
         });
 
     }
-
+    String userName="testName";
+    int userMaxScore=11;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
         FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-
-       Bundle b=new Bundle();
-       b.putString(FirebaseAnalytics.Param.ITEM_ID, "test ID");
+        Bundle b = new Bundle();
+        b.putString(FirebaseAnalytics.Param.ITEM_ID, "test ID");
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_ITEM, b);
+
         mainMenu();
 
     }
