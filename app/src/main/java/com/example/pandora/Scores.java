@@ -24,34 +24,39 @@ import java.util.Map;
 public class Scores {
     Map<String, Object> user = new HashMap<>();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    ArrayList<Map<String, Object>> fireBaseScores;
 
     Scores() {
 
-
+        fireBaseScores = getScores();
     }
 
-    void pushScoreToFireStore(String name, Object score) {
-        user = new HashMap<>();
-        user.put("name", name);
-        user.put("score", score);
-        db.collection("users")
-                .add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
 
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("TAG", "Error adding document", e);
-                    }
-                });
+    void pushScoreToFireStore(String name, Object score) {
+
+            user = new HashMap<>();
+            user.put("name", name);
+            user.put("score", score);
+            db.collection("users").document(name)
+                    .set(user)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.i("log","document updated");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w("TAG", "Error adding document", e);
+                        }
+                    });
+
+
     }
 
     ArrayList<Map<String, Object>> getScores() {
-        final ArrayList<Map<String,Object>> scores= new ArrayList<>();
+        final ArrayList<Map<String, Object>> scores = new ArrayList<>();
         db.collection("users")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -59,7 +64,7 @@ public class Scores {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                               scores.add(document.getData());
+                                scores.add(document.getData());
                             }
 
                         } else {
