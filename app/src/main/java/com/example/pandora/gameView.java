@@ -139,8 +139,8 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
         if (touchDown) {//decrease speed on touch down
             if (spaceship.energy > 0) {
-                spaceship.ySpeed += 0.1;
-                spaceship.xSpeed -= 0.1;
+                spaceship.ySpeed += 0.25;
+                spaceship.xSpeed -= 0.25;
             }
 
             if (spaceship.ySpeed >= 0 || spaceship.xSpeed <= 0) {

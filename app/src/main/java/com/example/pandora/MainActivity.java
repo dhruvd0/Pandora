@@ -25,15 +25,11 @@ import java.util.Map;
 public class MainActivity extends Activity {
 
 
-
-
-
     public void setFullScreen() {//sets the view to full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
     }
-
 
 
     void mainMenu() {
@@ -62,12 +58,20 @@ public class MainActivity extends Activity {
 
     }
 
+    static void logFireBaseEvent(Context context) {
+        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
+        Bundle b = new Bundle();
+        b.putString(FirebaseAnalytics.Param.ITEM_ID, "test ID");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, b);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
         mainMenu();
+        logFireBaseEvent(this);
 
     }
 

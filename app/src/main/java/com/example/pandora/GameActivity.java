@@ -45,7 +45,7 @@ public class GameActivity extends Activity implements Runnable {
     }
 
     public void openDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_DARK);
 
         LayoutInflater inflater = this.getLayoutInflater();
         View view = inflater.inflate(R.layout.activity_username, null);
@@ -153,12 +153,7 @@ public class GameActivity extends Activity implements Runnable {
         }
         if (!game.isPlaying) {
 
-            fireStoreHandler.pushScoreToFireStore("testUser", game.score);
-            game.gameThread.interrupt();
-            game.gameThread = new Thread(this);
-            startActivity(new Intent(GameActivity.this, MainActivity.class));
-
-
+            quit();
         }
 
     }
@@ -170,8 +165,7 @@ public class GameActivity extends Activity implements Runnable {
                 if (u.get("name").equals(name)) {
                     return (int) u.get("score");
                 }
-            }
-            catch (NullPointerException nullPointer){
+            } catch (NullPointerException nullPointer) {
                 return -1;
             }
         }
@@ -189,12 +183,16 @@ public class GameActivity extends Activity implements Runnable {
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    void quit() {
         UpdateScore(game.score);
         game.gameThread.interrupt();
         game.gameThread = new Thread(this);
         startActivity(new Intent(GameActivity.this, MainActivity.class));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        quit();
     }
 }
