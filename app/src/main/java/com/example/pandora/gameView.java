@@ -40,7 +40,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     static boolean touchDown;
     Obstacles[] meteors = new Obstacles[3];
     boolean isPlaying;
-
+    int score;
     Wormwhole wormwhole_in, wormhole_out;
     Thread gameThread;
     boolean tap;
@@ -139,8 +139,8 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
         if (touchDown) {//decrease speed on touch down
             if (spaceship.energy > 0) {
-                spaceship.ySpeed += 0.1;
-                spaceship.xSpeed -= 0.1;
+                spaceship.ySpeed += 0.25;
+                spaceship.xSpeed -= 0.25;
             }
 
             if (spaceship.ySpeed >= 0 || spaceship.xSpeed <= 0) {
@@ -160,6 +160,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         if (spaceship.reachedBounds(canvas)) {//spaceship reaches end of canvas
             Star.setStars(stars, canvas);
             Planet.loadPlanets(planets, getResources(), scr_wid, scr_hei);
+            score++;
 
         } else if (spaceship.isHooked) {//handles collision with a planet
             spaceship.revolve();

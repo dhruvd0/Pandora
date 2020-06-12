@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1020645298987",
+    "firebase_url": "https://pandora-ed736.firebaseio.com",
+    "project_id": "pandora-ed736",
+    "storage_bucket": "pandora-ed736.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1020645298987:android:1e55e01d6bd73c08c22b6e",
+        "android_client_info": {
+          "package_name": "com.example.pandora"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1020645298987-c4r8umfgb3eimdtougcklupea7b8oi0q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAE2SQvXbYqc--mpWvQyetGkOb7mo4Rg1g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1020645298987-c4r8umfgb3eimdtougcklupea7b8oi0q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
