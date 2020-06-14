@@ -32,6 +32,7 @@ public class Tutorial extends gameView {
             if (!tutorialMeteor.active) {
                 tutorialMeteor.setPos(canvasWidth / 2, 100);
                 tutorialMeteor.rotateAngle = 180;
+
             }
             tutorialMeteor.draw(canvas);
         }
@@ -42,10 +43,13 @@ public class Tutorial extends gameView {
     }
 
     public void update(Canvas canvas) {
-
+        if(cycle>1){
+            spaceship.ySpeed = -5;
+            spaceship.xSpeed = 5;
+        }
         if (touchDown) {
             if (cycle == 1) {
-
+                displayText(canvas, "Braking depletes ENERGY", canvasWidth / 2, 300);
                 if (spaceship.ySpeed >= -5 || spaceship.xSpeed <= 5) {
                     spaceship.ySpeed = -5;
                     spaceship.xSpeed = 5;
@@ -55,7 +59,7 @@ public class Tutorial extends gameView {
                     spaceship.xSpeed += 0.1;
                     progress += -1 * (spaceship.ySpeed + 5);
                     spaceship.energy -= 0.3;
-                    displayText(canvas, "Braking depletes ENERGY", canvasWidth / 2, 300);
+
 
                 }
             }
@@ -66,21 +70,25 @@ public class Tutorial extends gameView {
 
             spaceship.y = canvasHeight;
             if (cycle == 1 && spaceship.ySpeed < -5) {
-                spaceship.ySpeed = -10;
-                spaceship.xSpeed = 10;
+             /*   spaceship.ySpeed = -10;
+                spaceship.xSpeed = 10;*/
             } else if (cycle == 2 && !hookCheck) {
-                spaceship.ySpeed = -10;
-                spaceship.xSpeed = 10;
+                /*spaceship.ySpeed = -10;
+                spaceship.xSpeed = 10;*/
             } else {
                 cycle++;
+                if(cycle>=4){
+                    isPlaying=false;
+                }
                 progress = 0;
             }
             Star.setStars(stars, canvas);
         } else {
             switch (cycle) {
+
+
                 case 2:
-                    spaceship.ySpeed = -10;
-                    spaceship.xSpeed = 10;
+
                     if (spaceship.isHooked) {//handles collision with a planet
                         spaceship.revolve();
                         if (progress >= 360) {
@@ -137,7 +145,7 @@ public class Tutorial extends gameView {
             p.setColor(Color.RED);
         }
         p.setStyle(Paint.Style.STROKE);
-        p.setStrokeWidth(20);
+        p.setStrokeWidth(10);
         progress += change;
 
         RectF r = new RectF(spaceship.cx - 50, spaceship.cy - 50, spaceship.cx + 50, spaceship.cy + 50);
