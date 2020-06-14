@@ -59,7 +59,7 @@ public class MainActivity extends Activity {
 
     }
 
-    static void logFireBaseEvent(String eventName, Context context) {
+    static void logFireBaseEvent(String eventName,Context context) {
         FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
         Bundle b = new Bundle();
         b.putString(FirebaseAnalytics.Param.ITEM_ID, "test ID");

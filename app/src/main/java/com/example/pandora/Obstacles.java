@@ -8,16 +8,18 @@ import java.util.Random;
  class Obstacles extends Sprite {
 
     private Random rand;
-
+    float initX,initY;
       Obstacles(Bitmap img){
         super(img);
         rand=new Random();
         xSpeed=10;
         ySpeed=-10;
-
+        active=false;
        setRandomPos();
 
     }
+
+
     private void setRandomPos(){
         if(rand.nextBoolean()){
             x=0;

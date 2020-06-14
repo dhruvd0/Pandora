@@ -1,6 +1,5 @@
 package com.example.pandora;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -15,9 +14,6 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
-import android.widget.Button;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 
 public class gameView extends SurfaceView implements SurfaceHolder.Callback {
@@ -44,8 +40,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     Wormwhole wormwhole_in, wormhole_out;
     Thread gameThread;
     boolean tap;
-
-    void initView() {
+    void initGame(){
         spaceshipNearPlanet = false;
         spaceshipImg = BitmapFactory.decodeResource(getResources(), R.drawable.spaceship);
         SpaceshipImgGreen = BitmapFactory.decodeResource(getResources(), R.drawable.green);
@@ -58,6 +53,8 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
         paint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
         paint.setColor(Color.GREEN);
+        paint.setStrokeWidth(5);
+        paint.setStyle(Paint.Style.STROKE);
         display = ((Activity) getContext()).getWindowManager().getDefaultDisplay();
         point = new Point();
         display.getSize(point);
@@ -68,19 +65,21 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         stars = new Star[starCount];
         loadSprites();
 
+
     }
 
     public gameView(Context context, GameActivity gameActivity) {
 
         super(context);
-        initView();
+        initGame();
+
         gameThread = new Thread(gameActivity);
     }
 
     public gameView(Context context, TutorialActivity tutorialActivity) {
 
         super(context);
-        initView();
+        initGame();
         gameThread = new Thread(tutorialActivity);
     }
 
@@ -205,15 +204,18 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         Obstacles.drawObstacles(meteors, canvas);
 
     }
-
+    void showShipStats(Canvas canvas){
+        displayText(canvas, "Energy:" + (int)spaceship.energy, canvasWidth - 150, 100);
+        displayText(canvas, "Health:" + (int)spaceship.health, canvasWidth - 150, 200);
+    }
     public void draw(Canvas canvas) {
 
         super.draw(canvas);
 
         drawSprites(canvas);
+        showShipStats(canvas);
 
-        displayText(canvas, "Energy:" + spaceship.energy, canvasWidth - 150, 100);
-        displayText(canvas, "Health:" + spaceship.health, canvasWidth - 150, 200);
+
 
 
 
@@ -273,7 +275,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         Paint textPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
         textPaint.setTextAlign(Paint.Align.CENTER);
         textPaint.setColor(Color.GREEN);
-        textPaint.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10, getResources().getDisplayMetrics()));
+        textPaint.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 15, getResources().getDisplayMetrics()));
 
         canvas.drawText(text, x, y, textPaint);
     }
