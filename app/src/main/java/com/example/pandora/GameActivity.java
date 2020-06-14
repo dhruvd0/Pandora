@@ -2,14 +2,11 @@ package com.example.pandora;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 
@@ -27,7 +24,7 @@ public class GameActivity extends Activity implements Runnable {
 
     SurfaceHolder surfaceHolder;
     boolean isRunning;
-    Scores fireStoreHandler;
+    FireStoreHandler fireStoreHandler;
 
     Map<String, Object> user;
     EditText editText;
@@ -69,7 +66,7 @@ public class GameActivity extends Activity implements Runnable {
         super.onCreate(savedInstanceState);
 
         isRunning = true;
-        fireStoreHandler=new Scores(this);
+        fireStoreHandler=new FireStoreHandler(this);
 
         game = new gameView(this, this);
         surfaceHolder = game.getHolder();
