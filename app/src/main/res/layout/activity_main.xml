@@ -23,22 +23,22 @@
         android:layout_centerHorizontal="true"
         android:text="Pandora"
         android:textColor="#ffffff"
-        android:textSize="64sp" />
+        android:textSize="36sp" />
 
     <Button
         android:id="@+id/play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="233dp"
+        android:layout_height="31dp"
         android:layout_above="@+id/tutorial"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="169dp"
-        android:layout_marginEnd="154dp"
-        android:layout_marginBottom="43dp"
+        android:layout_marginStart="84dp"
+        android:layout_marginEnd="92dp"
+        android:layout_marginBottom="40dp"
         android:background="#0097A7"
         android:text="Play"
         android:textColor="#FFFFFF"
-        android:textSize="32sp"
+        android:textSize="18sp"
         android:visibility="visible"
         tools:visibility="visible" />
 
@@ -49,13 +49,13 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="61dp"
-        android:layout_marginEnd="51dp"
-        android:layout_marginBottom="437dp"
+        android:layout_marginStart="53dp"
+        android:layout_marginEnd="59dp"
+        android:layout_marginBottom="276dp"
         android:background="#0097A7"
         android:text="Leader Board "
         android:textColor="#FFFFFF"
-        android:textSize="32sp"
+        android:textSize="18sp"
         android:visibility="visible"
         tools:visibility="visible" />
 
@@ -66,14 +66,14 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="125dp"
-        android:layout_marginEnd="121dp"
-        android:layout_marginBottom="239dp"
+        android:layout_marginStart="122dp"
+        android:layout_marginEnd="124dp"
+        android:layout_marginBottom="358dp"
         android:background="#FBC02D"
         android:backgroundTint="#FFA000"
         android:text="Tutorial"
         android:textColor="#FFFFFF"
-        android:textSize="24sp"
+        android:textSize="18sp"
         android:visibility="visible"
         tools:visibility="visible" />
 

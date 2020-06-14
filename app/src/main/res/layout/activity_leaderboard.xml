@@ -22,13 +22,15 @@
 
     <TableLayout
         android:id="@+id/table_main"
-        android:layout_width="407dp"
-        android:layout_height="524dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_centerHorizontal="true"
         android:addStatesFromChildren="false"
+        android:alpha="1"
         android:animateLayoutChanges="true"
         android:baselineAligned="true"
-        android:gravity="right|left"
+        android:clickable="true"
+        android:divider="@color/colorAccent"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

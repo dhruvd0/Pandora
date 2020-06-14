@@ -70,10 +70,13 @@ public class TutorialActivity extends Activity implements Runnable {
                 }
             }
             long cTime = SystemClock.elapsedRealtime();
-            long fps = 1000 / (cTime - pTime);
-            if (Math.abs(fps - game.fps) >= 5) {
-                game.fps = fps;
+            if ((cTime - pTime) > 0) {
+                long fps = 1000 / (cTime - pTime);
+                if (Math.abs(fps - game.fps) >= 5) {
+                    game.fps = fps;
+                }
             }
+
 
         }
         if (!game.isPlaying) {

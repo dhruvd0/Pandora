@@ -22,7 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     //basic surface class where we would create canvas and draw
-    public  Canvas canvas;
+    public Canvas canvas;
     Spaceship spaceship;
     Planet[] planets = new Planet[3];
     Bitmap space;
@@ -44,7 +44,8 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     Wormwhole wormwhole_in, wormhole_out;
     Thread gameThread;
     boolean tap;
-    void initView(){
+
+    void initView() {
         spaceshipNearPlanet = false;
         spaceshipImg = BitmapFactory.decodeResource(getResources(), R.drawable.spaceship);
         SpaceshipImgGreen = BitmapFactory.decodeResource(getResources(), R.drawable.green);
@@ -68,13 +69,15 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         loadSprites();
 
     }
-    public gameView(Context context,GameActivity gameActivity) {
+
+    public gameView(Context context, GameActivity gameActivity) {
 
         super(context);
         initView();
         gameThread = new Thread(gameActivity);
     }
-    public gameView(Context context,TutorialActivity tutorialActivity) {
+
+    public gameView(Context context, TutorialActivity tutorialActivity) {
 
         super(context);
         initView();
@@ -139,8 +142,8 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
         if (touchDown) {//decrease speed on touch down
             if (spaceship.energy > 0) {
-                spaceship.ySpeed += 0.25;
-                spaceship.xSpeed -= 0.25;
+                spaceship.ySpeed += 0.5;
+                spaceship.xSpeed -= 0.5;
             }
 
             if (spaceship.ySpeed >= 0 || spaceship.xSpeed <= 0) {
@@ -160,7 +163,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         if (spaceship.reachedBounds(canvas)) {//spaceship reaches end of canvas
             Star.setStars(stars, canvas);
             Planet.loadPlanets(planets, getResources(), scr_wid, scr_hei);
-            score++;
+
 
         } else if (spaceship.isHooked) {//handles collision with a planet
             spaceship.revolve();
@@ -175,7 +178,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
             }
             spaceshipNearPlanet = planetCollision();
             spaceship.move();
-
+            score++;
             if (spaceship.afterUnhookAngle != -1) {
                 spaceship.rotate(spaceship.rotateAngle - spaceship.afterUnhookAngle);
             }
@@ -195,6 +198,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
         spaceship.draw(canvas);
         Obstacles.drawObstacles(meteors, canvas);
+
     }
 
     public void draw(Canvas canvas) {
@@ -205,6 +209,8 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
         displayText(canvas, "Energy:" + spaceship.energy, canvasWidth - 150, 100);
         displayText(canvas, "Health:" + spaceship.health, canvasWidth - 150, 200);
+        displayText(canvas, "Score:" + score, canvasWidth - 150, 300);
+
 
     }
 

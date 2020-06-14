@@ -37,11 +37,14 @@ public class Leaderboard extends AppCompatActivity {
     }
 
     void updateTable(ArrayList<Map<String, Object>> users) {
-        addRow("Name","Score");
+        addRow("Name", "Score");
         for (Map<String, Object> user : users) {
             String name = "" + user.get("name");
             String score = "" + user.get("score");
-            addRow(name,score);
+            if (name != "null") {
+                addRow(name, score);
+            }
+
 
         }
     }
