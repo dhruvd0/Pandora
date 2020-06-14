@@ -3,6 +3,7 @@ package com.example.pandora;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
@@ -37,7 +38,7 @@ public class Leaderboard extends AppCompatActivity {
     }
 
     void updateTable(ArrayList<Map<String, Object>> users) {
-        addRow("Name", "Score");
+
         for (Map<String, Object> user : users) {
             String name = "" + user.get("name");
             String score = "" + user.get("score");
@@ -61,6 +62,7 @@ public class Leaderboard extends AppCompatActivity {
         TextView tv1 = new TextView(this);
         tv1.setText("   " + score);
         tv1.setTextColor(Color.GREEN);
+
         tbrow0.addView(tv1);
         stk.addView(tbrow0);
     }
