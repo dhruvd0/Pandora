@@ -40,7 +40,8 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
     Wormwhole wormwhole_in, wormhole_out;
     Thread gameThread;
     boolean tap;
-    void initGame(){
+
+    void initGame() {
         spaceshipNearPlanet = false;
         spaceshipImg = BitmapFactory.decodeResource(getResources(), R.drawable.spaceship);
         SpaceshipImgGreen = BitmapFactory.decodeResource(getResources(), R.drawable.green);
@@ -139,7 +140,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
 
         Obstacles.update(meteors);
-        displayText(canvas,"High Score:"+MainActivity.highScore,canvasWidth-150,400);
+        displayText(canvas, "High Score:" + MainActivity.highScore, canvasWidth - 150, 400);
         displayText(canvas, "Your Score:" + score, canvasWidth - 150, 300);
         if (touchDown) {//decrease speed on touch down
             if (spaceship.energy > 0) {
@@ -180,8 +181,8 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
             spaceshipNearPlanet = planetCollision();
             spaceship.move();
             score++;
-            if(score>=MainActivity.highScore){
-                MainActivity.highScore=score;
+            if (score >= MainActivity.highScore) {
+                MainActivity.highScore = score;
             }
             if (spaceship.afterUnhookAngle != -1) {
                 spaceship.rotate(spaceship.rotateAngle - spaceship.afterUnhookAngle);
@@ -204,19 +205,18 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         Obstacles.drawObstacles(meteors, canvas);
 
     }
-    void showShipStats(Canvas canvas){
-        displayText(canvas, "Energy:" + (int)spaceship.energy, canvasWidth - 150, 100);
-        displayText(canvas, "Health:" + (int)spaceship.health, canvasWidth - 150, 200);
+
+    void showShipStats(Canvas canvas) {
+        displayText(canvas, "Energy:" + (int) spaceship.energy, canvasWidth - 150, 100);
+        displayText(canvas, "Health:" + (int) spaceship.health, canvasWidth - 150, 200);
     }
+
     public void draw(Canvas canvas) {
 
         super.draw(canvas);
 
         drawSprites(canvas);
         showShipStats(canvas);
-
-
-
 
 
     }

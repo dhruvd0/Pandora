@@ -43,7 +43,7 @@ public class Tutorial extends gameView {
     }
 
     public void update(Canvas canvas) {
-        if(cycle>1){
+        if (cycle > 1) {
             spaceship.ySpeed = -5;
             spaceship.xSpeed = 5;
         }
@@ -77,8 +77,8 @@ public class Tutorial extends gameView {
                 spaceship.xSpeed = 10;*/
             } else {
                 cycle++;
-                if(cycle>=4){
-                    isPlaying=false;
+                if (cycle >= 4) {
+                    isPlaying = false;
                 }
                 progress = 0;
             }

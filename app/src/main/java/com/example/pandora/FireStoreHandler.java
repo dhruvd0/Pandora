@@ -85,10 +85,10 @@ public class FireStoreHandler {
         editor = sharedPref.edit();
         Gson gson = new Gson();
         String json = gson.toJson(list);
-        MainActivity.log(json);
+
         editor.putString("users", json);
         editor.apply();
-        MainActivity.log("" + list);
+
     }
 
 
@@ -97,14 +97,14 @@ public class FireStoreHandler {
 
         db.collection("users")
 
-                .orderBy("score",Query.Direction.DESCENDING)
+                .orderBy("score", Query.Direction.ASCENDING)
 
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value,
                                         @Nullable FirebaseFirestoreException e) {
                         if (e != null) {
-                            Log.w("TAG", "Listen failed.", e);
+                            Log.i("log", "Listen failed.", e);
                             return;
                         }
 
@@ -113,9 +113,9 @@ public class FireStoreHandler {
                         for (QueryDocumentSnapshot doc : value) {
                             users.add(doc.getData());
                         }
-                        Map<String,Object> highScoreUser=users.get(0);
+                        Map<String, Object> highScoreUser = users.get(0);
 
-                       MainActivity.highScore=Integer.parseInt(highScoreUser.get("score").toString());
+                        MainActivity.highScore = Integer.parseInt(highScoreUser.get("score").toString());
                         saveUsers(users);
 
 

@@ -68,19 +68,18 @@ public class GameActivity extends Activity implements Runnable {
     }
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         isRunning = true;
-        fireStoreHandler=new FireStoreHandler(this);
+        fireStoreHandler = new FireStoreHandler(this);
 
         game = new gameView(this, this);
         surfaceHolder = game.getHolder();
         setFullScreen();
-        user=new HashMap<>();
-        MainActivity.log(user+"");
+        user = new HashMap<>();
+        MainActivity.log(user + "");
         openDialog();
 
 
@@ -148,12 +147,11 @@ public class GameActivity extends Activity implements Runnable {
 
 
     void quit() {
-        user.put("score",game.score);
-        try{
-            MainActivity.fireStoreHandler.pushScoreToFireStore(user.get("name").toString(),game.score);
-        }
-        catch (NullPointerException n){
-            user.put("name","null");
+        user.put("score", game.score);
+        try {
+            MainActivity.fireStoreHandler.pushScoreToFireStore(user.get("name").toString(), game.score);
+        } catch (NullPointerException n) {
+            user.put("name", "null");
         }
 
         MainActivity.fireStoreHandler.getScores();

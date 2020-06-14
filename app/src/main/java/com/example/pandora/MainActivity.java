@@ -16,7 +16,8 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 
 public class MainActivity extends Activity {
     static FireStoreHandler fireStoreHandler;
-    static int highScore=0;
+    static int highScore = 0;
+
     public void setFullScreen() {//sets the view to full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -59,7 +60,7 @@ public class MainActivity extends Activity {
 
     }
 
-    static void logFireBaseEvent(String eventName,Context context) {
+    static void logFireBaseEvent(String eventName, Context context) {
         FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
         Bundle b = new Bundle();
         b.putString(FirebaseAnalytics.Param.ITEM_ID, "test ID");

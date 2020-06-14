@@ -31,7 +31,7 @@ public class Leaderboard extends AppCompatActivity {
         setContentView(R.layout.activity_leaderboard);
 
         users = MainActivity.fireStoreHandler.readUsers();
-        MainActivity.log("Leaderboard:\n" + users);
+
 
         updateTable(users);
 
