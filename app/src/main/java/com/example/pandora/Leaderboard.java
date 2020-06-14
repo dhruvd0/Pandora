@@ -41,7 +41,7 @@ public class Leaderboard extends AppCompatActivity {
         for (Map<String, Object> user : users) {
             String name = "" + user.get("name");
             String score = "" + user.get("score");
-            if (name != "null") {
+            if (!name.equals("null")) {
                 addRow(name, score);
             }
 

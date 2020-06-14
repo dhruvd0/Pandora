@@ -16,7 +16,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 
 public class MainActivity extends Activity {
     static FireStoreHandler fireStoreHandler;
-
+    static int highScore=0;
     public void setFullScreen() {//sets the view to full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);

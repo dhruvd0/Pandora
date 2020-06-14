@@ -97,7 +97,8 @@ public class FireStoreHandler {
 
         db.collection("users")
 
-               // .orderBy("scores", Query.Direction.DESCENDING)
+                .orderBy("score",Query.Direction.DESCENDING)
+
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value,
@@ -112,7 +113,9 @@ public class FireStoreHandler {
                         for (QueryDocumentSnapshot doc : value) {
                             users.add(doc.getData());
                         }
-                        MainActivity.log("order:\n"+users);
+                        Map<String,Object> highScoreUser=users.get(0);
+
+                       MainActivity.highScore=Integer.parseInt(highScoreUser.get("score").toString());
                         saveUsers(users);
 
 

@@ -138,8 +138,10 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void update(Canvas canvas) {
 
-        Obstacles.update(meteors);
 
+        Obstacles.update(meteors);
+        displayText(canvas,"High Score:"+MainActivity.highScore,canvasWidth-150,400);
+        displayText(canvas, "Your Score:" + score, canvasWidth - 150, 300);
         if (touchDown) {//decrease speed on touch down
             if (spaceship.energy > 0) {
                 spaceship.ySpeed += 0.5;
@@ -179,6 +181,9 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
             spaceshipNearPlanet = planetCollision();
             spaceship.move();
             score++;
+            if(score>=MainActivity.highScore){
+                MainActivity.highScore=score;
+            }
             if (spaceship.afterUnhookAngle != -1) {
                 spaceship.rotate(spaceship.rotateAngle - spaceship.afterUnhookAngle);
             }
@@ -209,7 +214,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
         displayText(canvas, "Energy:" + spaceship.energy, canvasWidth - 150, 100);
         displayText(canvas, "Health:" + spaceship.health, canvasWidth - 150, 200);
-        displayText(canvas, "Score:" + score, canvasWidth - 150, 300);
+
 
 
     }
