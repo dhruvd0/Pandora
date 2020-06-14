@@ -82,8 +82,9 @@ public class Tutorial extends gameView {
         }
         Star.moveRandomStars(stars);
     }
-
+    @Override
     public void draw(Canvas canvas) {
+        //  super.draw(canvas);
         super.draw(canvas);
         drawSprites(canvas);
         switch (cycle) {

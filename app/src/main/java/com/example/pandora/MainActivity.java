@@ -2,29 +2,21 @@ package com.example.pandora;
 
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class MainActivity extends Activity {
-
-
+    static FireStoreHandler fireStoreHandler;
+    static int highScore=0;
     public void setFullScreen() {//sets the view to full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -37,7 +29,16 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         Button startButton = (Button) findViewById(R.id.play);
         Button startTutorial = (Button) findViewById(R.id.tutorial);
+        Button startLeaderBoard = (Button) findViewById(R.id.leaderboard);
+        startLeaderBoard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                startActivity(new Intent(MainActivity.this, Leaderboard.class));
+
+
+            }
+        });
         startButton.getBackground().setAlpha(0);
         startTutorial.getBackground().setAlpha(0);
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -58,11 +59,15 @@ public class MainActivity extends Activity {
 
     }
 
-    static void logFireBaseEvent(Context context) {
+    static void logFireBaseEvent(String eventName, Context context) {
         FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
         Bundle b = new Bundle();
         b.putString(FirebaseAnalytics.Param.ITEM_ID, "test ID");
-        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, b);
+        mFirebaseAnalytics.logEvent(eventName, b);
+    }
+
+    static void log(String msg) {
+        Log.i("log", msg);
     }
 
     @Override
@@ -70,8 +75,10 @@ public class MainActivity extends Activity {
 
         super.onCreate(savedInstanceState);
 
+        logFireBaseEvent(FirebaseAnalytics.Event.APP_OPEN, this);
+        fireStoreHandler = new FireStoreHandler(this);
+        fireStoreHandler.getScores();
         mainMenu();
-        logFireBaseEvent(this);
 
     }
 
