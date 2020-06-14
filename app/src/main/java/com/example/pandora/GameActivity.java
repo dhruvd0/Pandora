@@ -28,21 +28,10 @@ public class GameActivity extends Activity implements Runnable {
     SurfaceHolder surfaceHolder;
     boolean isRunning;
     Scores fireStoreHandler;
-    SharedPreferences sharedPref;
-    SharedPreferences.Editor editor;
+
     Map<String, Object> user;
     EditText editText;
 
-    Map<String, Object> readUserFromFile() {
-        int highScore = sharedPref.getInt("score", -1);
-        String name = sharedPref.getString("name", "null");
-        Log.i("log", "file:" + name);
-        Map<String, Object> saveUser = new HashMap<String, Object>();
-        saveUser.put("name", name);
-        saveUser.put("score", highScore);
-        return saveUser;
-
-    }
 
     public void openDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_DARK);
@@ -65,7 +54,6 @@ public class GameActivity extends Activity implements Runnable {
 
                         String userName = editText.getText().toString();
                         user.put("name", userName);
-                        saveUserToFile(userName, 0);
                         setContentView(game);
 
                     }
@@ -74,25 +62,20 @@ public class GameActivity extends Activity implements Runnable {
         alertDialog.show();
     }
 
-    void saveUserToFile(String userName, int userMaxScore) {
-        editor = sharedPref.edit();
-        editor.putInt("score", userMaxScore);
-        editor.putString("name", userName);
-        editor.apply();
-    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fireStoreHandler = new Scores();
+
         isRunning = true;
-        sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        fireStoreHandler=new Scores(this);
 
         game = new gameView(this, this);
         surfaceHolder = game.getHolder();
         setFullScreen();
-        user = readUserFromFile();
-
+        user=new HashMap<>();
+        MainActivity.log(user+"");
         openDialog();
 
 
@@ -158,33 +141,10 @@ public class GameActivity extends Activity implements Runnable {
 
     }
 
-    int getUserPersonalBest(String name) {
-        for (Map<String, Object> u : fireStoreHandler.fireBaseScores) {
-
-            try {
-                if (u.get("name").equals(name)) {
-                    return (int) u.get("score");
-                }
-            } catch (NullPointerException nullPointer) {
-                return -1;
-            }
-        }
-        return -1;
-    }
-
-    void UpdateScore(int score) {
-        if (score > getUserPersonalBest(user.get("name").toString())) {
-            saveUserToFile(user.get("name").toString(), score);
-
-            fireStoreHandler.pushScoreToFireStore(user.get("name").toString(), score);
-        } else {
-            //dont update;
-        }
-
-    }
 
     void quit() {
-        UpdateScore(game.score);
+        user.put("score",game.score);
+        fireStoreHandler.pushScoreToFireStore(user.get("name").toString(),game.score);
         game.gameThread.interrupt();
         game.gameThread = new Thread(this);
         startActivity(new Intent(GameActivity.this, MainActivity.class));

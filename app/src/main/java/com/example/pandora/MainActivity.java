@@ -58,11 +58,15 @@ public class MainActivity extends Activity {
 
     }
 
-    static void logFireBaseEvent(Context context) {
+    static void logFireBaseEvent(String eventName, Context context) {
         FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
         Bundle b = new Bundle();
         b.putString(FirebaseAnalytics.Param.ITEM_ID, "test ID");
-        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, b);
+        mFirebaseAnalytics.logEvent(eventName, b);
+    }
+
+    static void log(String msg) {
+        Log.i("log", msg);
     }
 
     @Override
@@ -70,8 +74,10 @@ public class MainActivity extends Activity {
 
         super.onCreate(savedInstanceState);
 
+        logFireBaseEvent(FirebaseAnalytics.Event.APP_OPEN, this);
+        Scores scores = new Scores(this);
+        scores.getScores();
         mainMenu();
-        logFireBaseEvent(this);
 
     }
 
