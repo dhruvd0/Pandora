@@ -10,7 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Leaderboard"></activity>
+
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation"
@@ -25,6 +25,11 @@
         </activity>
         <activity android:name=".GameActivity" />
         <activity android:name=".TutorialActivity" />
+        <activity
+            android:name=".Leaderboard"
+            android:configChanges="orientation"
+
+            android:theme="@style/AppTheme.noActionBar" />
     </application>
 
 </manifest>

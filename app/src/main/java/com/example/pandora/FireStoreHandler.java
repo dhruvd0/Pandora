@@ -25,6 +25,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,6 +76,7 @@ public class FireStoreHandler {
         Type type = new TypeToken<ArrayList<Map<String, Object>>>() {
         }.getType();
         readList = gson.fromJson(json, type);
+
         return readList;
     }
 

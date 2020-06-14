@@ -15,34 +15,49 @@ import java.util.Map;
 
 public class Leaderboard extends AppCompatActivity {
     ArrayList<Map<String, Object>> users = new ArrayList<>();
+
     public void setFullScreen() {//sets the view to full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setFullScreen();
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_leaderboard);
 
         users = MainActivity.fireStoreHandler.readUsers();
         MainActivity.log("Leaderboard:\n" + users);
-        init();
+
+        updateTable(users);
 
     }
 
-    void init() {
+    void updateTable(ArrayList<Map<String, Object>> users) {
+        addRow("Name","Score");
+        for (Map<String, Object> user : users) {
+            String name = "" + user.get("name");
+            String score = "" + user.get("score");
+            addRow(name,score);
+
+        }
+    }
+
+    void addRow(String name, String score) {
 
         TableLayout stk = (TableLayout) findViewById(R.id.table_main);
         TableRow tbrow0 = new TableRow(this);
         TextView tv0 = new TextView(this);
-        tv0.setText(" Name ");
-        tv0.setTextColor(Color.WHITE);
+
+        tv0.setText(name);
+        tv0.setTextColor(Color.GREEN);
         tbrow0.addView(tv0);
         TextView tv1 = new TextView(this);
-        tv1.setText(" Score ");
-        tv1.setTextColor(Color.WHITE);
+        tv1.setText("   " + score);
+        tv1.setTextColor(Color.GREEN);
         tbrow0.addView(tv1);
         stk.addView(tbrow0);
     }

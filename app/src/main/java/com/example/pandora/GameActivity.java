@@ -31,7 +31,8 @@ public class GameActivity extends Activity implements Runnable {
 
 
     public void openDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_DARK);
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_DARK);
 
         LayoutInflater inflater = this.getLayoutInflater();
         View view = inflater.inflate(R.layout.activity_username, null);
@@ -48,8 +49,14 @@ public class GameActivity extends Activity implements Runnable {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-
+                        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+                                dialog.dismiss();
+                            }
+                        });
                         String userName = editText.getText().toString();
+
                         user.put("name", userName);
                         setContentView(game);
 
@@ -57,6 +64,7 @@ public class GameActivity extends Activity implements Runnable {
                 });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+
     }
 
 
@@ -141,7 +149,14 @@ public class GameActivity extends Activity implements Runnable {
 
     void quit() {
         user.put("score",game.score);
-        fireStoreHandler.pushScoreToFireStore(user.get("name").toString(),game.score);
+        try{
+            MainActivity.fireStoreHandler.pushScoreToFireStore(user.get("name").toString(),game.score);
+        }
+        catch (NullPointerException n){
+            user.put("name","null");
+        }
+
+        MainActivity.fireStoreHandler.getScores();
         game.gameThread.interrupt();
         game.gameThread = new Thread(this);
         startActivity(new Intent(GameActivity.this, MainActivity.class));
