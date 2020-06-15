@@ -184,7 +184,7 @@ public class Tutorial extends gameView {
             case 3:
                 progressCircle(0, canvas);
                 if (isColliding) {
-                    displayText(canvas, "Upon collision they will DEPLETE ship SHIELD", canvasWidth / 2, 300);
+                    displayText(canvas, "Upon collision they will DEPLETE ship HEALTH", canvasWidth / 2, 300);
                 }
                 displayText(canvas, "Watch Out for METEORS", canvasWidth / 2, 200);
                 tutorialMeteor.move();

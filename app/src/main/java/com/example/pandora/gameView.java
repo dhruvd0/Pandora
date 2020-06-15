@@ -275,7 +275,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
         Paint textPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
         textPaint.setTextAlign(Paint.Align.CENTER);
         textPaint.setColor(Color.GREEN);
-        textPaint.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 15, getResources().getDisplayMetrics()));
+        textPaint.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10, getResources().getDisplayMetrics()));
 
         canvas.drawText(text, x, y, textPaint);
     }

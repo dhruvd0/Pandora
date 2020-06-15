@@ -56,7 +56,7 @@ public class Leaderboard extends AppCompatActivity {
         TableRow tbrow0 = new TableRow(this);
         TextView tv0 = new TextView(this);
 
-        tv0.setText(name);
+        tv0.setText("   "+name);
         tv0.setTextColor(Color.GREEN);
         tbrow0.addView(tv0);
         TextView tv1 = new TextView(this);
