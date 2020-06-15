@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F1F3FD"
+    android:background="#000000"
     android:backgroundTint="#020007"
     android:padding="16dp">
 
@@ -10,8 +10,9 @@
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Name"
-        android:textColor="#FBFBFB"
+        android:background="#000000"
+        android:hapticFeedbackEnabled="true"
+        android:textColor="#13C31C"
         android:textColorHint="#F8EEEE" />
 
 

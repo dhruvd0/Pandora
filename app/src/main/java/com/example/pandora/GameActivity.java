@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
 import android.view.View;
@@ -30,44 +31,6 @@ public class GameActivity extends Activity implements Runnable {
     EditText editText;
 
 
-    public void openDialog() {
-
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_DARK);
-
-        LayoutInflater inflater = this.getLayoutInflater();
-        View view = inflater.inflate(R.layout.activity_username, null);
-        editText = view.findViewById(R.id.name);
-        builder.setView(view)
-                .setTitle("Enter Name")
-                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                })
-                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                            @Override
-                            public void onDismiss(DialogInterface dialog) {
-                                dialog.dismiss();
-                            }
-                        });
-                        String userName = editText.getText().toString();
-
-                        user.put("name", userName);
-                        setContentView(game);
-
-                    }
-                });
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-
-    }
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,12 +41,14 @@ public class GameActivity extends Activity implements Runnable {
         game = new gameView(this, this);
         surfaceHolder = game.getHolder();
         setFullScreen();
-        user = new HashMap<>();
-        MainActivity.log(user + "");
-        openDialog();
+        user = MainActivity.user;
+
+        setContentView(game);
 
 
     }
+
+
 
     public void setFullScreen() {//sets the view to full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
