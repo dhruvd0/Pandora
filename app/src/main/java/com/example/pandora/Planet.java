@@ -20,11 +20,11 @@ public class Planet extends Sprite {
     static void loadPlanets(Planet[] planets, Resources r, int maxWidth, int maxHeight) {
 
         int id = R.drawable.planet1;
-
+        rand = new Random();
         for (int i = 0; i < planets.length; i++) {
-            planets[i] = new Planet(BitmapFactory.decodeResource(r, id));
+            planets[i] = new Planet(BitmapFactory.decodeResource(r, id+rand.nextInt(5)));
             planets[i].skyhook = new Sprite(BitmapFactory.decodeResource(r, R.drawable.skyhook));
-            id++;
+
             float x, y;
             x = 300 + rand.nextInt(maxWidth - 400);
 
