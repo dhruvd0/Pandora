@@ -159,7 +159,7 @@ public class gameView extends SurfaceView implements SurfaceHolder.Callback {
 
         }
         if (spaceship.health <= 0) {
-            displayText(canvas, "Game Over Your Health is 0", canvasWidth / 2, canvasHeight / 2);
+            displayText(canvas, "GAME OVER", canvasWidth / 2, canvasHeight / 2);
             isPlaying = false;
         }
         if (spaceship.reachedBounds(canvas)) {//spaceship reaches end of canvas

@@ -25,10 +25,12 @@ public class MainActivity extends Activity {
     static FireStoreHandler fireStoreHandler;
     static int highScore = 0;
     static Map<String, Object> user;
-    static String hint="Name";
+    static String hint = "Name";
+
     public void setFullScreen() {//sets the view to full screen
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+     /*   getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);*/
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
     }
 
@@ -58,8 +60,8 @@ public class MainActivity extends Activity {
 
                         String userName = editText.getText().toString();
                         if (userName.equals("")) {
-                            hint="Your Name Cant Be Empty";
-                            
+                            hint = "Your Name Cant Be Empty";
+
 
                         } else {
                             user.put("name", userName);
@@ -71,8 +73,6 @@ public class MainActivity extends Activity {
                                 dialog.dismiss();
                             }
                         });
-
-
 
 
                     }
@@ -136,6 +136,7 @@ public class MainActivity extends Activity {
         logFireBaseEvent(FirebaseAnalytics.Event.APP_OPEN, this);
         fireStoreHandler = new FireStoreHandler(this);
         fireStoreHandler.getScores();
+        setFullScreen();
         mainMenu();
 
     }

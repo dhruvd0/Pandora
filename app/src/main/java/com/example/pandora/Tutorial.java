@@ -198,6 +198,7 @@ public class Tutorial extends gameView {
         }
     }
 
+    @Override
     public boolean onTouchEvent(MotionEvent event) {
         int e = event.getAction();
         if (e == MotionEvent.ACTION_DOWN) {
