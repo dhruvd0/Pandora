@@ -46,14 +46,14 @@
                 android:id="@+id/nameColumn"
                 android:layout_width="126dp"
                 android:layout_height="match_parent"
-                android:text="Name"
+                android:text="                         Name"
                 android:textColor="#FFFAFA" />
 
             <TextView
                 android:id="@+id/scoreColumn"
                 android:layout_width="187dp"
                 android:layout_height="wrap_content"
-                android:text="Score"
+                android:text="                                Score"
                 android:textColor="#FFFFFF" />
         </TableRow>
     </TableLayout>
